@@ -1,7 +1,8 @@
+import { KEYS } from "./constants/keys";
 import express from "express";
 
 const app = express();
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+app.listen(KEYS.PORT, () => {
+    console.log(`Server running on port ${KEYS.PORT}`);
 });
