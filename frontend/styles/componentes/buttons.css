@@ -20,26 +20,26 @@
   transform: scale(0.98);
 }
 
-.--red {
+.button.--red {
   background-color: #f44336;
 }
 
-.--red:hover {
+.button.--red:hover {
   background-color: #d32f2f;
 }
 
-.--red:active {
+.button.--red:active {
   background-color: #c62828;
 }
 
-.--yellow {
+.button.--yellow {
   background-color: #ffa726;
 }
 
-.--yellow:hover {
+.button.--yellow:hover {
   background-color: #ff9800;
 }
 
-.--yellow:active {
+.button.--yellow:active {
   background-color: #ff8c00;
 }
