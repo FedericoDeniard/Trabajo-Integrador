@@ -2,12 +2,13 @@
   "name": "trabajo-integrador",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "workspaces": [
     "frontend",
     "backend"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "backend": "cd backend && npm run dev"
   },
   "repository": {
     "type": "git",

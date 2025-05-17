@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "rollup -c && node --env-file=.env dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -11,5 +11,16 @@
   "description": "",
   "dependencies": {
     "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/express": "^5.0.2",
+    "rollup": "^4.40.2",
+    "rollup-plugin-node-externals": "^8.0.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3"
   }
 }
