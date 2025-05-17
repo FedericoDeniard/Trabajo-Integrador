@@ -7,3 +7,4 @@ backend/package-lock.json
 .env
 backend/.env
 frontend/.env
+backend/dist
