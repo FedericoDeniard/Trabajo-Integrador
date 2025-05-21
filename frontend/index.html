@@ -12,9 +12,12 @@
   <body>
     <div class="container welcome-page">
       <h1 class="welcome-page__title">¡Bienvenido!</h1>
-      <form class="welcome-page__form form">
+      <form
+        class="welcome-page__form form"
+        action="./pages/clients/products.html"
+      >
         <label>Ingrese su nombre</label>
-        <input type="text" />
+        <input type="text" minlength="4" required />
         <button type="submit" class="button">Continuar</button>
       </form>
       <a href="">Ingresar como administrador</a>
