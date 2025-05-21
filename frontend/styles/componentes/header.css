@@ -31,6 +31,16 @@
   align-items: center;
 }
 
+.header__nav a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.header__nav a img {
+  width: 20px;
+}
+
 .header a {
   text-decoration: none;
   color: #ccc;
