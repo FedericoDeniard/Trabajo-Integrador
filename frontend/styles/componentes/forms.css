@@ -7,7 +7,6 @@
   flex-direction: column;
   gap: 15px;
   width: 100%;
-  max-width: 400px;
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
@@ -86,7 +85,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 15px;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .form .row div {
@@ -96,4 +95,9 @@
 
 .hidden {
   display: none;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
 }

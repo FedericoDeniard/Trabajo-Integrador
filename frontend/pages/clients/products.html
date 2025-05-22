@@ -6,6 +6,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="../../styles/componentes/header.css" />
     <link rel="stylesheet" href="../../styles/componentes/general.css" />
+    <link rel="stylesheet" href="../../styles/componentes/forms.css" />
   </head>
   <body>
     <header class="header">
@@ -31,11 +32,19 @@
       </div>
     </header>
 
-    <div>
+    <form class="form">
       <h1>Productos</h1>
-      <input type="checkbox" /><label>Peliculas</label>
-      <input type="checkbox" /><label>Series</label>
-    </div>
+      <div class="row">
+        <span class="checkbox-container">
+          <input type="checkbox" />
+          <label>Peliculas</label>
+        </span>
+        <span class="checkbox-container">
+          <input type="checkbox" />
+          <label>Series</label>
+        </span>
+      </div>
+    </form>
     <div></div>
     <!--en este se cargan los datos-->
   </body>
