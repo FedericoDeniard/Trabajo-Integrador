@@ -1,0 +1,16 @@
+.container {
+  background-color: darkgray;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  color: #ffffff;
+}
+
+.container h1 {
+  font-size: 50px;
+}
