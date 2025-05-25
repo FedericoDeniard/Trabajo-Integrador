@@ -6,6 +6,7 @@ export const gracefulShutdown = async (signal: string) => {
     console.log(`Received ${signal}`);
     try {
         await prismaInstance.$disconnect();
+        console.log("Database disconnected")
     }
     catch (error) {
         console.log(error);
