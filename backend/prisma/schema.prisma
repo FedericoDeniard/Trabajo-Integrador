@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Models
+
+enum MediaType {
+  movie
+  serie
+}
+
+model Media {
+  id          Int           @id @default(autoincrement())
+  title       String        @db.VarChar(255)
+  price       Decimal       @db.Decimal(10, 2)
+  thumbnail   String
+  description String
+  rate        Decimal         @db.Decimal(2, 1)
+  available   Boolean
+  type        MediaType
+
+  genres      ProductGenre[]
+  directors   TitleDirector[]
+  movie       Movie?
+  serie      Serie?
+}
+
+model Genre {
+  id      Int            @id @default(autoincrement())
+  name    String         @db.VarChar(50)
+
+  media   ProductGenre[]
+}
+
+model ProductGenre {
+  media_id Int
+  genre_id Int
+
+  media    Media @relation(fields: [media_id], references: [id])
+  genre    Genre @relation(fields: [genre_id], references: [id])
+
+  @@id([media_id, genre_id])
+}
+
+model Director {
+  id      Int             @id @default(autoincrement())
+  name    String          @db.VarChar(100)
+
+  titles  TitleDirector[]
+}
+
+model TitleDirector {
+  media_id    Int
+  director_id Int
+
+  media       Media    @relation(fields: [media_id], references: [id])
+  director    Director @relation(fields: [director_id], references: [id])
+
+  @@id([media_id, director_id])
+}
+
+model Movie {
+  media_id     Int    @id
+  duration     Int
+  released_date DateTime @db.Date
+
+  media        Media  @relation(fields: [media_id], references: [id])
+}
+
+model Serie {
+  media_id Int   @id
+
+  media    Media  @relation(fields: [media_id], references: [id])
+  seasons  Season[]
+}
+
+model Season {
+  id        Int    @id @default(autoincrement())
+  serie_id  Int
+  number    Int
+
+  series    Serie @relation(fields: [serie_id], references: [media_id])
+  episodes  Episode[]
+}
+
+model Episode {
+  id           Int      @id @default(autoincrement())
+  season_id    Int
+  title        String   @db.VarChar(255)
+  description  String
+  released_date DateTime @db.Date
+  duration     Int
+
+  season       Season   @relation(fields: [season_id], references: [id])
+}
