@@ -11,5 +11,13 @@ export default {
     format: "esm",
     sourcemap: true,
   },
-  plugins: [nodeExternals(), resolve(), typescript(), commonjs(), json()],
+  plugins: [
+    nodeExternals(),
+    resolve(),
+    typescript({
+      tsconfig: "./tsconfig.json",
+    }),
+    commonjs(),
+    json(),
+  ],
 };
