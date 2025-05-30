@@ -1,6 +1,13 @@
 import { Prisma } from "../../generated/prisma"
 
-type MediaWithRelations = Prisma.MediaGetPayload<{ include: { genres: { include: { genre: true } }, directors: { include: { director: true } }, movie: true, serie: { include: { seasons: { include: { episodes: true } } } } } }>
+type MediaWithRelations = Prisma.MediaGetPayload<{
+    include: {
+        genres: { include: { genre: true } },
+        directors: { include: { director: true } },
+        movie: true,
+        serie: { include: { seasons: true } }
+    }
+}>
 
 export const getProducts = (): (MediaWithRelations)[] => {
     return [
@@ -12,8 +19,11 @@ export const getProducts = (): (MediaWithRelations)[] => {
             description: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
             rate: new Prisma.Decimal("4.8"),
             available: true,
-            directors: [{ media_id: 1, director_id: 1, director: { name: "Christopher Nolan", id: 1 } }, { media_id: 1, director_id: 2, director: { name: "Christopher Nolan", id: 1 } }],
-            genres: [{ media_id: 1, genre_id: 1, genre: { name: "Action", id: 1 } }, { media_id: 1, genre_id: 2, genre: { name: "Adventure", id: 2 } }, { media_id: 1, genre_id: 3, genre: { name: "Sci-Fi", id: 3 } }],
+            directors: [{ media_id: 1, director_id: 1, director: { name: "Christopher Nolan", id: 1 } },
+            { media_id: 1, director_id: 2, director: { name: "Christopher Nolan", id: 1 } }],
+            genres: [{ media_id: 1, genre_id: 1, genre: { name: "Action", id: 1 } },
+            { media_id: 1, genre_id: 2, genre: { name: "Adventure", id: 2 } },
+            { media_id: 1, genre_id: 3, genre: { name: "Sci-Fi", id: 3 } }],
             movie: { duration: 148, media_id: 1, released_date: new Date("2010-07-16") },
             serie: null,
             type: "movie"
@@ -26,11 +36,7 @@ export const getProducts = (): (MediaWithRelations)[] => {
             description: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
             rate: new Prisma.Decimal("4.9"),
             available: true,
-            directors: [{
-                media_id: 2,
-                director_id: 3,
-                director: { name: "Frank Darabont", id: 3 }
-            }],
+            directors: [{ media_id: 2, director_id: 3, director: { name: "Frank Darabont", id: 3 } }],
             genres: [
                 { media_id: 2, genre_id: 4, genre: { name: "Drama", id: 4 } },
                 { media_id: 2, genre_id: 5, genre: { name: "Crime", id: 5 } }
@@ -47,11 +53,7 @@ export const getProducts = (): (MediaWithRelations)[] => {
             description: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
             rate: new Prisma.Decimal("4.9"),
             available: true,
-            directors: [{
-                media_id: 3,
-                director_id: 4,
-                director: { name: "Francis Ford Coppola", id: 4 }
-            }],
+            directors: [{ media_id: 3, director_id: 4, director: { name: "Francis Ford Coppola", id: 4 } }],
             genres: [
                 { media_id: 3, genre_id: 5, genre: { name: "Crime", id: 5 } },
                 { media_id: 3, genre_id: 4, genre: { name: "Drama", id: 4 } },
@@ -70,9 +72,7 @@ export const getProducts = (): (MediaWithRelations)[] => {
             rate: new Prisma.Decimal("4.9"),
             available: true,
             directors: [{
-                media_id: 4,
-                director_id: 1,
-                director: { name: "Christopher Nolan", id: 1 }
+                media_id: 4, director_id: 1, director: { name: "Christopher Nolan", id: 1 }
             }],
             genres: [
                 { media_id: 4, genre_id: 1, genre: { name: "Action", id: 1 } },
@@ -92,11 +92,7 @@ export const getProducts = (): (MediaWithRelations)[] => {
             description: "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
             rate: new Prisma.Decimal("4.8"),
             available: true,
-            directors: [{
-                media_id: 5,
-                director_id: 5,
-                director: { name: "Quentin Tarantino", id: 5 }
-            }],
+            directors: [{ media_id: 5, director_id: 5, director: { name: "Quentin Tarantino", id: 5 } }],
             genres: [
                 { media_id: 5, genre_id: 1, genre: { name: "Crime", id: 1 } },
                 { media_id: 5, genre_id: 4, genre: { name: "Drama", id: 4 } },
@@ -114,15 +110,15 @@ export const getProducts = (): (MediaWithRelations)[] => {
             description: "When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces and one strange little girl.",
             rate: new Prisma.Decimal("4.7"),
             available: true,
-            directors: [{
-                media_id: 6,
-                director_id: 12,
-                director: { name: "The Duffer Brothers", id: 12 }
-            }],
+            directors: [{ media_id: 6, director_id: 12, director: { name: "The Duffer Brothers", id: 12 } }],
             serie: {
-                media_id: 6, seasons: [{ id: 1, number: 1, serie_id: 6, episodes: [{ title: "Episode 1", released_date: new Date("2016-07-16"), description: "Episode 1", duration: 60, id: 1, season_id: 1 }, { title: "Episode 2", released_date: new Date("2016-07-16"), description: "Episode 2", duration: 60, id: 2, season_id: 2 }] }, { id: 2, number: 2, serie_id: 6, episodes: [{ title: "Episode 3", released_date: new Date("2016-07-16"), description: "Episode 3", duration: 60, id: 3, season_id: 3 }] }],
+                media_id: 6, seasons: [{ id: 1, number: 1, serie_id: 6, total_episodes: 4 }],
             },
-            genres: [{ media_id: 6, genre_id: 4, genre: { name: "Drama", id: 4 } }, { media_id: 6, genre_id: 6, genre: { name: "Sci-Fi", id: 6 } }, { media_id: 6, genre_id: 7, genre: { name: "Horror", id: 7 } }],
+            genres: [
+                { media_id: 6, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 6, genre_id: 6, genre: { name: "Sci-Fi", id: 6 } },
+                { media_id: 6, genre_id: 7, genre: { name: "Horror", id: 7 } }
+            ],
             type: "serie",
             movie: null
         },
@@ -135,21 +131,23 @@ export const getProducts = (): (MediaWithRelations)[] => {
             rate: new Prisma.Decimal("4.9"),
             available: true,
             type: "serie",
-            directors: [{
-                media_id: 7,
-                director_id: 13,
-                director: { name: "Vince Gilligan", id: 13 }
-            }],
+            directors: [{ media_id: 7, director_id: 13, director: { name: "Vince Gilligan", id: 13 } }],
             movie: null,
-            genres: [{ media_id: 7, genre_id: 1, genre: { name: "Crime", id: 1 } }, { media_id: 7, genre_id: 4, genre: { name: "Drama", id: 4 } }, { media_id: 7, genre_id: 6, genre: { name: "Thriller", id: 6 } }],
+            genres: [
+                { media_id: 7, genre_id: 1, genre: { name: "Crime", id: 1 } },
+                { media_id: 7, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 7, genre_id: 6, genre: { name: "Thriller", id: 6 } }
+            ],
             serie: {
                 media_id: 7,
-                seasons: [{ id: 1, number: 1, serie_id: 7, episodes: [{ title: "Episode 1", released_date: new Date("2008-01-25"), description: "Episode 1", duration: 60, id: 1, season_id: 1 }] },
-                { id: 2, number: 2, serie_id: 7, episodes: [{ title: "Episode 2", released_date: new Date("2008-01-25"), description: "Episode 2", duration: 60, id: 2, season_id: 2 }] },
-                { id: 3, number: 3, serie_id: 7, episodes: [{ title: "Episode 3", released_date: new Date("2008-01-25"), description: "Episode 3", duration: 60, id: 3, season_id: 3 }] },
-                { id: 4, number: 4, serie_id: 7, episodes: [{ title: "Episode 4", released_date: new Date("2008-01-25"), description: "Episode 4", duration: 60, id: 4, season_id: 4 }] },
-                { id: 5, number: 5, serie_id: 7, episodes: [{ title: "Episode 5", released_date: new Date("2008-01-25"), description: "Episode 5", duration: 60, id: 5, season_id: 5 }] },
-                { id: 6, number: 6, serie_id: 7, episodes: [{ title: "Episode 6", released_date: new Date("2008-01-25"), description: "Episode 6", duration: 60, id: 6, season_id: 6 }] }]
+                seasons: [
+                    { id: 1, number: 1, serie_id: 7, total_episodes: 8 },
+                    { id: 2, number: 2, serie_id: 7, total_episodes: 10 },
+                    { id: 3, number: 3, serie_id: 7, total_episodes: 11 },
+                    { id: 4, number: 4, serie_id: 7, total_episodes: 7 },
+                    { id: 5, number: 5, serie_id: 7, total_episodes: 9 },
+                    { id: 6, number: 6, serie_id: 7, total_episodes: 13 }
+                ]
             }
         },
         {
@@ -161,17 +159,21 @@ export const getProducts = (): (MediaWithRelations)[] => {
             rate: new Prisma.Decimal("4.7"),
             available: true,
             type: "serie",
-            directors: [{
-                media_id: 8,
-                director_id: 14,
-                director: { name: "Jon Favreau", id: 14 }
-            }],
+            directors: [{ media_id: 8, director_id: 14, director: { name: "Jon Favreau", id: 14 } }],
             movie: null,
             serie: {
                 media_id: 8,
-                seasons: [{ id: 1, number: 1, serie_id: 8, episodes: [{ title: "Episode 1", released_date: new Date("2019-11-12"), description: "Episode 1", duration: 60, id: 1, season_id: 1 }] }, { id: 2, number: 2, serie_id: 8, episodes: [{ title: "Episode 2", released_date: new Date("2019-11-12"), description: "Episode 2", duration: 60, id: 2, season_id: 2 }] }, { id: 3, number: 3, serie_id: 8, episodes: [{ title: "Episode 3", released_date: new Date("2019-11-12"), description: "Episode 3", duration: 60, id: 3, season_id: 3 }] }]
+                seasons: [
+                    { id: 1, number: 1, serie_id: 8, total_episodes: 8 },
+                    { id: 2, number: 2, serie_id: 8, total_episodes: 2 },
+                    { id: 3, number: 3, serie_id: 8, total_episodes: 3 }
+                ]
             },
-            genres: [{ media_id: 8, genre_id: 1, genre: { name: "Action", id: 1 } }, { media_id: 8, genre_id: 4, genre: { name: "Drama", id: 4 } }, { media_id: 8, genre_id: 6, genre: { name: "Sci-Fi", id: 6 } }]
+            genres: [
+                { media_id: 8, genre_id: 1, genre: { name: "Action", id: 1 } },
+                { media_id: 8, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 8, genre_id: 6, genre: { name: "Sci-Fi", id: 6 } }
+            ]
         },
         {
             id: 9,
@@ -195,14 +197,14 @@ export const getProducts = (): (MediaWithRelations)[] => {
             serie: {
                 media_id: 9,
                 seasons: [
-                    { id: 1, number: 1, serie_id: 9, episodes: [{ id: 1, title: "Episode 1", released_date: new Date("2011-04-17"), description: "Episode 1", duration: 60, season_id: 1 }] },
-                    { id: 2, number: 2, serie_id: 9, episodes: [{ id: 2, title: "Episode 2", released_date: new Date("2011-04-17"), description: "Episode 2", duration: 60, season_id: 2 }] },
-                    { id: 3, number: 3, serie_id: 9, episodes: [{ id: 3, title: "Episode 3", released_date: new Date("2011-04-17"), description: "Episode 3", duration: 60, season_id: 3 }] },
-                    { id: 4, number: 4, serie_id: 9, episodes: [{ id: 4, title: "Episode 4", released_date: new Date("2011-04-17"), description: "Episode 4", duration: 60, season_id: 4 }] },
-                    { id: 5, number: 5, serie_id: 9, episodes: [{ id: 5, title: "Episode 5", released_date: new Date("2011-04-17"), description: "Episode 5", duration: 60, season_id: 5 }] },
-                    { id: 6, number: 6, serie_id: 9, episodes: [{ id: 6, title: "Episode 6", released_date: new Date("2011-04-17"), description: "Episode 6", duration: 60, season_id: 6 }] },
-                    { id: 7, number: 7, serie_id: 9, episodes: [{ id: 7, title: "Episode 7", released_date: new Date("2011-04-17"), description: "Episode 7", duration: 60, season_id: 7 }] },
-                    { id: 8, number: 8, serie_id: 9, episodes: [{ id: 8, title: "Episode 8", released_date: new Date("2011-04-17"), description: "Episode 8", duration: 60, season_id: 8 }] }
+                    { id: 1, number: 1, serie_id: 9, total_episodes: 6 },
+                    { id: 2, number: 2, serie_id: 9, total_episodes: 5 },
+                    { id: 3, number: 3, serie_id: 9, total_episodes: 7 },
+                    { id: 4, number: 4, serie_id: 9, total_episodes: 8 },
+                    { id: 5, number: 5, serie_id: 9, total_episodes: 6 },
+                    { id: 6, number: 6, serie_id: 9, total_episodes: 9 },
+                    { id: 7, number: 7, serie_id: 9, total_episodes: 5 },
+                    { id: 8, number: 8, serie_id: 9, total_episodes: 7 }
                 ]
             },
         },
@@ -234,23 +236,14 @@ export const getProducts = (): (MediaWithRelations)[] => {
                         id: 1,
                         number: 1,
                         serie_id: 10,
-                        episodes: [
-                            {
-                                id: 1,
-                                title: "The End's Beginning",
-                                released_date: new Date("2019-12-20"),
-                                description: "Geralt of Rivia, a mutated monster-hunter for hire, journeys toward his destiny in a turbulent world where people often prove more wicked than beasts.",
-                                duration: 62,
-                                season_id: 1
-                            }
-                        ]
+                        total_episodes: 8
                     }
                 ]
             }
         },
         {
             id: 10,
-            title: "The Witcher",
+            title: "The Witcher", //Por qué hay dos?
             price: new Prisma.Decimal("22.99"),
             thumbnail: "https://placehold.co/600x400",
             description: "Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts.",
@@ -275,31 +268,13 @@ export const getProducts = (): (MediaWithRelations)[] => {
                         id: 1,
                         number: 1,
                         serie_id: 10,
-                        episodes: [
-                            {
-                                id: 1,
-                                title: "The End's Beginning",
-                                released_date: new Date("2019-12-20"),
-                                description: "Geralt of Rivia, a mutated monster-hunter for hire, journeys toward his destiny in a turbulent world where people often prove more wicked than beasts.",
-                                duration: 62,
-                                season_id: 1
-                            }
-                        ]
+                        total_episodes: 3
                     },
                     {
                         id: 2,
                         number: 2,
                         serie_id: 10,
-                        episodes: [
-                            {
-                                id: 2,
-                                title: "A Grain of Truth",
-                                released_date: new Date("2021-12-17"),
-                                description: "Geralt's search for Ciri brings him face-to-face with a former flame. Facing a devastating loss, Yennefer forges an unexpected alliance.",
-                                duration: 60,
-                                season_id: 2
-                            }
-                        ]
+                        total_episodes: 4
                     }
                 ]
             },

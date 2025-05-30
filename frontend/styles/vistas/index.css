@@ -5,7 +5,6 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   gap: 20px;
   color: #ffffff;
@@ -16,7 +15,7 @@
 }
 
 .welcome-page {
-  padding: 10px;
+  gap: 150px;
 }
 
 .welcome-page__form {
