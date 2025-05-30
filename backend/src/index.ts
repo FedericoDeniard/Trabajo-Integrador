@@ -9,6 +9,8 @@ import prismaInstance, { gracefulShutdown } from "./services/db";
 const app = express();
 app.use(express.json())
 
+app.use(express.static('../frontend/'));
+
 app.use("/api/products", productsRouter)
 
 app.use(errorHandler)
@@ -20,7 +22,7 @@ async function main() {
         console.log("Database connected");
 
         app.listen(KEYS.PORT, () => {
-            console.log(`Server running on port ${KEYS.PORT}`);
+            console.log(`Server running on http://localhost:${KEYS.PORT}`)
         });
 
         process.on("SIGTERM", gracefulShutdown);
@@ -33,3 +35,5 @@ async function main() {
 }
 
 main();
+
+
