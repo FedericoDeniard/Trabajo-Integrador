@@ -1,144 +1,284 @@
-interface Product {
-    id: number
-    title: string
-    price: number
-    thumbnail: string
-    description: string
-    rate: number
-    available: boolean
-    director: string
-    year: number
-}
+import { Prisma } from "../../generated/prisma"
 
-interface Movie extends Product {
-    duration: number
-}
+type MediaWithRelations = Prisma.MediaGetPayload<{
+    include: {
+        genres: { include: { genre: true } },
+        directors: { include: { director: true } },
+        movie: true,
+        serie: { include: { seasons: true } }
+    }
+}>
 
-interface Serie extends Product {
-    seasons: number
-}
-
-export const getProducts = (): (Movie | Serie)[] => {
+export const getProducts = (): (MediaWithRelations)[] => {
     return [
         {
             id: 1,
             title: "Inception",
-            price: 14.99,
+            price: new Prisma.Decimal("14.99"),
             thumbnail: "https://placehold.co/600x400",
             description: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-            rate: 4.8,
+            rate: new Prisma.Decimal("4.8"),
             available: true,
-            director: "Christopher Nolan",
-            year: 2010,
-            duration: 148
+            directors: [{ media_id: 1, director_id: 1, director: { name: "Christopher Nolan", id: 1 } },
+            { media_id: 1, director_id: 2, director: { name: "Christopher Nolan", id: 1 } }],
+            genres: [{ media_id: 1, genre_id: 1, genre: { name: "Action", id: 1 } },
+            { media_id: 1, genre_id: 2, genre: { name: "Adventure", id: 2 } },
+            { media_id: 1, genre_id: 3, genre: { name: "Sci-Fi", id: 3 } }],
+            movie: { duration: 148, media_id: 1, released_date: new Date("2010-07-16") },
+            serie: null,
+            type: "movie"
         },
         {
             id: 2,
             title: "The Shawshank Redemption",
-            price: 12.99,
+            price: new Prisma.Decimal("12.99"),
             thumbnail: "https://placehold.co/600x400",
             description: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-            rate: 4.9,
+            rate: new Prisma.Decimal("4.9"),
             available: true,
-            director: "Frank Darabont",
-            year: 1994,
-            duration: 142
+            directors: [{ media_id: 2, director_id: 3, director: { name: "Frank Darabont", id: 3 } }],
+            genres: [
+                { media_id: 2, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 2, genre_id: 5, genre: { name: "Crime", id: 5 } }
+            ],
+            movie: { duration: 142, media_id: 2, released_date: new Date("1994-09-10") },
+            serie: null,
+            type: "movie"
         },
         {
             id: 3,
             title: "The Godfather",
-            price: 13.99,
+            price: new Prisma.Decimal("13.99"),
             thumbnail: "https://placehold.co/600x400",
             description: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-            rate: 4.9,
+            rate: new Prisma.Decimal("4.9"),
             available: true,
-            director: "Francis Ford Coppola",
-            year: 1972,
-            duration: 175
+            directors: [{ media_id: 3, director_id: 4, director: { name: "Francis Ford Coppola", id: 4 } }],
+            genres: [
+                { media_id: 3, genre_id: 5, genre: { name: "Crime", id: 5 } },
+                { media_id: 3, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 3, genre_id: 6, genre: { name: "Thriller", id: 6 } }
+            ],
+            movie: { duration: 175, media_id: 3, released_date: new Date("1972-03-24") },
+            serie: null,
+            type: "movie"
         },
         {
             id: 4,
             title: "The Dark Knight",
-            price: 14.99,
+            price: new Prisma.Decimal("14.99"),
             thumbnail: "https://placehold.co/600x400",
             description: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-            rate: 4.9,
+            rate: new Prisma.Decimal("4.9"),
             available: true,
-            director: "Christopher Nolan",
-            year: 2008,
-            duration: 152
+            directors: [{
+                media_id: 4, director_id: 1, director: { name: "Christopher Nolan", id: 1 }
+            }],
+            genres: [
+                { media_id: 4, genre_id: 1, genre: { name: "Action", id: 1 } },
+                { media_id: 4, genre_id: 5, genre: { name: "Crime", id: 5 } },
+                { media_id: 4, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 4, genre_id: 6, genre: { name: "Thriller", id: 6 } }
+            ],
+            movie: { duration: 152, media_id: 4, released_date: new Date("2008-07-18") },
+            serie: null,
+            type: "movie"
         },
         {
             id: 5,
             title: "Pulp Fiction",
-            price: 12.99,
+            price: new Prisma.Decimal("12.99"),
             thumbnail: "https://placehold.co/600x400",
             description: "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-            rate: 4.8,
+            rate: new Prisma.Decimal("4.8"),
             available: true,
-            director: "Quentin Tarantino",
-            year: 1994,
-            duration: 154
+            directors: [{ media_id: 5, director_id: 5, director: { name: "Quentin Tarantino", id: 5 } }],
+            genres: [
+                { media_id: 5, genre_id: 1, genre: { name: "Crime", id: 1 } },
+                { media_id: 5, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 5, genre_id: 6, genre: { name: "Thriller", id: 6 } }
+            ],
+            movie: { duration: 154, media_id: 5, released_date: new Date("1994-09-10") },
+            serie: null,
+            type: "movie"
         },
         {
             id: 6,
             title: "Stranger Things",
-            price: 24.99,
+            price: new Prisma.Decimal("24.99"),
             thumbnail: "https://placehold.co/600x400",
             description: "When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces and one strange little girl.",
-            rate: 4.7,
+            rate: new Prisma.Decimal("4.7"),
             available: true,
-            director: "The Duffer Brothers",
-            year: 2016,
-            seasons: 4
+            directors: [{ media_id: 6, director_id: 12, director: { name: "The Duffer Brothers", id: 12 } }],
+            serie: {
+                media_id: 6, seasons: [{ id: 1, number: 1, serie_id: 6, total_episodes: 4 }],
+            },
+            genres: [
+                { media_id: 6, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 6, genre_id: 6, genre: { name: "Sci-Fi", id: 6 } },
+                { media_id: 6, genre_id: 7, genre: { name: "Horror", id: 7 } }
+            ],
+            type: "serie",
+            movie: null
         },
         {
             id: 7,
             title: "Breaking Bad",
-            price: 29.99,
+            price: new Prisma.Decimal("29.99"),
             thumbnail: "https://placehold.co/600x400",
             description: "A high school chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine in order to secure his family's future.",
-            rate: 4.9,
+            rate: new Prisma.Decimal("4.9"),
             available: true,
-            director: "Vince Gilligan",
-            year: 2008,
-            seasons: 5
+            type: "serie",
+            directors: [{ media_id: 7, director_id: 13, director: { name: "Vince Gilligan", id: 13 } }],
+            movie: null,
+            genres: [
+                { media_id: 7, genre_id: 1, genre: { name: "Crime", id: 1 } },
+                { media_id: 7, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 7, genre_id: 6, genre: { name: "Thriller", id: 6 } }
+            ],
+            serie: {
+                media_id: 7,
+                seasons: [
+                    { id: 1, number: 1, serie_id: 7, total_episodes: 8 },
+                    { id: 2, number: 2, serie_id: 7, total_episodes: 10 },
+                    { id: 3, number: 3, serie_id: 7, total_episodes: 11 },
+                    { id: 4, number: 4, serie_id: 7, total_episodes: 7 },
+                    { id: 5, number: 5, serie_id: 7, total_episodes: 9 },
+                    { id: 6, number: 6, serie_id: 7, total_episodes: 13 }
+                ]
+            }
         },
         {
             id: 8,
             title: "The Mandalorian",
-            price: 19.99,
+            price: new Prisma.Decimal("19.99"),
             thumbnail: "https://placehold.co/600x400",
             description: "The travels of a lone bounty hunter in the outer reaches of the galaxy, far from the authority of the New Republic.",
-            rate: 4.7,
+            rate: new Prisma.Decimal("4.7"),
             available: true,
-            director: "Jon Favreau",
-            year: 2019,
-            seasons: 3
+            type: "serie",
+            directors: [{ media_id: 8, director_id: 14, director: { name: "Jon Favreau", id: 14 } }],
+            movie: null,
+            serie: {
+                media_id: 8,
+                seasons: [
+                    { id: 1, number: 1, serie_id: 8, total_episodes: 8 },
+                    { id: 2, number: 2, serie_id: 8, total_episodes: 2 },
+                    { id: 3, number: 3, serie_id: 8, total_episodes: 3 }
+                ]
+            },
+            genres: [
+                { media_id: 8, genre_id: 1, genre: { name: "Action", id: 1 } },
+                { media_id: 8, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 8, genre_id: 6, genre: { name: "Sci-Fi", id: 6 } }
+            ]
         },
         {
             id: 9,
             title: "Game of Thrones",
-            price: 34.99,
+            price: new Prisma.Decimal("34.99"),
             thumbnail: "https://placehold.co/600x400",
             description: "Nine noble families fight for control over the lands of Westeros, while an ancient enemy returns after being dormant for millennia.",
-            rate: 4.4,
+            rate: new Prisma.Decimal("4.4"),
             available: true,
-            director: "David Benioff, D.B. Weiss",
-            year: 2011,
-            seasons: 8
+            type: "serie",
+            directors: [
+                { media_id: 9, director_id: 9, director: { name: "David Benioff", id: 9 } },
+                { media_id: 9, director_id: 10, director: { name: "D.B. Weiss", id: 10 } }
+            ],
+            genres: [
+                { media_id: 9, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 9, genre_id: 8, genre: { name: "Fantasy", id: 8 } },
+                { media_id: 9, genre_id: 9, genre: { name: "Medieval", id: 9 } }
+            ],
+            movie: null,
+            serie: {
+                media_id: 9,
+                seasons: [
+                    { id: 1, number: 1, serie_id: 9, total_episodes: 6 },
+                    { id: 2, number: 2, serie_id: 9, total_episodes: 5 },
+                    { id: 3, number: 3, serie_id: 9, total_episodes: 7 },
+                    { id: 4, number: 4, serie_id: 9, total_episodes: 8 },
+                    { id: 5, number: 5, serie_id: 9, total_episodes: 6 },
+                    { id: 6, number: 6, serie_id: 9, total_episodes: 9 },
+                    { id: 7, number: 7, serie_id: 9, total_episodes: 5 },
+                    { id: 8, number: 8, serie_id: 9, total_episodes: 7 }
+                ]
+            },
         },
         {
             id: 10,
             title: "The Witcher",
-            price: 22.99,
+            price: new Prisma.Decimal("22.99"),
             thumbnail: "https://placehold.co/600x400",
             description: "Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts.",
-            rate: 4.5,
+            rate: new Prisma.Decimal("4.5"),
             available: true,
-            director: "Lauren Schmidt Hissrich",
-            year: 2019,
-            seasons: 3
+            directors: [{
+                media_id: 10,
+                director_id: 11,
+                director: { name: "Lauren Schmidt Hissrich", id: 11 }
+            }],
+            genres: [
+                { media_id: 10, genre_id: 1, genre: { name: "Action", id: 1 } },
+                { media_id: 10, genre_id: 2, genre: { name: "Adventure", id: 2 } },
+                { media_id: 10, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 10, genre_id: 8, genre: { name: "Fantasy", id: 8 } }
+            ],
+            type: "serie",
+            movie: null,
+            serie: {
+                media_id: 10,
+                seasons: [
+                    {
+                        id: 1,
+                        number: 1,
+                        serie_id: 10,
+                        total_episodes: 8
+                    }
+                ]
+            }
+        },
+        {
+            id: 10,
+            title: "The Witcher", //Por qué hay dos?
+            price: new Prisma.Decimal("22.99"),
+            thumbnail: "https://placehold.co/600x400",
+            description: "Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts.",
+            rate: new Prisma.Decimal("4.5"),
+            available: true,
+            directors: [{
+                media_id: 10,
+                director_id: 11,
+                director: { name: "Lauren Schmidt Hissrich", id: 11 }
+            }],
+            genres: [
+                { media_id: 10, genre_id: 1, genre: { name: "Action", id: 1 } },
+                { media_id: 10, genre_id: 2, genre: { name: "Adventure", id: 2 } },
+                { media_id: 10, genre_id: 4, genre: { name: "Drama", id: 4 } },
+                { media_id: 10, genre_id: 8, genre: { name: "Fantasy", id: 8 } }
+            ],
+            movie: null,
+            serie: {
+                media_id: 10,
+                seasons: [
+                    {
+                        id: 1,
+                        number: 1,
+                        serie_id: 10,
+                        total_episodes: 3
+                    },
+                    {
+                        id: 2,
+                        number: 2,
+                        serie_id: 10,
+                        total_episodes: 4
+                    }
+                ]
+            },
+            type: "serie"
         }
     ]
 }
