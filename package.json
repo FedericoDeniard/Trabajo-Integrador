@@ -8,7 +8,7 @@
     "backend"
   ],
   "scripts": {
-    "backend": "cd backend && npm run dev"
+    "dev": "cd backend && npm run dev"
   },
   "repository": {
     "type": "git",
