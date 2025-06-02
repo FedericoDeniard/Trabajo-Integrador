@@ -1,4 +1,12 @@
-function createCardMedia(title, date, directores, rate, thumbnail, description, genres, price, seasons = null) {
+function createCardMedia({title: string,
+    date: Date, 
+    directores: string, 
+    rate: number, 
+    thumbnail: string, 
+    description: string, 
+    genres: string, 
+    price: number, 
+    seasons: number = null}) {
     return `<div>
         <h2>${title}
         ${date ? `<em>(${date.getFullYear()})</em>` : ""}</h2>
@@ -21,3 +29,5 @@ function createCardMedia(title, date, directores, rate, thumbnail, description, 
         </form>
     </div>`
 }
+
+console.log(createCardMedia('si', new Date(2222,2,2), 3.4, 'https://prueba.com', '', 'si, si si', 5, 6))
