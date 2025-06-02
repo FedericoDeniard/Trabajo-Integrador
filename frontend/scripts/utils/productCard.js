@@ -1,6 +1,6 @@
 function createCardMedia({title: string,
     date: Date, 
-    directores: string, 
+    directors: string, 
     rate: number, 
     thumbnail: string, 
     description: string, 
@@ -10,7 +10,7 @@ function createCardMedia({title: string,
     return `<div>
         <h2>${title}
         ${date ? `<em>(${date.getFullYear()})</em>` : ""}</h2>
-        <p>${directores}</p>
+        <p>${directors}</p>
         ${seasons ? `<p>${seasons} temporadas</p>` : ""}
         <span>${rate}</span>
         <img src="${thumbnail}" alt="${title}"/>
@@ -30,4 +30,4 @@ function createCardMedia({title: string,
     </div>`
 }
 
-console.log(createCardMedia('si', new Date(2222,2,2), 3.4, 'https://prueba.com', '', 'si, si si', 5, 6))
+console.log(createCardMedia({title:'si', date: new Date(2222,2,2), directors: 'juan', rate: 3.4, thumbnail:'https://prueba.com', description:'x', genres:'x', price:5, seasons:6}))
