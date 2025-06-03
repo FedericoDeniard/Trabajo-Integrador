@@ -21,7 +21,7 @@ export default function createCardMedia({
   if (price === undefined || price === null)
     throw new Error("'price' no está definido");
 
-  return `<div>
+  return `<div class="product-card">
         <h2>${title}
         ${date ? `<em>(${date.getFullYear()})</em>` : ""}</h2>
         <p>${directors.map((d) => d.director.name).join(", ")}</p>
