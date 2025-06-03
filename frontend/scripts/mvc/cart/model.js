@@ -17,11 +17,11 @@ class Model {
       }
     }
     this.products = products;
-    console.log(products);
     return products;
   }
 
   async #fetchProductByIds(ids) {
+    if (ids.length === 0) return [];
     const response = await fetch(
       `http://localhost:8000/api/products/ids?ids=${ids.join(",")}`
     );
@@ -30,6 +30,43 @@ class Model {
     }
     const data = await response.json();
     return data.data;
+  }
+
+  removeProduct(id) {
+    cart.removeProduct({ id });
+    this.#updateProducts();
+  }
+
+  clearCart() {
+    cart.clearCart();
+    this.products = [];
+  }
+
+  decreaseAmount(id) {
+    cart.decreaseAmount({ id, ammount: 1 });
+    this.#updateProducts();
+  }
+
+  increaseAmount(id) {
+    cart.increaseAmount({ id, ammount: 1 });
+    this.#updateProducts();
+  }
+
+  #updateProducts() {
+    const localStorageProducts = cart.getProducts();
+
+    this.products = this.products.filter((product) =>
+      localStorageProducts.some((p) => p.id === product.id)
+    );
+
+    this.products.forEach((product) => {
+      const productSaved = localStorageProducts.find(
+        (p) => p.id === product.id
+      );
+      if (productSaved) {
+        product.ammount = productSaved.ammount;
+      }
+    });
   }
 }
 

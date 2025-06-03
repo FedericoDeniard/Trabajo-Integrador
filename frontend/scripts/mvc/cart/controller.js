@@ -10,16 +10,41 @@ export default class Controller {
   async init() {
     const products = await this.model.getProducts();
     this.view.renderProducts(products);
+    this.productButtonsListener();
+    this.clearCartCotroller();
   }
 
-  getProductsButtons() {
-    for (const product of this.view.$products.children) {
-      const buttons = product.querySelectorAll("button");
-      buttons.forEach((button) => {
-        button.addEventListener("click", () => {
-          this.model.updateProductAmount(button, product);
-        });
-      });
-    }
+  productButtonsListener() {
+    this.view.$products.addEventListener("click", (e) => {
+      const target = e.target;
+      e.preventDefault();
+
+      const productCard = target.closest(".product-card");
+      if (!productCard) return;
+
+      const productId = productCard.dataset.id;
+
+      if (target.classList.contains("btn-minus")) {
+        this.model.decreaseAmount(productId);
+        this.view.renderProducts(this.model.products);
+      }
+
+      if (target.classList.contains("btn-plus")) {
+        this.model.increaseAmount(productId);
+        this.view.renderProducts(this.model.products);
+      }
+
+      if (target.classList.contains("btn-cart")) {
+        this.model.removeProduct(productId);
+        this.view.renderProducts(this.model.products);
+      }
+    });
+  }
+
+  clearCartCotroller() {
+    this.view.$clearCart.addEventListener("click", () => {
+      this.model.clearCart();
+      this.view.renderProducts(this.model.products);
+    });
   }
 }
