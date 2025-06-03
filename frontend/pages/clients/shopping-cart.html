@@ -6,6 +6,10 @@
     <title>Document</title>
     <link rel="stylesheet" href="../../styles/componentes/header.css" />
     <link rel="stylesheet" href="../../styles/componentes/general.css" />
+    <link rel="stylesheet" href="../../styles/componentes/spinner.css" />
+    <link rel="stylesheet" href="../../styles/componentes/product-card.css" />
+    <link rel="stylesheet" href="../../styles/vistas/shopping-cart.css" />
+    <link rel="stylesheet" href="../../styles/componentes/buttons.css" />
   </head>
   <body>
     <header class="header">
@@ -34,8 +38,16 @@
     <section>
       <h1>Carrito</h1>
       <div id="products"></div>
+      <div id="general-loader" class="loader-container">
+        <div class="loader"></div>
+      </div>
       <!--En este se cargan los productos guardados junto con los botones necesarios-->
-      <button type="submit">Comprar todo</button>
+      <button class="clear button --red" id="clear-cart" type="submit">
+        Vaciar Carrito
+      </button>
+      <button class="buy button --yellow" id="buy-all" type="submit">
+        Comprar todo
+      </button>
     </section>
 
     <script src="/scripts/mvc/cart/index.js" type="module"></script>
