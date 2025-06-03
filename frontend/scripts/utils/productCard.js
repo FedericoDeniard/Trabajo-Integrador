@@ -34,13 +34,13 @@ export default function createCardMedia({
         
         <form>
             <div>
-                <button type="button">-</button>
+                <button type="button" class="btn-minus">-</button>
                 <input type="number" value="${ammount}" min="1" max="5" />
-                <button type="button">+</button>
+                <button type="button" class="btn-plus">+</button>
             </div>
 
             <p>$<span>${price}</span></p>
-            <button type="submit">${
+            <button type="submit" class="btn-cart">${
               cart ? "Quitar del carrito" : "Agregar al carrito"
             }</button>
         </form>
