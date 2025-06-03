@@ -15,26 +15,24 @@ export default class View {
   renderProducts(products) {
     this.showLoader();
     this.$products.innerHTML = "";
-    setTimeout(() => {
-      products.forEach((product) => {
-        const productCard = createCardMedia({
-          id: product.id,
-          title: product.title,
-          date: product.date,
-          directors: product.directors,
-          rate: product.rate,
-          thumbnail: product.thumbnail,
-          description: product.description,
-          genres: product.genres,
-          price: product.price,
-          seasons: product.seasons,
-          ammount: product.ammount,
-          cart: true,
-        });
-        this.$products.innerHTML += productCard;
+    products.forEach((product) => {
+      const productCard = createCardMedia({
+        id: product.id,
+        title: product.title,
+        date: product.date,
+        directors: product.directors,
+        rate: product.rate,
+        thumbnail: product.thumbnail,
+        description: product.description,
+        genres: product.genres,
+        price: product.price,
+        seasons: product.seasons,
+        ammount: product.ammount,
+        cart: true,
       });
-      this.hideLoader();
-    }, 0);
+      this.$products.innerHTML += productCard;
+    });
+    this.hideLoader();
   }
 
   showLoader() {
