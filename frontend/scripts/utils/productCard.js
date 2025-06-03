@@ -40,7 +40,7 @@ export default function createCardMedia({
 
             <p>$<span>${price}</span></p>
             <button type="submit">${
-              !cart ? "Quitar del carrito" : "Agregar al carrito"
+              cart ? "Quitar del carrito" : "Agregar al carrito"
             }</button>
         </form>
     </div>`;
