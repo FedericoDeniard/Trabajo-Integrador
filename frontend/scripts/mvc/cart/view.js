@@ -13,7 +13,6 @@ export default class View {
   }
 
   renderProducts(products) {
-    this.showLoader();
     this.$products.innerHTML = "";
     if (products.length === 0) {
       this.$products.innerHTML =
@@ -38,14 +37,16 @@ export default class View {
       });
       this.$products.innerHTML += productCard;
     });
-    this.hideLoader();
   }
 
   showLoader() {
+    this.$products.style.display = "none";
     this.$loader.style.display = "flex";
+    this.$loader.style.flex = "1";
   }
 
   hideLoader() {
+    this.$products.style.display = "flex";
     this.$loader.style.display = "none";
   }
 }
