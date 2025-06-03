@@ -35,7 +35,12 @@ class Cart {
   }
 
   getProducts() {
-    // fetch products
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      this.products = JSON.parse(storedCart);
+      return this.products;
+    }
+    return [];
   }
 }
 
