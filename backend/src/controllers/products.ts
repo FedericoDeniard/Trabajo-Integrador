@@ -1,6 +1,6 @@
 import { Prisma } from "../../generated/prisma"
 
-type MediaWithRelations = Prisma.MediaGetPayload<{
+export type MediaWithRelations = Prisma.MediaGetPayload<{
     include: {
         genres: { include: { genre: true } },
         directors: { include: { director: true } },
