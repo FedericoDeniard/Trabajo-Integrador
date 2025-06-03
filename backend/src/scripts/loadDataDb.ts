@@ -371,11 +371,12 @@ const products: MediaWithRelations[] = [
 ];
 
 export const createProducts = async () => {
-  await prismaInstance.$connect();
+  await prismaInstance.connect();
+  const prisma = prismaInstance.client;
   for (const product of products) {
     let directors: Prisma.DirectorGetPayload<{}>[] = [];
     for (const director of product.directors) {
-      const directorExists = await prismaInstance.director.findUnique({
+      const directorExists = await prisma.director.findUnique({
         where: { name: director.director.name },
       });
       if (directorExists) {
@@ -385,7 +386,7 @@ export const createProducts = async () => {
 
     let genres: Prisma.GenreGetPayload<{}>[] = [];
     for (const genre of product.genres) {
-      const genreExists = await prismaInstance.genre.findUnique({
+      const genreExists = await prisma.genre.findUnique({
         where: { name: genre.genre.name },
       });
       if (genreExists) {
@@ -395,7 +396,7 @@ export const createProducts = async () => {
 
     let media: Prisma.MediaGetPayload<{}> | null = null;
     if (product.title) {
-      const mediaExists = await prismaInstance.media.findUnique({
+      const mediaExists = await prisma.media.findUnique({
         where: { title: product.title },
       });
       media = mediaExists;
@@ -408,7 +409,7 @@ export const createProducts = async () => {
         (d) => !directors.some((existing) => existing.name === d.director.name)
       );
 
-      await prismaInstance.director.createMany({
+      await prisma.director.createMany({
         data: missingDirectors.map((director) => ({
           name: director.director.name,
         })),
@@ -416,7 +417,7 @@ export const createProducts = async () => {
       });
 
       const allNames = product.directors.map((d) => d.director.name);
-      const allDirectors = await prismaInstance.director.findMany({
+      const allDirectors = await prisma.director.findMany({
         where: { name: { in: allNames } },
       });
 
@@ -424,7 +425,7 @@ export const createProducts = async () => {
         (g) => !genres.some((existing) => existing.name === g.genre.name)
       );
 
-      await prismaInstance.genre.createMany({
+      await prisma.genre.createMany({
         data: missingGenres.map((genre) => ({
           name: genre.genre.name,
         })),
@@ -432,11 +433,11 @@ export const createProducts = async () => {
       });
 
       const genreNames = product.genres.map((g) => g.genre.name);
-      const allGenres = await prismaInstance.genre.findMany({
+      const allGenres = await prisma.genre.findMany({
         where: { name: { in: genreNames } },
       });
 
-      media = await prismaInstance.media.create({
+      media = await prisma.media.create({
         data: {
           title: product.title,
           price: product.price,
@@ -460,7 +461,7 @@ export const createProducts = async () => {
 
       let movieData = null;
       if (product.movie) {
-        movieData = await prismaInstance.movie.create({
+        movieData = await prisma.movie.create({
           data: {
             duration: product.movie.duration,
             released_date: product.movie.released_date,
@@ -471,7 +472,7 @@ export const createProducts = async () => {
 
       let serieData = null;
       if (product.serie) {
-        serieData = await prismaInstance.serie.create({
+        serieData = await prisma.serie.create({
           data: {
             media: { connect: { id: media.id } },
             seasons: {
@@ -486,5 +487,7 @@ export const createProducts = async () => {
     }
   }
 
-  await prismaInstance.$disconnect();
+  await prisma.$disconnect();
 };
+
+await createProducts();
