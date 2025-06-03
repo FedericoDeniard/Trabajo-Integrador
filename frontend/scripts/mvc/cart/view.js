@@ -15,6 +15,12 @@ export default class View {
   renderProducts(products) {
     this.showLoader();
     this.$products.innerHTML = "";
+    if (products.length === 0) {
+      this.$products.innerHTML =
+        "<p class='no-products'>Oops! Parece que no hay productos en el carrito</p>";
+      this.hideLoader();
+      return;
+    }
     products.forEach((product) => {
       const productCard = createCardMedia({
         id: product.id,
