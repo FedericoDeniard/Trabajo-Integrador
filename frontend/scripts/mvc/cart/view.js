@@ -1,3 +1,4 @@
+import { createModal } from "../../utils/modal.js";
 import createCardMedia from "../../utils/productCard.js";
 
 export default class View {
@@ -6,6 +7,7 @@ export default class View {
     this.$loader = this.$("general-loader");
     this.$clearCart = this.$("clear-cart");
     this.$buyAll = this.$("buy-all");
+    this.#createModal();
   }
 
   $(id) {
@@ -48,5 +50,16 @@ export default class View {
   hideLoader() {
     this.$products.style.display = "flex";
     this.$loader.style.display = "none";
+  }
+
+  #createModal() {
+    const { modal, closeButton, sendButton } = createModal({
+      text: "¿Todo listo para comprar?",
+      closeText: "Cancelar",
+      sendText: "Comprar",
+    });
+    this.$modal = modal;
+    this.$modalCloseButton = closeButton;
+    this.$modalSendButton = sendButton;
   }
 }

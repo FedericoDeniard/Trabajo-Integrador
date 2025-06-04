@@ -13,6 +13,7 @@ export default class Controller {
     this.view.renderProducts(products);
     this.productButtonsListener();
     this.clearCartCotroller();
+    this.modalControllers();
     this.view.hideLoader();
   }
 
@@ -47,6 +48,20 @@ export default class Controller {
     this.view.$clearCart.addEventListener("click", () => {
       this.model.clearCart();
       this.view.renderProducts(this.model.products);
+    });
+  }
+
+  modalControllers() {
+    this.view.$buyAll.addEventListener("click", () => {
+      this.view.$modal.showModal();
+    });
+    this.view.$modalCloseButton.addEventListener("click", () => {
+      this.view.$modal.close();
+      console.log("Cerraste el modal");
+    });
+    this.view.$modalSendButton.addEventListener("click", () => {
+      this.view.$modal.close();
+      console.log("Compraste todos los productos");
     });
   }
 }
