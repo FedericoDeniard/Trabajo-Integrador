@@ -7,11 +7,11 @@ class Cart {
     }
   }
 
-  addProduct({ id, ammount }) {
-    const product = { id, ammount };
+  addProduct({ id, amount }) {
+    const product = { id, amount };
     const productInCart = this.products.find((p) => p.id == id);
     if (productInCart) {
-      productInCart.ammount += ammount;
+      productInCart.amount += amount;
     } else {
       this.products.push(product);
     }
@@ -19,11 +19,11 @@ class Cart {
     this.products = this.getProducts();
   }
 
-  decreaseAmount({ id, ammount }) {
+  decreaseAmount({ id, amount }) {
     const productInCart = this.products.find((p) => p.id == id);
     if (productInCart) {
-      productInCart.ammount -= ammount;
-      if (productInCart.ammount <= 0) {
+      productInCart.amount -= amount;
+      if (productInCart.amount <= 0) {
         this.products = this.products.filter((p) => p.id != id);
       }
     }
@@ -31,10 +31,10 @@ class Cart {
     this.products = this.getProducts();
   }
 
-  increaseAmount({ id, ammount }) {
+  increaseAmount({ id, amount }) {
     const productInCart = this.products.find((p) => p.id == id);
     if (productInCart) {
-      productInCart.ammount += ammount;
+      productInCart.amount += amount;
     }
     localStorage.setItem("cart", JSON.stringify(this.products));
     this.products = this.getProducts();

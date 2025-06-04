@@ -34,7 +34,7 @@ export default class View {
         genres: product.genres,
         price: product.price,
         seasons: product.seasons,
-        ammount: product.ammount,
+        amount: product.amount,
         cart: true,
       });
       this.$products.innerHTML += productCard;

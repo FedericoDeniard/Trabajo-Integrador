@@ -13,7 +13,7 @@ class Model {
     for (const id of ids) {
       const product = products.find((p) => p.id === id);
       if (product) {
-        product.ammount = this.products.find((p) => p.id === id).ammount;
+        product.amount = this.products.find((p) => p.id === id).amount;
       }
     }
     this.products = products;
@@ -43,12 +43,12 @@ class Model {
   }
 
   decreaseAmount(id) {
-    cart.decreaseAmount({ id, ammount: 1 });
+    cart.decreaseAmount({ id, amount: 1 });
     this.#updateProducts();
   }
 
   increaseAmount(id) {
-    cart.increaseAmount({ id, ammount: 1 });
+    cart.increaseAmount({ id, amount: 1 });
     this.#updateProducts();
   }
 
@@ -64,7 +64,7 @@ class Model {
         (p) => p.id === product.id
       );
       if (productSaved) {
-        product.ammount = productSaved.ammount;
+        product.amount = productSaved.amount;
       }
     });
   }

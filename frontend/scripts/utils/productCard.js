@@ -9,7 +9,7 @@ export default function createCardMedia({
   genres,
   price,
   seasons = null,
-  ammount = 0,
+  amount = 0,
   cart = false,
 }) {
   if (!title) throw new Error("'title' no está definido");
@@ -35,7 +35,7 @@ export default function createCardMedia({
         <form>
             <div>
                 <button type="button" class="btn-minus">-</button>
-                <input type="number" value="${ammount}" min="1" max="5" />
+                <input type="number" value="${amount}" min="1" max="5" />
                 <button type="button" class="btn-plus">+</button>
             </div>
 
