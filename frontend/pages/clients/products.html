@@ -36,16 +36,19 @@
       <h1>Productos</h1>
       <div class="row">
         <span class="checkbox-container">
-          <input type="checkbox" />
-          <label>Peliculas</label>
+          <input type="checkbox" id="peliculas" checked/>
+          <label for="peliculas">Peliculas</label>
         </span>
         <span class="checkbox-container">
-          <input type="checkbox" />
-          <label>Series</label>
+          <input type="checkbox" id="series"/>
+          <label for="series">Series</label>
         </span>
       </div>
     </form>
-    <div></div>
-    <!--en este se cargan los datos-->
+
+    <!--en este se cargan los productos y se filtran segú corresponda-->
+    <div id="products"></div>
+
+    <script type="module" src="../../scripts/mvc/products/index.js"></script>
   </body>
 </html>
