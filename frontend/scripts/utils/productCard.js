@@ -18,11 +18,18 @@ export default function createCardMedia({
   if (!media.rate) throw new Error("'rate' no está definido");
   if (!media.thumbnail) throw new Error("'thumbnail' no está definido");
   if (!media.title) throw new Error("'title' no está definido");
-  const released_dateFormated = formateDate(released_date);
+
+  const released_dateFormated = released_date
+    ? formateDate(released_date)
+    : seasons[0].released_date
+    ? formateDate(seasons[0].released_date)
+    : "";
 
   return `<div class="product-card" data-id="${id}">
         <h2>${media.title}
-        ${released_date ? `<em>(${released_dateFormated})</em>` : ""}</h2>
+        ${
+          released_dateFormated ? `<em>(${released_dateFormated})</em>` : ""
+        }</h2>
         <p>${media.directors.map((d) => d.director.name).join(", ")}</p>
         ${seasons ? `<p>${seasons.length} temporadas</p>` : ""}
         <span>${media.rate}</span>
