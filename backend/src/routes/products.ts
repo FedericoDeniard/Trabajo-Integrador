@@ -7,6 +7,7 @@ export const productsRouter = express.Router();
 
 productsRouter.get("/", async (req: Request, res: Response) => {
     const products = await prismaInstance.getAllProducts();
+    console.log(products)
     res.json(new ResponseObject(true, products, "Products list successfully retrieved"))
 })
 
