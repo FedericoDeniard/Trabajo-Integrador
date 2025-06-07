@@ -160,7 +160,7 @@ const products = [
     ],
     serie: {
       media_id: 6,
-      seasons: [{ id: 1, number: 1, serie_id: 6, total_episodes: 4 }],
+      seasons: [{ id: 1, number: 1, serie_id: 6, total_episodes: 4, released_date: new Date("2016-07-15") }],
     },
     genres: [
       { media_id: 6, genre_id: 4, genre: { name: "Drama", id: 4 } },
@@ -194,12 +194,12 @@ const products = [
     serie: {
       media_id: 7,
       seasons: [
-        { id: 1, number: 1, serie_id: 7, total_episodes: 8 },
-        { id: 2, number: 2, serie_id: 7, total_episodes: 10 },
-        { id: 3, number: 3, serie_id: 7, total_episodes: 11 },
-        { id: 4, number: 4, serie_id: 7, total_episodes: 7 },
-        { id: 5, number: 5, serie_id: 7, total_episodes: 9 },
-        { id: 6, number: 6, serie_id: 7, total_episodes: 13 },
+        { id: 1, number: 1, serie_id: 7, total_episodes: 8, released_date: new Date("2008-01-20") },
+        { id: 2, number: 2, serie_id: 7, total_episodes: 10, released_date: new Date("2009-01-20") },
+        { id: 3, number: 3, serie_id: 7, total_episodes: 11, released_date: new Date("2010-01-20") },
+        { id: 4, number: 4, serie_id: 7, total_episodes: 7, released_date: new Date("2011-01-20") },
+        { id: 5, number: 5, serie_id: 7, total_episodes: 9, released_date: new Date("2012-01-20") },
+        { id: 6, number: 6, serie_id: 7, total_episodes: 13, released_date: new Date("2013-01-20") },
       ],
     },
   },
@@ -223,9 +223,9 @@ const products = [
     serie: {
       media_id: 8,
       seasons: [
-        { id: 1, number: 1, serie_id: 8, total_episodes: 8 },
-        { id: 2, number: 2, serie_id: 8, total_episodes: 2 },
-        { id: 3, number: 3, serie_id: 8, total_episodes: 3 },
+        { id: 1, number: 1, serie_id: 8, total_episodes: 8, released_date: new Date("2019-01-20") },
+        { id: 2, number: 2, serie_id: 8, total_episodes: 2, released_date: new Date("2020-01-20") },
+        { id: 3, number: 3, serie_id: 8, total_episodes: 3, released_date: new Date("2021-01-20") },
       ],
     },
     genres: [
@@ -264,14 +264,14 @@ const products = [
     serie: {
       media_id: 9,
       seasons: [
-        { id: 1, number: 1, serie_id: 9, total_episodes: 6 },
-        { id: 2, number: 2, serie_id: 9, total_episodes: 5 },
-        { id: 3, number: 3, serie_id: 9, total_episodes: 7 },
-        { id: 4, number: 4, serie_id: 9, total_episodes: 8 },
-        { id: 5, number: 5, serie_id: 9, total_episodes: 6 },
-        { id: 6, number: 6, serie_id: 9, total_episodes: 9 },
-        { id: 7, number: 7, serie_id: 9, total_episodes: 5 },
-        { id: 8, number: 8, serie_id: 9, total_episodes: 7 },
+        { id: 1, number: 1, serie_id: 9, total_episodes: 6, released_date: new Date("2011-01-20") },
+        { id: 2, number: 2, serie_id: 9, total_episodes: 5, released_date: new Date("2012-01-20") },
+        { id: 3, number: 3, serie_id: 9, total_episodes: 7, released_date: new Date("2013-01-20") },
+        { id: 4, number: 4, serie_id: 9, total_episodes: 8, released_date: new Date("2014-01-20") },
+        { id: 5, number: 5, serie_id: 9, total_episodes: 6, released_date: new Date("2015-01-20") },
+        { id: 6, number: 6, serie_id: 9, total_episodes: 9, released_date: new Date("2016-01-20") },
+        { id: 7, number: 7, serie_id: 9, total_episodes: 5, released_date: new Date("2017-01-20") },
+        { id: 8, number: 8, serie_id: 9, total_episodes: 7, released_date: new Date("2018-01-20") },
       ],
     },
   },
@@ -306,6 +306,7 @@ const products = [
           number: 1,
           serie_id: 10,
           total_episodes: 8,
+          released_date: new Date("2019-01-20")
         },
       ],
     },
@@ -403,6 +404,7 @@ export const createProducts = async () => {
               create: product.serie.seasons.map(season => ({
                 number: season.number,
                 total_episodes: season.total_episodes,
+                released_date: new Date(season.released_date),
               })),
             },
           },

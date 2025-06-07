@@ -85,10 +85,11 @@ model TitleDirector {
 }
 
 model Season {
-  id             Int @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   serie_id       Int
   number         Int
   total_episodes Int
+  released_date  DateTime @db.Date
 
   serie Serie @relation(fields: [serie_id], references: [id])
 }
