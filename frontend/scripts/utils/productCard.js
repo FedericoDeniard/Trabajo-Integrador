@@ -1,36 +1,41 @@
 export default function createCardMedia({
+  duration = undefined,
   id,
-  title,
-  date,
-  directors,
-  rate,
-  thumbnail,
-  description,
-  genres,
-  price,
-  seasons = null,
+  media,
   amount = 0,
+  mediaId,
+  released_date = undefined,
+  seasons = undefined,
   cart = false,
 }) {
-  if (!title) throw new Error("'title' no está definido");
-  if (!directors) throw new Error("'directors' no está definido");
-  if (rate === undefined || rate === null)
-    throw new Error("'rate' no está definido");
-  if (!thumbnail) throw new Error("'thumbnail' no está definido");
-  if (!description) throw new Error("'description' no está definido");
-  if (!genres) throw new Error("'genres' no está definido");
-  if (price === undefined || price === null)
-    throw new Error("'price' no está definido");
+  if (!id) throw new Error("'id' no está definido");
+  if (!media.available) throw new Error("'available' no está definido");
+  if (!media.description) throw new Error("'description' no está definido");
+  if (!media.directors) throw new Error("'directors' no está definido");
+  if (!media.genres) throw new Error("'genres' no está definido");
+  if (!media.id) throw new Error("'id' no está definido");
+  if (!media.price) throw new Error("'price' no está definido");
+  if (!media.rate) throw new Error("'rate' no está definido");
+  if (!media.thumbnail) throw new Error("'thumbnail' no está definido");
+  if (!media.title) throw new Error("'title' no está definido");
+
+  const released_dateFormated = released_date
+    ? formateDate(released_date)
+    : seasons[0].released_date
+    ? formateDate(seasons[0].released_date)
+    : "";
 
   return `<div class="product-card" data-id="${id}">
-        <h2>${title}
-        ${date ? `<em>(${date.getFullYear()})</em>` : ""}</h2>
-        <p>${directors.map((d) => d.director.name).join(", ")}</p>
-        ${seasons ? `<p>${seasons} temporadas</p>` : ""}
-        <span>${rate}</span>
-        <img src="${thumbnail}" alt="${title}"/>
-        <p>Descripción: ${description}</p>
-        <p>Géneros: ${genres.map((g) => g.genre.name).join(", ")}</p>
+        <h2>${media.title}
+        ${
+          released_dateFormated ? `<em>(${released_dateFormated})</em>` : ""
+        }</h2>
+        <p>${media.directors.map((d) => d.director.name).join(", ")}</p>
+        ${seasons ? `<p>${seasons.length} temporadas</p>` : ""}
+        <span>${media.rate}</span>
+        <img src="${media.thumbnail}" alt="${media.title}"/>
+        <p>Descripción: ${media.description}</p>
+        <p>Géneros: ${media.genres.map((g) => g.genre.name).join(", ")}</p>
         
         <form>
             <div>
@@ -39,10 +44,18 @@ export default function createCardMedia({
                 <button type="button" class="btn-plus">+</button>
             </div>
 
-            <p>$<span>${price}</span></p>
+            <p>$<span>${media.price}</span></p>
             <button type="submit" class="btn-cart">${
               cart ? "Quitar del carrito" : "Agregar al carrito"
             }</button>
         </form>
     </div>`;
 }
+
+const formateDate = (date) => {
+  let dateFormated = new Date(date);
+  const year = dateFormated.getFullYear();
+  const month = dateFormated.getMonth() + 1;
+  const day = dateFormated.getDate();
+  return `${year}-${month}-${day}`;
+};

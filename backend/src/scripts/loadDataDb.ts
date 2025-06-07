@@ -1,8 +1,7 @@
-import { MediaWithRelations } from "src/controllers/products";
 import { Prisma } from "../../generated/prisma";
 import prismaInstance from "../services/db";
 
-const products: MediaWithRelations[] = [
+const products = [
   {
     id: 1,
     title: "Inception",
@@ -18,11 +17,6 @@ const products: MediaWithRelations[] = [
         director_id: 1,
         director: { name: "Christopher Nolan", id: 1 },
       },
-      {
-        media_id: 1,
-        director_id: 2,
-        director: { name: "Christopher Nolan", id: 1 },
-      },
     ],
     genres: [
       { media_id: 1, genre_id: 1, genre: { name: "Action", id: 1 } },
@@ -35,7 +29,6 @@ const products: MediaWithRelations[] = [
       released_date: new Date("2010-07-16"),
     },
     serie: null,
-    type: "movie",
   },
   {
     id: 2,
@@ -63,7 +56,6 @@ const products: MediaWithRelations[] = [
       released_date: new Date("1994-09-10"),
     },
     serie: null,
-    type: "movie",
   },
   {
     id: 3,
@@ -92,7 +84,6 @@ const products: MediaWithRelations[] = [
       released_date: new Date("1972-03-24"),
     },
     serie: null,
-    type: "movie",
   },
   {
     id: 4,
@@ -122,7 +113,6 @@ const products: MediaWithRelations[] = [
       released_date: new Date("2008-07-18"),
     },
     serie: null,
-    type: "movie",
   },
   {
     id: 5,
@@ -151,7 +141,6 @@ const products: MediaWithRelations[] = [
       released_date: new Date("1994-09-10"),
     },
     serie: null,
-    type: "movie",
   },
   {
     id: 6,
@@ -171,14 +160,13 @@ const products: MediaWithRelations[] = [
     ],
     serie: {
       media_id: 6,
-      seasons: [{ id: 1, number: 1, serie_id: 6, total_episodes: 4 }],
+      seasons: [{ id: 1, number: 1, serie_id: 6, total_episodes: 4, released_date: new Date("2016-07-15") }],
     },
     genres: [
       { media_id: 6, genre_id: 4, genre: { name: "Drama", id: 4 } },
       { media_id: 6, genre_id: 6, genre: { name: "Sci-Fi", id: 6 } },
       { media_id: 6, genre_id: 7, genre: { name: "Horror", id: 7 } },
     ],
-    type: "serie",
     movie: null,
   },
   {
@@ -190,7 +178,6 @@ const products: MediaWithRelations[] = [
       "A high school chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine in order to secure his family's future.",
     rate: new Prisma.Decimal("4.9"),
     available: true,
-    type: "serie",
     directors: [
       {
         media_id: 7,
@@ -207,12 +194,12 @@ const products: MediaWithRelations[] = [
     serie: {
       media_id: 7,
       seasons: [
-        { id: 1, number: 1, serie_id: 7, total_episodes: 8 },
-        { id: 2, number: 2, serie_id: 7, total_episodes: 10 },
-        { id: 3, number: 3, serie_id: 7, total_episodes: 11 },
-        { id: 4, number: 4, serie_id: 7, total_episodes: 7 },
-        { id: 5, number: 5, serie_id: 7, total_episodes: 9 },
-        { id: 6, number: 6, serie_id: 7, total_episodes: 13 },
+        { id: 1, number: 1, serie_id: 7, total_episodes: 8, released_date: new Date("2008-01-20") },
+        { id: 2, number: 2, serie_id: 7, total_episodes: 10, released_date: new Date("2009-01-20") },
+        { id: 3, number: 3, serie_id: 7, total_episodes: 11, released_date: new Date("2010-01-20") },
+        { id: 4, number: 4, serie_id: 7, total_episodes: 7, released_date: new Date("2011-01-20") },
+        { id: 5, number: 5, serie_id: 7, total_episodes: 9, released_date: new Date("2012-01-20") },
+        { id: 6, number: 6, serie_id: 7, total_episodes: 13, released_date: new Date("2013-01-20") },
       ],
     },
   },
@@ -225,7 +212,6 @@ const products: MediaWithRelations[] = [
       "The travels of a lone bounty hunter in the outer reaches of the galaxy, far from the authority of the New Republic.",
     rate: new Prisma.Decimal("4.7"),
     available: true,
-    type: "serie",
     directors: [
       {
         media_id: 8,
@@ -237,9 +223,9 @@ const products: MediaWithRelations[] = [
     serie: {
       media_id: 8,
       seasons: [
-        { id: 1, number: 1, serie_id: 8, total_episodes: 8 },
-        { id: 2, number: 2, serie_id: 8, total_episodes: 2 },
-        { id: 3, number: 3, serie_id: 8, total_episodes: 3 },
+        { id: 1, number: 1, serie_id: 8, total_episodes: 8, released_date: new Date("2019-01-20") },
+        { id: 2, number: 2, serie_id: 8, total_episodes: 2, released_date: new Date("2020-01-20") },
+        { id: 3, number: 3, serie_id: 8, total_episodes: 3, released_date: new Date("2021-01-20") },
       ],
     },
     genres: [
@@ -257,7 +243,6 @@ const products: MediaWithRelations[] = [
       "Nine noble families fight for control over the lands of Westeros, while an ancient enemy returns after being dormant for millennia.",
     rate: new Prisma.Decimal("4.4"),
     available: true,
-    type: "serie",
     directors: [
       {
         media_id: 9,
@@ -279,14 +264,14 @@ const products: MediaWithRelations[] = [
     serie: {
       media_id: 9,
       seasons: [
-        { id: 1, number: 1, serie_id: 9, total_episodes: 6 },
-        { id: 2, number: 2, serie_id: 9, total_episodes: 5 },
-        { id: 3, number: 3, serie_id: 9, total_episodes: 7 },
-        { id: 4, number: 4, serie_id: 9, total_episodes: 8 },
-        { id: 5, number: 5, serie_id: 9, total_episodes: 6 },
-        { id: 6, number: 6, serie_id: 9, total_episodes: 9 },
-        { id: 7, number: 7, serie_id: 9, total_episodes: 5 },
-        { id: 8, number: 8, serie_id: 9, total_episodes: 7 },
+        { id: 1, number: 1, serie_id: 9, total_episodes: 6, released_date: new Date("2011-01-20") },
+        { id: 2, number: 2, serie_id: 9, total_episodes: 5, released_date: new Date("2012-01-20") },
+        { id: 3, number: 3, serie_id: 9, total_episodes: 7, released_date: new Date("2013-01-20") },
+        { id: 4, number: 4, serie_id: 9, total_episodes: 8, released_date: new Date("2014-01-20") },
+        { id: 5, number: 5, serie_id: 9, total_episodes: 6, released_date: new Date("2015-01-20") },
+        { id: 6, number: 6, serie_id: 9, total_episodes: 9, released_date: new Date("2016-01-20") },
+        { id: 7, number: 7, serie_id: 9, total_episodes: 5, released_date: new Date("2017-01-20") },
+        { id: 8, number: 8, serie_id: 9, total_episodes: 7, released_date: new Date("2018-01-20") },
       ],
     },
   },
@@ -312,7 +297,6 @@ const products: MediaWithRelations[] = [
       { media_id: 10, genre_id: 4, genre: { name: "Drama", id: 4 } },
       { media_id: 10, genre_id: 8, genre: { name: "Fantasy", id: 8 } },
     ],
-    type: "serie",
     movie: null,
     serie: {
       media_id: 10,
@@ -322,122 +306,68 @@ const products: MediaWithRelations[] = [
           number: 1,
           serie_id: 10,
           total_episodes: 8,
+          released_date: new Date("2019-01-20")
         },
       ],
     },
   },
-  {
-    id: 10,
-    title: "The Witcher", //Por qué hay dos?
-    price: new Prisma.Decimal("22.99"),
-    thumbnail: "https://placehold.co/600x400",
-    description:
-      "Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts.",
-    rate: new Prisma.Decimal("4.5"),
-    available: true,
-    directors: [
-      {
-        media_id: 10,
-        director_id: 11,
-        director: { name: "Lauren Schmidt Hissrich", id: 11 },
-      },
-    ],
-    genres: [
-      { media_id: 10, genre_id: 1, genre: { name: "Action", id: 1 } },
-      { media_id: 10, genre_id: 2, genre: { name: "Adventure", id: 2 } },
-      { media_id: 10, genre_id: 4, genre: { name: "Drama", id: 4 } },
-      { media_id: 10, genre_id: 8, genre: { name: "Fantasy", id: 8 } },
-    ],
-    movie: null,
-    serie: {
-      media_id: 10,
-      seasons: [
-        {
-          id: 1,
-          number: 1,
-          serie_id: 10,
-          total_episodes: 3,
-        },
-        {
-          id: 2,
-          number: 2,
-          serie_id: 10,
-          total_episodes: 4,
-        },
-      ],
-    },
-    type: "serie",
-  },
+
 ];
+
+type MovieWithRelations = Prisma.MovieGetPayload<{
+  include: {
+    media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } }
+  }
+}>
+type SerieWithRelations = Prisma.SerieGetPayload<{
+  include: {
+    media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } }, seasons: { include: { episodes: true } } } }
+  }
+}>
+
+
+const movies: MovieWithRelations[] = [];
+const series: SerieWithRelations[] = [];
 
 export const createProducts = async () => {
   await prismaInstance.connect();
   const prisma = prismaInstance.client;
-  for (const product of products) {
-    let directors: Prisma.DirectorGetPayload<{}>[] = [];
-    for (const director of product.directors) {
-      const directorExists = await prisma.director.findUnique({
-        where: { name: director.director.name },
-      });
-      if (directorExists) {
-        directors.push(directorExists);
-      }
-    }
 
-    let genres: Prisma.GenreGetPayload<{}>[] = [];
-    for (const genre of product.genres) {
-      const genreExists = await prisma.genre.findUnique({
-        where: { name: genre.genre.name },
-      });
-      if (genreExists) {
-        genres.push(genreExists);
-      }
-    }
-
-    let media: Prisma.MediaGetPayload<{}> | null = null;
-    if (product.title) {
-      const mediaExists = await prisma.media.findUnique({
+  try {
+    for (const product of products) {
+      const existingMedia = await prisma.media.findUnique({
         where: { title: product.title },
       });
-      media = mediaExists;
-    }
 
-    const canCreateMedia = !media;
+      if (existingMedia) continue;
 
-    if (canCreateMedia) {
-      const missingDirectors = product.directors.filter(
-        (d) => !directors.some((existing) => existing.name === d.director.name)
+      const directorNames = Array.from(
+        new Set(product.directors.map((d: { director: { name: string } }) => d.director.name))
       );
 
       await prisma.director.createMany({
-        data: missingDirectors.map((director) => ({
-          name: director.director.name,
-        })),
+        data: directorNames.map((name) => ({ name })),
         skipDuplicates: true,
       });
 
-      const allNames = product.directors.map((d) => d.director.name);
-      const allDirectors = await prisma.director.findMany({
-        where: { name: { in: allNames } },
+      const directors = await prisma.director.findMany({
+        where: { name: { in: directorNames } },
       });
 
-      const missingGenres = product.genres.filter(
-        (g) => !genres.some((existing) => existing.name === g.genre.name)
+      const genreNames = Array.from(
+        new Set(product.genres.map((g: { genre: { name: string } }) => g.genre.name))
       );
 
       await prisma.genre.createMany({
-        data: missingGenres.map((genre) => ({
-          name: genre.genre.name,
-        })),
+        data: genreNames.map((name) => ({ name })),
         skipDuplicates: true,
       });
 
-      const genreNames = product.genres.map((g) => g.genre.name);
-      const allGenres = await prisma.genre.findMany({
+      const genres = await prisma.genre.findMany({
         where: { name: { in: genreNames } },
       });
 
-      media = await prisma.media.create({
+      const media = await prisma.media.create({
         data: {
           title: product.title,
           price: product.price,
@@ -445,49 +375,51 @@ export const createProducts = async () => {
           description: product.description,
           rate: product.rate,
           available: product.available,
-          type: product.type,
           genres: {
-            create: allGenres.map((genre) => ({
+            create: genres.map(genre => ({
               genre: { connect: { id: genre.id } },
             })),
           },
           directors: {
-            create: allDirectors.map((director) => ({
+            create: directors.map(director => ({
               director: { connect: { id: director.id } },
             })),
           },
         },
       });
 
-      let movieData = null;
       if (product.movie) {
-        movieData = await prisma.movie.create({
+        await prisma.movie.create({
           data: {
             duration: product.movie.duration,
-            released_date: product.movie.released_date,
+            released_date: new Date(product.movie.released_date),
             media: { connect: { id: media.id } },
           },
         });
-      }
-
-      let serieData = null;
-      if (product.serie) {
-        serieData = await prisma.serie.create({
+      } else if (product.serie) {
+        await prisma.serie.create({
           data: {
             media: { connect: { id: media.id } },
             seasons: {
-              create: product.serie.seasons.map((season) => ({
+              create: product.serie.seasons.map(season => ({
                 number: season.number,
                 total_episodes: season.total_episodes,
+                released_date: new Date(season.released_date),
               })),
             },
           },
         });
       }
     }
-  }
 
-  await prisma.$disconnect();
+    console.log('✅ Products created successfully');
+  } catch (error) {
+    console.error('❌ Error creating products:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
 };
+
 
 await createProducts();
