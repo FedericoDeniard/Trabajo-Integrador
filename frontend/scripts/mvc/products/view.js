@@ -12,7 +12,6 @@ class View {
   }
 
   loadProducts(products) {
-    // console.log(products);
     let htmlText = "";
     if (products.length === 0) {
       this.$products.innerHTML =
@@ -21,7 +20,6 @@ class View {
     }
     products.forEach((p) => {
       const product = { ...p, amount: 1, cart: true };
-      //   console.log("producto:", product);
       htmlText += createCardMedia(product);
     });
     this.$products.innerHTML += htmlText;
