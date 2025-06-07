@@ -9,6 +9,10 @@ import prismaInstance from "./services/db";
 const app = express();
 app.use(express.json())
 
+app.use((req, res, next) => {
+  res.cookie("url_base", `http://localhost:${KEYS.PORT}`, { httpOnly: false })
+  next();
+})
 app.use(express.static('../frontend/'));
 
 app.use("/api/products", productsRouter)
