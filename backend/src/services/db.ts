@@ -1,4 +1,3 @@
-import { MediaWithRelations } from "src/controllers/products";
 import { PrismaClient } from "../../generated/prisma"
 import { HttpError } from "src/middlewares/errorHandler";
 class PrismaService {
@@ -46,41 +45,34 @@ class PrismaService {
         return this.prisma;
     }
 
-    async getProductsByIds(ids: number[]): Promise<MediaWithRelations[]> {
+    async getMediasByIds(ids: number[]) {
         try {
-            return this.client.media.findMany({
+            const medias = this.client.media.findMany({
                 where: {
-                    id: {
-                        in: ids
-                    }
+                    id: { in: ids }
                 },
-                include: {
-                    genres: { include: { genre: true } },
-                    directors: { include: { director: true } },
-                    movie: true,
-                    serie: { include: { seasons: true } }
-                }
+                include: { genres: { include: { genre: true } }, directors: { include: { director: true } }, Movie: true, Serie: { include: { seasons: true } } }
             })
+            return medias
         } catch (error) {
             throw new HttpError(500, "Error retrieving products by ids");
         }
     }
 
-    async getAllProducts(): Promise<MediaWithRelations[]> {
+    async getAllProducts() {
         try {
-            return this.client.media.findMany({
-                include: {
-                    genres: { include: { genre: true } },
-                    directors: { include: { director: true } },
-                    movie: true,
-                    serie: { include: { seasons: true } }
-                }
+            const movies = this.client.movie.findMany({
+                include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
             })
+            const series = this.client.serie.findMany({
+                include: { seasons: true, media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
+            })
+            // return [...movies, ...series]
         } catch (error) {
-            throw new HttpError(500, "Error retrieving all products");
+            throw new HttpError(500, "Error retrieving products by ids");
         }
-    }
 
+    }
 }
 
 const prismaInstance = new PrismaService()

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "rollup -c && node --env-file=.env dist/index.js",
-    "rollup:db": "prisma migrate deploy && rollup -c rollup.script.js && node --env-file=.env dist/scripts/loadDataDb.js"
+    "rollup:db": "prisma migrate reset --force && npx prisma generate && rollup -c rollup.script.js && node --env-file=.env dist/scripts/loadDataDb.js"
   },
   "keywords": [],
   "author": "",
