@@ -71,15 +71,17 @@ class PrismaService {
 
     async getAllProducts() {
         try {
-            const movies = await this.client.movie.findMany({
-                include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
-            })
-            const series = await this.client.serie.findMany({
-                include: { seasons: true, media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
-            })
+            const [movies, series] = await Promise.all([
+                this.client.movie.findMany({
+                    include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
+                }),
+                this.client.serie.findMany({
+                    include: { seasons: true, media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
+                })
+            ])
             return [...movies, ...series]
         } catch (error) {
-            throw new HttpError(500, "Error retrieving products by ids");
+            throw new HttpError(500, "Error retrieving products");
         }
     }
 }
