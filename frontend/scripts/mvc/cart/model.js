@@ -1,7 +1,9 @@
 import cart from "../../utils/cart.js";
+import cookiesReader from "../../utils/getCookies.js";
 
 class Model {
   products = [];
+  urlBase = cookiesReader.urlBase;
 
   constructor() {
     this.products = cart.getProducts();
@@ -14,6 +16,7 @@ class Model {
       const product = products.find((p) => p.id === id);
       if (product) {
         product.amount = this.products.find((p) => p.id === id).amount;
+        product.cart = true;
       }
     }
     this.products = products;
@@ -23,7 +26,7 @@ class Model {
   async #fetchProductByIds(ids) {
     if (ids.length === 0) return [];
     const response = await fetch(
-      `http://localhost:8000/api/products/ids?ids=${ids.join(",")}`
+      `${this.urlBase}/api/products/ids?ids=${ids.join(",")}`
     );
     if (!response.ok) {
       throw new Error("Error al obtener los productos");
