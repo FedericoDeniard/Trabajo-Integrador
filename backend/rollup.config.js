@@ -21,10 +21,13 @@ export default {
       targets: [
         { src: path.resolve("src/views"), dest: "dist" },
         { src: path.resolve("src/public"), dest: "dist" },
+        {
+          src: path.resolve("../frontend") + "/**/*",
+          dest: "dist/frontend",
+        },
       ],
       hook: "buildStart",
     }),
-
     nodeExternals(),
     resolve(),
     typescript({
