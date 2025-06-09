@@ -17,7 +17,7 @@ export default {
     copy({
       targets: [
         {
-          src: path.resolve(__dirname, "../frontend") + "/**/*",
+          src: path.resolve("../frontend") + "/**/*",
           dest: "dist/frontend",
         },
       ],
