@@ -1,3 +1,4 @@
+import cookiesReader from "../../utils/getCookies.js";
 import Model from "./model.js";
 import View from "./view.js";
 
@@ -59,9 +60,16 @@ export default class Controller {
       this.view.$modal.close();
       console.log("Cerraste el modal");
     });
-    this.view.$modalSendButton.addEventListener("click", () => {
+    this.view.$modalSendButton.addEventListener("click", async () => {
       this.view.$modal.close();
-      console.log("Compraste todos los productos");
+      try {
+        const ticketId = await this.model.purchaseProducts();
+        console.log("Compra exitosa");
+        window.location.href =
+          cookiesReader.urlBase + `/api/purchase/ticket/${ticketId}`;
+      } catch (error) {
+        console.log(error);
+      }
     });
   }
 }

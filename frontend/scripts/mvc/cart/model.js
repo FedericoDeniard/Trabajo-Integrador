@@ -71,6 +71,24 @@ class Model {
       }
     });
   }
+
+  async purchaseProducts() {
+    console.log(cart.getProducts());
+    const response = await fetch(`${this.urlBase}/api/purchase`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ products: this.products }),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+    this.clearCart();
+    const data = await response.json();
+    return data.data;
+  }
 }
 
 export default Model;
