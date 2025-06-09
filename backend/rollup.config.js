@@ -26,7 +26,7 @@ export default {
           dest: "dist/frontend",
         },
       ],
-      hook: "buildStart",
+      hook: "writeBundle",
     }),
     nodeExternals(),
     resolve(),

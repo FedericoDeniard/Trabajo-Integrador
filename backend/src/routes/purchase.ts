@@ -4,6 +4,7 @@ import prismaInstance from 'src/services/db'
 import { Request, Response } from 'express'
 import ejs from 'ejs'
 import { MediaByIdsResult } from 'src/scripts/loadDataDb'
+import { KEYS } from 'src/constants/keys'
 
 const __dirname = import.meta.dirname
 
@@ -59,7 +60,11 @@ purchaseRouter.get("/ticket/:id", async (req: Request, res: Response) => {
     const { id } = req.params;
 
     res.render("ticket", {
-        v: lastProduct
+        v: lastProduct,
+        url: {
+            base: KEYS.URL_BASE,
+            port: KEYS.PORT
+        }
     });
 });
 
