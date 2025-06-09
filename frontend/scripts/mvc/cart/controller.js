@@ -11,8 +11,7 @@ export default class Controller {
   async init() {
     this.view.showLoader();
     const products = await this.model.getProducts();
-    this.changeButtonsState();
-    this.view.renderProducts(products);
+    this.renderWrapper();
     this.productButtonsListener();
     this.clearCartCotroller();
     this.modalControllers();
@@ -31,27 +30,25 @@ export default class Controller {
 
       if (target.classList.contains("btn-minus")) {
         this.model.decreaseAmount(productId);
-        this.view.renderProducts(this.model.products);
+        this.renderWrapper();
       }
 
       if (target.classList.contains("btn-plus")) {
         this.model.increaseAmount(productId);
-        this.view.renderProducts(this.model.products);
+        this.renderWrapper();
       }
 
       if (target.classList.contains("btn-cart")) {
         this.model.removeProduct(productId);
-        this.view.renderProducts(this.model.products);
+        this.renderWrapper();
       }
-      this.changeButtonsState();
     });
   }
 
   clearCartCotroller() {
     this.view.$clearCart.addEventListener("click", () => {
       this.model.clearCart();
-      this.view.renderProducts(this.model.products);
-      this.changeButtonsState();
+      this.renderWrapper();
     });
   }
 
@@ -84,5 +81,10 @@ export default class Controller {
       this.view.$buyAll.disabled = false;
       this.view.$clearCart.disabled = false;
     }
+  }
+
+  renderWrapper() {
+    this.changeButtonsState();
+    this.view.renderProducts(this.model.products);
   }
 }
