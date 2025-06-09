@@ -10,7 +10,6 @@ export default class Controller {
 
   async init() {
     this.view.showLoader();
-    const products = await this.model.getProducts();
     this.renderWrapper();
     this.productButtonsListener();
     this.clearCartCotroller();
