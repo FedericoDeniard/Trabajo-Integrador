@@ -11,6 +11,7 @@ export default class Controller {
   async init() {
     this.view.showLoader();
     const products = await this.model.getProducts();
+    this.changeBuyButtonState();
     this.view.renderProducts(products);
     this.productButtonsListener();
     this.clearCartCotroller();
@@ -42,6 +43,7 @@ export default class Controller {
         this.model.removeProduct(productId);
         this.view.renderProducts(this.model.products);
       }
+      this.changeBuyButtonState();
     });
   }
 
@@ -49,6 +51,7 @@ export default class Controller {
     this.view.$clearCart.addEventListener("click", () => {
       this.model.clearCart();
       this.view.renderProducts(this.model.products);
+      this.changeBuyButtonState();
     });
   }
 
@@ -71,5 +74,13 @@ export default class Controller {
         console.log(error);
       }
     });
+  }
+
+  changeBuyButtonState() {
+    if (this.model.products.length === 0) {
+      this.view.$buyAll.disabled = true;
+    } else {
+      this.view.$buyAll.disabled = false;
+    }
   }
 }
