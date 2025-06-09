@@ -5,8 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
   moduleFormat = "esm"
 }
 
@@ -17,81 +17,79 @@ datasource db {
 
 // Models
 
-enum MediaType {
-  movie
-  serie
+model Movie {
+  id            Int      @id @default(autoincrement())
+  duration      Int
+  released_date DateTime @db.Date
+
+  mediaId Int   @unique
+  media   Media @relation("MovieMedia", fields: [mediaId], references: [id])
+}
+
+model Serie {
+  id      Int      @id @default(autoincrement())
+  seasons Season[]
+
+  mediaId Int   @unique
+  media   Media @relation("SerieMedia", fields: [mediaId], references: [id])
 }
 
 model Media {
-  id          Int           @id @default(autoincrement())
-  title       String        @unique @db.VarChar(255)
-  price       Decimal       @db.Decimal(10, 2)
+  id          Int     @id @default(autoincrement())
+  title       String  @unique @db.VarChar(255)
+  price       Decimal @db.Decimal(10, 2)
   thumbnail   String
   description String
-  rate        Decimal         @db.Decimal(2, 1)
+  rate        Decimal @db.Decimal(2, 1)
   available   Boolean
-  type        MediaType
 
-  genres      ProductGenre[]
-  directors   TitleDirector[]
-  movie       Movie?
-  serie      Serie?
+  genres    ProductGenre[]
+  directors TitleDirector[]
+
+  Movie Movie? @relation("MovieMedia")
+  Serie Serie? @relation("SerieMedia")
 }
 
 model Genre {
-  id      Int            @id @default(autoincrement())
-  name    String         @unique @db.VarChar(50)
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(50)
 
-  media   ProductGenre[]
+  media ProductGenre[]
 }
 
 model ProductGenre {
   media_id Int
   genre_id Int
 
-  media    Media @relation(fields: [media_id], references: [id])
-  genre    Genre @relation(fields: [genre_id], references: [id])
+  media Media @relation(fields: [media_id], references: [id])
+  genre Genre @relation(fields: [genre_id], references: [id])
 
   @@id([media_id, genre_id])
 }
 
 model Director {
-  id      Int             @id @default(autoincrement())
-  name    String          @unique @db.VarChar(100)
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
 
-  titles  TitleDirector[]
+  titles TitleDirector[]
 }
 
 model TitleDirector {
   media_id    Int
   director_id Int
 
-  media       Media    @relation(fields: [media_id], references: [id])
-  director    Director @relation(fields: [director_id], references: [id])
+  media    Media    @relation(fields: [media_id], references: [id])
+  director Director @relation(fields: [director_id], references: [id])
 
   @@id([media_id, director_id])
 }
 
-model Movie {
-  media_id     Int    @id
-  duration     Int
-  released_date DateTime @db.Date
-
-  media        Media  @relation(fields: [media_id], references: [id])
-}
-
-model Serie {
-  media_id Int   @id
-
-  media    Media  @relation(fields: [media_id], references: [id])
-  seasons  Season[]
-}
-
 model Season {
-  id        Int    @id @default(autoincrement())
-  serie_id  Int
-  number    Int
+  id             Int      @id @default(autoincrement())
+  serie_id       Int
+  number         Int
   total_episodes Int
+  released_date  DateTime @db.Date
 
-  series    Serie @relation(fields: [serie_id], references: [media_id])
+  serie Serie @relation(fields: [serie_id], references: [id])
 }

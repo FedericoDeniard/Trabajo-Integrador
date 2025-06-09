@@ -23,20 +23,7 @@ export default class View {
       return;
     }
     products.forEach((product) => {
-      const productCard = createCardMedia({
-        id: product.id,
-        title: product.title,
-        date: product.date,
-        directors: product.directors,
-        rate: product.rate,
-        thumbnail: product.thumbnail,
-        description: product.description,
-        genres: product.genres,
-        price: product.price,
-        seasons: product.seasons,
-        amount: product.amount,
-        cart: true,
-      });
+      const productCard = createCardMedia({ ...product });
       this.$products.innerHTML += productCard;
     });
   }

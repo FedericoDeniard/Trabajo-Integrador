@@ -14,7 +14,7 @@ productsRouter.get("/ids", async (req: Request, res: Response) => {
     const { ids } = req.query;
     if (ids && typeof ids === "string") {
         const convertedIds = ids.split(",").map((id: string) => parseInt(id));
-        const products = await prismaInstance.getProductsByIds(convertedIds);
+        const products = await prismaInstance.getMediasByIds(convertedIds);
         res.json(new ResponseObject(true, products, "Products list successfully retrieved"))
     } else {
         throw new HttpError(400, "Invalid ids")
