@@ -47,22 +47,23 @@ class PrismaService {
 
     async getMediasByIds(ids: number[]) {
         try {
-            const movies = await this.client.movie.findMany({
-                where: {
-                    media: {
-                        id: { in: ids }
-                    }
-                },
-                include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
-            })
-            const series = await this.client.serie.findMany({
-                where: {
-                    media: {
-                        id: { in: ids }
-                    }
-                },
-                include: { seasons: true, media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
-            })
+            const [movies, series] = await Promise.all([
+                await this.client.movie.findMany({
+                    where: {
+                        media: {
+                            id: { in: ids }
+                        }
+                    },
+                    include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
+                }),
+                await this.client.serie.findMany({
+                    where: {
+                        media: {
+                            id: { in: ids }
+                        }
+                    },
+                    include: { seasons: true, media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
+                })])
             return [...movies, ...series]
         } catch (error) {
             throw new HttpError(500, "Error retrieving products by ids");
