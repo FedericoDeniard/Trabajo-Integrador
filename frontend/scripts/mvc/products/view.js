@@ -30,7 +30,7 @@ class View {
                 price: p.price,
                 seasons: p.seasons,
                 ammount: 1,
-                cart: true
+                cart: false
             });
         })
     this.$products.innerHTML += htmlText;
