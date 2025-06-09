@@ -20,7 +20,10 @@
             <div class="product-details">
               <span class="product-amount">Cantidad: <%= p.amount %></span>
               <span class="product-price"
-                >$<%= p.price ? p.price.toFixed(2) : '0.00' %></span
+                >Precio unitario: $<%= p.media.price %></span
+              >
+              <span class="product-subtotal"
+                >Subtotal: $<%= p.media.price * p.amount %></span
               >
             </div>
           </div>
@@ -29,6 +32,10 @@
       </ul>
       <div>
         <strong>Total de productos: <%= v.length %></strong>
+        <strong
+          >Total: $<%= v.reduce((acc, p) => acc + (p.media.price * p.amount), 0)
+          %></strong
+        >
       </div>
     </div>
   </body>
