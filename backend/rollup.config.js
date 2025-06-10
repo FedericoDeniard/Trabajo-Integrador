@@ -18,6 +18,8 @@ export default {
 
     copy({
       targets: [
+        { src: "src/views", dest: "dist" },
+        { src: "src/public", dest: "dist" },
         {
           src: "../frontend/**/*",
           dest: "dist/frontend",

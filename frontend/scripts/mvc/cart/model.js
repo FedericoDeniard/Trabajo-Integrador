@@ -72,13 +72,13 @@ class Model {
   }
 
   async purchaseProducts() {
-    console.log(cart.getProducts());
+    const productsToBuy = await this.getProducts();
     const response = await fetch(`${this.urlBase}/api/purchase`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ products: this.products }),
+      body: JSON.stringify({ products: productsToBuy }),
     });
     if (!response.ok) {
       const errorData = await response.json();
