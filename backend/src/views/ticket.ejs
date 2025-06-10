@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/ticket.css" />
+    <link rel="stylesheet" href="/styles/componentes/general.css" />
+    <link rel="stylesheet" href="/styles/componentes/buttons.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>¡Tu compra fue exitosa!</h1>
+
+      <ul class="product-list">
+        <% v.forEach(p => { %>
+        <li class="product-item">
+          <div class="product-info">
+            <div class="product-title"><%= p.media.title %></div>
+            <div class="product-details">
+              <span class="product-amount">Cantidad: <%= p.amount %></span>
+              <span class="product-price"
+                >Precio unitario: $<%= p.media.price %></span
+              >
+              <span class="product-subtotal"
+                >Subtotal: $<%= p.media.price * p.amount %></span
+              >
+            </div>
+          </div>
+        </li>
+        <% }) %>
+      </ul>
+      <div class="total-container">
+        <!-- <p>Total de productos: <%= v.length %></p> -->
+        <p>
+          Total: $<%= v.reduce((acc, p) => acc + (p.media.price * p.amount), 0)
+          %>
+        </p>
+      </div>
+      <div class="button-container">
+        <button class="button" onclick="window.close()">
+          Volver al inicio
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

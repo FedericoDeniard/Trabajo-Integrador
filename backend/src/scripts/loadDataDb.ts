@@ -314,20 +314,25 @@ const products = [
 
 ];
 
-type MovieWithRelations = Prisma.MovieGetPayload<{
+export type MovieWithRelations = Prisma.MovieGetPayload<{
   include: {
     media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } }
   }
 }>
-type SerieWithRelations = Prisma.SerieGetPayload<{
+
+export type SerieWithRelations = Prisma.SerieGetPayload<{
   include: {
-    media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } }, seasons: { include: { episodes: true } } } }
+    seasons: true,
+    media: {
+      include: {
+        genres: { include: { genre: true } },
+        directors: { include: { director: true } }
+      }
+    }
   }
 }>
 
-
-const movies: MovieWithRelations[] = [];
-const series: SerieWithRelations[] = [];
+export type MediaByIdsResult = (MovieWithRelations | SerieWithRelations);
 
 export const createProducts = async () => {
   await prismaInstance.connect();

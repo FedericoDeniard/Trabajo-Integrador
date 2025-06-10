@@ -3,6 +3,7 @@ import typescript from "@rollup/plugin-typescript";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import { nodeExternals } from "rollup-plugin-node-externals";
+import del from "rollup-plugin-delete";
 import copy from "rollup-plugin-copy";
 
 export default {
@@ -13,14 +14,18 @@ export default {
     sourcemap: true,
   },
   plugins: [
+    del({ targets: "dist/*" }),
+
     copy({
       targets: [
+        { src: "src/views", dest: "dist" },
+        { src: "src/public", dest: "dist" },
         {
           src: "../frontend/**/*",
           dest: "dist/frontend",
         },
       ],
-      hook: "buildStart",
+      hook: "writeBundle",
     }),
     nodeExternals(),
     resolve(),

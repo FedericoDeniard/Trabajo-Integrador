@@ -13,13 +13,12 @@ class Model {
     const ids = this.products.map((p) => p.id);
     const products = await this.#fetchProductByIds(ids);
     for (const id of ids) {
-      const product = products.find((p) => p.id === id);
+      const product = products.find((p) => p.mediaId === id);
       if (product) {
         product.amount = this.products.find((p) => p.id === id).amount;
         product.cart = true;
       }
     }
-    this.products = products;
     return products;
   }
 
@@ -70,6 +69,24 @@ class Model {
         product.amount = productSaved.amount;
       }
     });
+  }
+
+  async purchaseProducts() {
+    const productsToBuy = await this.getProducts();
+    const response = await fetch(`${this.urlBase}/api/purchase`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ products: productsToBuy }),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+    this.clearCart();
+    const data = await response.json();
+    return data.data;
   }
 }
 

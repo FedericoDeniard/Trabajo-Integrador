@@ -1,3 +1,4 @@
+import cookiesReader from "../../utils/getCookies.js";
 import Model from "./model.js";
 import View from "./view.js";
 
@@ -9,8 +10,7 @@ export default class Controller {
 
   async init() {
     this.view.showLoader();
-    const products = await this.model.getProducts();
-    this.view.renderProducts(products);
+    this.renderWrapper();
     this.productButtonsListener();
     this.clearCartCotroller();
     this.modalControllers();
@@ -29,17 +29,17 @@ export default class Controller {
 
       if (target.classList.contains("btn-minus")) {
         this.model.decreaseAmount(productId);
-        this.view.renderProducts(this.model.products);
+        this.renderWrapper();
       }
 
       if (target.classList.contains("btn-plus")) {
         this.model.increaseAmount(productId);
-        this.view.renderProducts(this.model.products);
+        this.renderWrapper();
       }
 
       if (target.classList.contains("btn-cart")) {
         this.model.removeProduct(productId);
-        this.view.renderProducts(this.model.products);
+        this.renderWrapper();
       }
     });
   }
@@ -47,7 +47,7 @@ export default class Controller {
   clearCartCotroller() {
     this.view.$clearCart.addEventListener("click", () => {
       this.model.clearCart();
-      this.view.renderProducts(this.model.products);
+      this.renderWrapper();
     });
   }
 
@@ -59,9 +59,32 @@ export default class Controller {
       this.view.$modal.close();
       console.log("Cerraste el modal");
     });
-    this.view.$modalSendButton.addEventListener("click", () => {
+    this.view.$modalSendButton.addEventListener("click", async () => {
       this.view.$modal.close();
-      console.log("Compraste todos los productos");
+      try {
+        const ticketResponse = await this.model.purchaseProducts();
+        console.log("Compra exitosa");
+        const newWindow = window.open("");
+        newWindow.document.body.innerHTML = ticketResponse.html;
+        window.location.href = cookiesReader.urlBase;
+      } catch (error) {
+        console.log(error);
+      }
     });
+  }
+
+  changeButtonsState() {
+    if (this.model.products.length === 0) {
+      this.view.$buyAll.disabled = true;
+      this.view.$clearCart.disabled = true;
+    } else {
+      this.view.$buyAll.disabled = false;
+      this.view.$clearCart.disabled = false;
+    }
+  }
+
+  async renderWrapper() {
+    this.changeButtonsState();
+    this.view.renderProducts(await this.model.getProducts());
   }
 }
