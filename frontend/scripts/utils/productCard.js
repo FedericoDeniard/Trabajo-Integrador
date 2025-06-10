@@ -26,28 +26,46 @@ export default function createCardMedia({
     : "";
 
   return `<div class="product-card" data-id="${id}">
-        <h2>${media.title}
-        ${
-          released_dateFormated ? `<em>(${released_dateFormated})</em>` : ""
-        }</h2>
-        <p>${media.directors.map((d) => d.director.name).join(", ")}</p>
-        ${seasons ? `<p>${seasons.length} temporadas</p>` : ""}
-        <span>${media.rate}</span>
+        <div class="header">
+          <div class="left-header">
+            <h2><span>${media.title}</span>
+             ${
+               released_dateFormated
+                 ? `<em>(${released_dateFormated})</em>`
+                 : ""
+             }</h2>
+            <p class="sub-directors">${media.directors
+              .map((d) => d.director.name)
+              .join(", ")}</p>
+            ${seasons ? `<p>${seasons.length} temporadas</p>` : ""}
+          </div>
+          <div class="right-header">
+            <span>✮${media.rate}</span>
+          </div>
+        </div>
+
         <img src="${media.thumbnail}" alt="${media.title}"/>
-        <p>Descripción: ${media.description}</p>
-        <p>Géneros: ${media.genres.map((g) => g.genre.name).join(", ")}</p>
+        <p class="description"><b>Descripción:</b> ${media.description}</p>
+        <p class="genres"><b>Géneros:</b> ${media.genres
+          .map((g) => g.genre.name)
+          .join(", ")}</p>
         
-        <form>
-            <div>
+        <form class="card-form">
+            <div class="form-left">
+              <label>Meses a alquilar</label>
+              <div class="quantity-btns">
                 <button type="button" class="btn-minus">-</button>
-                <input type="number" value="${amount}" min="1" max="5" />
+                <input type="text" value="${amount}" disabled/>
                 <button type="button" class="btn-plus">+</button>
+              </div>
             </div>
 
-            <p>$<span>${media.price}</span></p>
-            <button type="submit" class="btn-cart">${
-              cart ? "Quitar del carrito" : "Agregar al carrito"
-            }</button>
+            <div class="form-right">
+              <p class="price">$<span>${media.price}</span></p>
+              <button type="submit" class="btn-cart">${
+                cart ? "Quitar del carrito" : "Agregar al carrito"
+              }</button>
+            </div>
         </form>
     </div>`;
 }
