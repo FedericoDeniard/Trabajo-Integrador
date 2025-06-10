@@ -19,7 +19,7 @@ class View {
       return;
     }
     products.forEach((p) => {
-      const product = { ...p, amount: 1, cart: true };
+      const product = { ...p, amount: 1, cart: false };
       htmlText += createCardMedia(product);
     });
     this.$products.innerHTML += htmlText;

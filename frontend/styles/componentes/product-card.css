@@ -1,15 +1,134 @@
 .product-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
+  /*align-items: center;*/
+  justify-content: space-between;
+  /*gap: 1rem;*/
   background-color: #3b83f6;
-  border-radius: 10px;
-  padding: 10px;
+  border-radius: 20px;
+  margin: 20px;
+  padding: 20px;
   width: 350px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: scale(1.03);
 }
 
 .product-card img {
   width: 90%;
+  margin: 0.8rem;
+}
+
+.product-card h2 {
+  font-size: 2rem;
+}
+
+/* .product-card h2 em {
+  font-style: italic;
+  font-size: 1.2rem;
+} */
+
+.sub-directors {
+  font-size: 0.9rem;
+  padding-top: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.left-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.right-header {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  font-weight: 640;
+}
+
+.description {
+  text-align: left;
+  text-wrap: pretty;
+  padding-bottom: 0.2rem;
+}
+
+.genres {
+  font-style: italic;
+  padding-bottom: 0.2rem;
+}
+
+.card-form {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.form-left label {
+  font-weight: bold;
+}
+
+.form-right {
+  font-size: 1.5rem;
+  font-weight: bold;
+  align-self: stretch;
+  text-align: right;
+}
+
+.quantity-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.quantity-btns input {
+  width: 50px;
+  text-align: center;
+  padding: 3px 7px;
+  background-color: transparent;
+  border: none;
+  color: #000000;
+  font-weight: 500;
+  font-size: 1.3rem;
+  box-shadow: none;
+  outline: none;
+}
+
+.btn-minus,
+.btn-plus,
+.btn-cart {
+  background-color: #fff;
+  border: 1px solid #000000;
+  color: #000000;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  border-radius: 5px;
+  font-size: 13px;
+  padding: 3px 7px;
+}
+
+.form-right .price {
+  font-size: 2rem;
+  font-weight: bold;
+  align-self: stretch;
+  text-align: right;
 }
