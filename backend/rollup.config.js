@@ -17,10 +17,11 @@ export default {
     copy({
       targets: [
         {
-          src: path.resolve("../frontend") + "/**/*",
-          dest: "dist/frontend",
+          src: path.join("..", "frontend", "**", "*"),
+          dest: path.join("dist", "frontend"),
         },
       ],
+      verbose: true,
       hook: "buildStart",
     }),
     nodeExternals(),
