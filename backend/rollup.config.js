@@ -4,7 +4,6 @@ import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import { nodeExternals } from "rollup-plugin-node-externals";
 import copy from "rollup-plugin-copy";
-import path from "path";
 
 export default {
   input: "src/index.ts",
@@ -17,11 +16,10 @@ export default {
     copy({
       targets: [
         {
-          src: path.join("..", "frontend", "**", "*"),
-          dest: path.join("dist", "frontend"),
+          src: "../frontend/**/*",
+          dest: "dist/frontend",
         },
       ],
-      verbose: true,
       hook: "buildStart",
     }),
     nodeExternals(),
