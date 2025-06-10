@@ -9,11 +9,7 @@ class Controller {
 
   async init() {
     const products = await this.model.getProducts();
-    const productsWithNoImage = products.map((p) => {
-      p.media.thumbnail = "";
-      return p;
-    });
-    this.view.loadProducts(productsWithNoImage);
+    this.view.loadProducts(products);
   }
 }
 
