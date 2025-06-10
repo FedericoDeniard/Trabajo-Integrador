@@ -66,6 +66,7 @@ export default class Controller {
         console.log("Compra exitosa");
         const newWindow = window.open("");
         newWindow.document.body.innerHTML = ticketResponse.html;
+        window.location.href = cookiesReader.urlBase;
       } catch (error) {
         console.log(error);
       }
