@@ -62,10 +62,10 @@ export default class Controller {
     this.view.$modalSendButton.addEventListener("click", async () => {
       this.view.$modal.close();
       try {
-        const ticketId = await this.model.purchaseProducts();
+        const ticketResponse = await this.model.purchaseProducts();
         console.log("Compra exitosa");
-        window.location.href =
-          cookiesReader.urlBase + `/api/purchase/ticket/${ticketId}`;
+        const newWindow = window.open("");
+        newWindow.document.body.innerHTML = ticketResponse.html;
       } catch (error) {
         console.log(error);
       }
@@ -82,8 +82,8 @@ export default class Controller {
     }
   }
 
-  renderWrapper() {
+  async renderWrapper() {
     this.changeButtonsState();
-    this.view.renderProducts(this.model.products);
+    this.view.renderProducts(await this.model.getProducts());
   }
 }

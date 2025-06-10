@@ -47,8 +47,20 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
         const ticketId = Math.ceil(Math.random() * 10)
 
         lastProduct = ticketProducts
+        const ticketHtml = await new Promise<string>((resolve, reject) => {
+            res.render("ticket", {
+                v: lastProduct,
+                url: {
+                    base: KEYS.URL_BASE,
+                    port: KEYS.PORT
+                }
+            }, (err, html) => {
+                if (err) reject(err);
+                else resolve(html);
+            });
+        });
 
-        res.status(201).json(new ResponseObject(true, ticketId, "Purchase successfully created"))
+        res.status(201).json(new ResponseObject(true, { ticketId: ticketId, html: ticketHtml }, "Purchase successfully created"))
         return
     }
     catch (error) {
@@ -56,15 +68,15 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
     }
 })
 
-purchaseRouter.get("/ticket/:id", async (req: Request, res: Response) => {
-    const { id } = req.params;
+// purchaseRouter.get("/ticket/:id", async (req: Request, res: Response) => {
+//     const { id } = req.params;
 
-    res.render("ticket", {
-        v: lastProduct,
-        url: {
-            base: KEYS.URL_BASE,
-            port: KEYS.PORT
-        }
-    });
-});
+//     res.render("ticket", {
+//         v: lastProduct,
+//         url: {
+//             base: KEYS.URL_BASE,
+//             port: KEYS.PORT
+//         }
+//     });
+// });
 

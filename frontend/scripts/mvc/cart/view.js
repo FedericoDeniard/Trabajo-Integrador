@@ -23,6 +23,7 @@ export default class View {
       return;
     }
     products.forEach((product) => {
+      console.log(product);
       const productCard = createCardMedia({ ...product });
       this.$products.innerHTML += productCard;
     });
