@@ -25,7 +25,7 @@ export default function createCardMedia({
     ? formateDate(seasons[0].released_date)
     : "";
 
-  return `<div class="product-card" data-id="${id}">
+  return `<div class="product-card" data-id="${media.id}">
         <div class="header">
           <div class="left-header">
             <h2><span>${media.title}</span>

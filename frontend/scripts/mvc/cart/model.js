@@ -13,13 +13,12 @@ class Model {
     const ids = this.products.map((p) => p.id);
     const products = await this.#fetchProductByIds(ids);
     for (const id of ids) {
-      const product = products.find((p) => p.id === id);
+      const product = products.find((p) => p.mediaId === id);
       if (product) {
         product.amount = this.products.find((p) => p.id === id).amount;
         product.cart = true;
       }
     }
-    this.products = products;
     return products;
   }
 
