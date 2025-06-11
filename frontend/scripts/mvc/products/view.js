@@ -24,6 +24,15 @@ class View {
     });
     this.$products.innerHTML += htmlText;
   }
+
+  updateCard(card, product) {
+    const input = card.querySelector('.amount');
+    const priceSpan = card.querySelector('.price-span');
+
+    const amount = product.amount;
+    input.value = amount;
+    priceSpan.textContent = (product.price * amount).toFixed(2);
+  }
 }
 
 export default View;

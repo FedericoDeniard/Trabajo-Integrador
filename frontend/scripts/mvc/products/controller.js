@@ -14,7 +14,7 @@ class Controller {
   async init() {
     const products = await this.model.getProducts();
     this.view.loadProducts(products);
-    this.view.$products.addEventListener("click", (b) => this.cardButtonsHandler(b));
+    this.cardButtonsHandler();
   }
 
   logoutController() {
@@ -29,43 +29,67 @@ class Controller {
     }
   }
 
-  cardButtonsHandler(b) {
-    const minus = b.target.classList.contains('btn-minus');
-    const plus = b.target.classList.contains('btn-plus');
-    const addToCart = b.target.classList.contains('btn-cart');
-
-    if(addToCart) {
-
-    } else if (minus || plus) {
+  cardButtonsHandler() {
+    this.view.$products.addEventListener("click", (b) => {
       const card = b.target.closest('.product-card');
-      const id = card.dataset.id;
-      const input = card.querySelector('.ammount');
-      const priceSpan = card.querySelector('.price-span');
+      const id = Number(card.dataset.id);
+      const product = this.model.products.find(p => p.id === id);
 
-      const product = this.model.products.find(p => p.media.id == id);
-      if (!product) throw new Error("Producto no encontrado");
+      const minus = b.target.classList.contains('btn-minus');
+      const plus = b.target.classList.contains('btn-plus');
+      const addToCart = b.target.classList.contains('btn-cart');
 
-      const unitaryPrice = product.media.price;
-      let currentAmmount = parseInt(input.value);
-      let currentPrice = unitaryPrice;
-
-      if (minus && currentAmmount > 1) {
-        currentAmmount--;
-        currentPrice = unitaryPrice * currentAmmount;
-      }
-      if (plus) {
-        currentAmmount++;
-        currentPrice = unitaryPrice * currentAmmount;
+      if(minus) {
+        this.model.decreaseAmount(id);
+        this.view.updateCard(card, product);
       }
 
-      input.value = currentAmmount;
-      priceSpan.textContent = currentPrice;
-    } else {
-      throw new Error("No se detectó ningún botón");
-    } 
+      if(plus) {
+        this.model.increaseAmount(id);
+        this.view.updateCard(card, product);
+      }
+
+      if(addToCart) {
+
+      }
+    });
+
+    // if(addToCart) {
+
+    // } else if (minus || plus) {
+    //   this.#cardAmmountPrice(minus, plus, b);
+    // } else {
+    //   throw new Error("No se detectó ningún botón");
+    // } 
   }
 
+  // #cardAmmountPrice(minus, plus, b) {
+  //   const card = b.target.closest('.product-card');
+  //     const id = card.dataset.id;
+  //     const input = card.querySelector('.amount');
+  //     const priceSpan = card.querySelector('.price-span');
 
+  //     const product = this.model.products.find(p => p.media.id == id);
+  //     if (!product) throw new Error("Producto no encontrado");
+
+  //     const unitaryPrice = product.media.price;
+  //     let currentAmount = parseInt(input.value);
+  //     let currentPrice = unitaryPrice;
+
+  //     if (minus && currentAmount > 1) {
+  //       currentAmount--;
+  //       currentPrice = unitaryPrice * currentAmount;
+  //     }
+  //     if (plus) {
+  //       currentAmount++;
+  //       currentPrice = unitaryPrice * currentAmount;
+  //     }
+
+  //     input.value = currentAmount;
+  //     priceSpan.textContent = currentPrice;
+
+  //     product.media.amount = currentAmount;
+  // }
 }
 
 export default Controller;

@@ -2,7 +2,7 @@ export default function createCardMedia({
   duration = undefined,
   id,
   media,
-  amount = 0,
+  amount = 1,
   mediaId,
   released_date = undefined,
   seasons = undefined,
@@ -55,13 +55,13 @@ export default function createCardMedia({
               <label>Meses a alquilar</label>
               <div class="quantity-btns">
                 <button type="button" class="btn-minus">-</button>
-                <input type="text" value="${amount == 0? amount + 1 : amount}" disabled class="ammount"/>
+                <input type="text" value="${amount}" disabled class="amount"/>
                 <button type="button" class="btn-plus">+</button>
               </div>
             </div>
 
             <div class="form-right">
-              <p class="price">$<span class="price-span">${media.price}</span></p>
+              <p class="price">$<span class="price-span">${media.price * amount}</span></p>
               <button type="submit" class="btn-cart">${
                 cart ? "Quitar del carrito" : "Agregar al carrito"
               }</button>
