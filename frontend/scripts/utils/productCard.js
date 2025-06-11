@@ -29,11 +29,11 @@ export default function createCardMedia({
         <div class="header">
           <div class="left-header">
             <h2><span>${media.title}</span>
-             ${
-               released_dateFormated
-                 ? `<em>(${released_dateFormated})</em>`
-                 : ""
-             }</h2>
+            ${
+              released_dateFormated
+                ? `<em>(${released_dateFormated})</em>`
+                : ""
+            }</h2>
             <p class="sub-directors">${media.directors
               .map((d) => d.director.name)
               .join(", ")}</p>
