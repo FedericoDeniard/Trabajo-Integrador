@@ -73,7 +73,5 @@ export default function createCardMedia({
 const formateDate = (date) => {
   let dateFormated = new Date(date);
   const year = dateFormated.getFullYear();
-  const month = dateFormated.getMonth() + 1;
-  const day = dateFormated.getDate();
-  return `${year}-${month}-${day}`;
+  return `${year}`;
 };
