@@ -17,7 +17,7 @@ app.use(express.json())
 app.set("view engine", "ejs")
 app.set('views', path.join(__dirname, 'views'))
 
-app.use((req, res, next) => {
+app.use((_req, res, next) => {
   res.cookie("url_base", `${KEYS.URL_BASE}:${KEYS.PORT}`, { httpOnly: false })
   next();
 })

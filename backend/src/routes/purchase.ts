@@ -2,11 +2,8 @@ import express from 'express'
 import { HttpError, ResponseObject } from 'src/middlewares/errorHandler'
 import prismaInstance from 'src/services/db'
 import { Request, Response } from 'express'
-import ejs from 'ejs'
 import { MediaByIdsResult } from 'src/scripts/loadDataDb'
 import { KEYS } from 'src/constants/keys'
-
-const __dirname = import.meta.dirname
 
 export const purchaseRouter = express.Router()
 
@@ -67,16 +64,3 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
         throw new HttpError(500, "Error creating purchase")
     }
 })
-
-// purchaseRouter.get("/ticket/:id", async (req: Request, res: Response) => {
-//     const { id } = req.params;
-
-//     res.render("ticket", {
-//         v: lastProduct,
-//         url: {
-//             base: KEYS.URL_BASE,
-//             port: KEYS.PORT
-//         }
-//     });
-// });
-
