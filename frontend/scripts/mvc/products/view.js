@@ -25,13 +25,13 @@ class View {
     this.$products.innerHTML += htmlText;
   }
 
-  updateCard(card, product) {
+  updateCard(card, product, unitaryPrice) {
     const input = card.querySelector('.amount');
     const priceSpan = card.querySelector('.price-span');
 
     const amount = product.amount;
     input.value = amount;
-    priceSpan.textContent = (product.price * amount).toFixed(2);
+    priceSpan.textContent = (unitaryPrice * amount).toFixed(2);
   }
 }
 
