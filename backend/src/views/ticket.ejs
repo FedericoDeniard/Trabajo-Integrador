@@ -12,7 +12,9 @@
   </head>
   <body>
     <div class="container">
-      <h1>¡Tu compra fue exitosa!</h1>
+      <% if (user) { %>
+      <h1><%= user %> ¡Tu compra fue exitosa!</h1>
+      <% } %>
 
       <ul class="product-list">
         <% v.forEach(p => { %>
@@ -39,11 +41,13 @@
           %>
         </p>
       </div>
+      <% if (!print) { %>
       <div class="button-container">
         <button class="button" onclick="window.close()">
           Volver al inicio
         </button>
       </div>
+      <% } %>
     </div>
   </body>
 </html>

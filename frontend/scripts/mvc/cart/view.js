@@ -7,6 +7,7 @@ export default class View {
     this.$loader = this.$("general-loader");
     this.$clearCart = this.$("clear-cart");
     this.$buyAll = this.$("buy-all");
+    this.$logout = this.$("logout");
     this.#createModal();
   }
 

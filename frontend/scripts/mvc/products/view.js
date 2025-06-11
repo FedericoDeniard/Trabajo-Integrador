@@ -5,6 +5,7 @@ class View {
     this.$products = this.$("products");
     this.chboxPeliculas = this.$("peliculas");
     this.chboxSeries = this.$("series");
+    this.$logout = this.$("logout");
   }
 
   $(id) {
