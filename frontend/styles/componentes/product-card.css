@@ -1,9 +1,7 @@
 .product-card {
   display: flex;
   flex-direction: column;
-  /*align-items: center;*/
   justify-content: space-between;
-  /*gap: 1rem;*/
   background-color: #3b83f6;
   border-radius: 20px;
   margin: 20px;
@@ -28,10 +26,12 @@
   font-size: 2rem;
 }
 
-/* .product-card h2 em {
+.product-card h2 em {
   font-style: italic;
-  font-size: 1.2rem;
-} */
+  font-size: 1.3rem;
+  font-weight: bolder;
+  opacity: 0.7;
+}
 
 .sub-directors {
   font-size: 0.9rem;
