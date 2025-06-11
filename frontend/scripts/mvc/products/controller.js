@@ -32,6 +32,8 @@ class Controller {
 
   cardButtonsHandler() {
     this.view.$products.addEventListener("click", (b) => {
+      b.preventDefault();
+
       const card = b.target.closest('.product-card');
       const id = Number(card.dataset.id);
       const product = this.model.products.find(p => p.id === id);
