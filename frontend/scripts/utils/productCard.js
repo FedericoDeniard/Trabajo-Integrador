@@ -55,7 +55,7 @@ export default function createCardMedia({
               <label>Meses a alquilar</label>
               <div class="quantity-btns">
                 <button type="button" class="btn-minus">-</button>
-                <input type="text" value="${amount}" disabled/>
+                <input type="text" value="${amount == 0? amount + 1 : amount}" disabled class="ammount"/>
                 <button type="button" class="btn-plus">+</button>
               </div>
             </div>
