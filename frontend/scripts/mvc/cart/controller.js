@@ -1,4 +1,5 @@
 import cookiesReader from "../../utils/getCookies.js";
+import userManager from "../../utils/user.js";
 import Model from "./model.js";
 import View from "./view.js";
 
@@ -9,12 +10,14 @@ export default class Controller {
   }
 
   async init() {
+    this.checkUser();
     this.view.showLoader();
     this.renderWrapper();
     this.productButtonsListener();
     this.clearCartCotroller();
     this.modalControllers();
     this.view.hideLoader();
+    this.logoutController();
   }
 
   productButtonsListener() {
@@ -66,6 +69,7 @@ export default class Controller {
         console.log("Compra exitosa");
         const newWindow = window.open("");
         newWindow.document.body.innerHTML = ticketResponse.html;
+        userManager.logout();
         window.location.href = cookiesReader.urlBase;
       } catch (error) {
         console.log(error);
@@ -86,5 +90,17 @@ export default class Controller {
   async renderWrapper() {
     this.changeButtonsState();
     this.view.renderProducts(await this.model.getProducts());
+  }
+
+  logoutController() {
+    this.view.$logout.addEventListener("click", () => {
+      userManager.logout();
+    });
+  }
+
+  checkUser() {
+    if (!userManager.isLogged()) {
+      window.location.href = cookiesReader.urlBase;
+    }
   }
 }

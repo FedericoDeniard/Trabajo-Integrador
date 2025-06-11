@@ -28,9 +28,12 @@ class PurchaseProduct {
 let lastProduct = {} // Esto es temporal, debería consultar a la db
 
 purchaseRouter.post("/", async (req: Request, res: Response) => {
-    const { products } = req.body
+    const { products, username } = req.body
     if (!products) {
         throw new HttpError(400, "Missing products")
+    }
+    if (!username) {
+        throw new HttpError(400, "Missing username")
     }
 
     try {
@@ -50,10 +53,16 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
                 url: {
                     base: KEYS.URL_BASE,
                     port: KEYS.PORT
-                }
+                },
+                user: username,
+                print: false
             }, (err, html) => {
-                if (err) reject(err);
-                else resolve(html);
+                if (err) {
+                    console.log("Error rendering ticket:", err);
+                    reject(err);
+                } else {
+                    resolve(html);
+                }
             });
         });
 

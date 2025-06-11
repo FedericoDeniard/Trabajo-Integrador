@@ -1,5 +1,6 @@
 import cart from "../../utils/cart.js";
 import cookiesReader from "../../utils/getCookies.js";
+import userManager from "../../utils/user.js";
 
 class Model {
   products = [];
@@ -73,12 +74,13 @@ class Model {
 
   async purchaseProducts() {
     const productsToBuy = await this.getProducts();
+    const username = userManager.user;
     const response = await fetch(`${this.urlBase}/api/purchase`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ products: productsToBuy }),
+      body: JSON.stringify({ products: productsToBuy, username }),
     });
     if (!response.ok) {
       const errorData = await response.json();
