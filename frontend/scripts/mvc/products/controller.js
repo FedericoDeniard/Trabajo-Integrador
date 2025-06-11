@@ -2,6 +2,7 @@ import Model from "./model.js";
 import View from "./view.js";
 import userManager from "../../utils/user.js";
 import cookiesReader from "../../utils/getCookies.js";
+import cart from "../../utils/cart.js";
 
 class Controller {
   constructor() {
@@ -51,7 +52,7 @@ class Controller {
       }
 
       if(addToCart) {
-
+        cart.addProduct({id: product.id, amount: product.amount});
       }
     });
   }
