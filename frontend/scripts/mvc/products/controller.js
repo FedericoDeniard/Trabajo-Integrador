@@ -15,6 +15,7 @@ class Controller {
     this.view.showLoader();
     const products = await this.model.getProducts();
     this.view.loadProducts(products);
+    console.log(products);
     this.cardButtonsHandler();
     this.view.hideLoader();
     this.logoutController();
