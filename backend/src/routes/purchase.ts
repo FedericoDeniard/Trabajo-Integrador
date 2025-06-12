@@ -38,6 +38,7 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
     }
 
     try {
+
         const purchaseProducts = products.map((product: any) => new PurchaseProduct(product.mediaId, product.amount))
         const productsId = purchaseProducts.map((p: PurchaseProduct) => p.mediaId)
         const mediaProducts = await prismaInstance.getMediasByIds(productsId)
@@ -46,7 +47,6 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
             amount: purchaseProducts.find((pp: PurchaseProduct) => pp.mediaId === p.id).amount
         }))
         const ticketId = Math.ceil(Math.random() * 10)
-
         lastProduct = ticketProducts
         const ticketHtml = await generateTicketHTML({ products: lastProduct, username, print: false })
         const token = generateTicketJwt(ticketId)
@@ -55,6 +55,9 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
         return
     }
     catch (error) {
+        if (error instanceof HttpError) {
+            throw error
+        }
         throw new HttpError(500, "Error creating purchase")
     }
 })
