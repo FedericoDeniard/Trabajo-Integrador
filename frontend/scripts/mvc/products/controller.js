@@ -16,7 +16,6 @@ class Controller {
     const products = await this.model.getProducts();
     this.view.loadProducts(products);
     this.cardButtonsHandler();
-    console.log(products);
   }
 
   logoutController() {
@@ -38,7 +37,6 @@ class Controller {
       const card = b.target.closest('.product-card');
       const id = Number(card.dataset.id);
       const product = this.model.products.find(p => p.mediaId === id);
-      console.log(product);
       const unitaryPrice = product.media.price;
 
       const minus = b.target.classList.contains('btn-minus');
