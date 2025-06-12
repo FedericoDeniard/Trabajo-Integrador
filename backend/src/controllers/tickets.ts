@@ -38,8 +38,10 @@ interface UrlType {
     port: typeof KEYS.PORT
 }
 
+type ProductWithAmount = MediaByIdsResult & { amount: number }
+
 interface GenerateTicketParams {
-    products: MediaByIdsResult[]
+    products: ProductWithAmount[]
     username: string | false
     print: boolean
     url?: UrlType
