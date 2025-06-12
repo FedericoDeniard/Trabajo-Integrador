@@ -4,7 +4,7 @@ import prismaInstance, { MediaByIdsResult } from 'src/services/db'
 import { Request, Response } from 'express'
 import { KEYS } from 'src/constants/keys'
 import jwt from 'jsonwebtoken'
-import { generatePdf, generateTicketHTML } from 'src/controllers/tickets'
+import { generatePdf, generateTicketHTML, ProductWithAmount } from 'src/controllers/tickets'
 
 export const purchaseRouter = express.Router()
 
@@ -26,7 +26,7 @@ class PurchaseProduct {
     }
 }
 
-let lastProduct: MediaByIdsResult[] = [] // Esto es temporal, debería consultar a la db
+let lastProduct: ProductWithAmount[] = [] // Esto es temporal, debería consultar a la db
 
 purchaseRouter.post("/", async (req: Request, res: Response) => {
     const { products, username } = req.body

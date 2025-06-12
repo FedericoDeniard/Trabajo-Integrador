@@ -38,7 +38,7 @@ interface UrlType {
     port: typeof KEYS.PORT
 }
 
-type ProductWithAmount = MediaByIdsResult & { amount: number }
+export type ProductWithAmount = MediaByIdsResult & { amount: number }
 
 interface GenerateTicketParams {
     products: ProductWithAmount[]
