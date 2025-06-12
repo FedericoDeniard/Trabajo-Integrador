@@ -40,7 +40,6 @@ class Controller {
       const card = b.target.closest('.product-card');
       const id = Number(card.dataset.id);
       const product = this.model.products.find(p => p.mediaId === id);
-      const unitaryPrice = product.media.price;
 
       const minus = b.target.classList.contains('btn-minus');
       const plus = b.target.classList.contains('btn-plus');
@@ -48,16 +47,18 @@ class Controller {
 
       if(minus) {
         this.model.decreaseAmount(id);
-        this.view.updateCard(card, product, unitaryPrice);
+        this.view.updateCard(card, product);
       }
 
       if(plus) {
         this.model.increaseAmount(id);
-        this.view.updateCard(card, product, unitaryPrice);
+        this.view.updateCard(card, product);
       }
 
       if(addToCart) {
         cart.addProduct({id: product.mediaId, amount: product.amount});
+        this.model.resetAmount(id)
+        this.view.updateCard(card, product);
       }
       this.updateCartCount();
     });

@@ -34,6 +34,13 @@ class Model {
       product.amount++;
     }
   }
+
+  resetAmount(productId) {
+    const product = this.products.find(p => p.mediaId === productId);
+    if (product){
+      product.amount = 1;
+    }
+  }
 }
 
 export default Model;
