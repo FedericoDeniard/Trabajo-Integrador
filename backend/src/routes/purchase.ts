@@ -4,6 +4,8 @@ import prismaInstance from 'src/services/db'
 import { Request, Response } from 'express'
 import { MediaByIdsResult } from 'src/scripts/loadDataDb'
 import { KEYS } from 'src/constants/keys'
+import jwt from 'jsonwebtoken'
+import { generatePdf } from 'src/controllers/generatePdf'
 
 export const purchaseRouter = express.Router()
 
@@ -65,11 +67,51 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
                 }
             });
         });
+        const token = generateTicketJwt(ticketId)
 
-        res.status(201).json(new ResponseObject(true, { ticketId: ticketId, html: ticketHtml }, "Purchase successfully created"))
+        res.cookie('ticket_access', token, { httpOnly: true, secure: false, maxAge: 60 * 60 * 1000 }).status(201).json(new ResponseObject(true, { ticketId: ticketId, html: ticketHtml }, "Purchase successfully created"))
         return
     }
     catch (error) {
         throw new HttpError(500, "Error creating purchase")
     }
 })
+
+purchaseRouter.get("/ticket", async (req: Request, res: Response) => {
+    const token = req.cookies.ticket_access
+    if (!token) {
+        throw new HttpError(401, "Unauthorized")
+    }
+    try {
+        const { ticketId } = jwt.verify(token, KEYS.JWT_SECRET) as jwt.JwtPayload
+        if (!ticketId) throw new HttpError(401, "Unauthorized")
+        const ticketHtml = await new Promise<string>((resolve, reject) => {
+            res.render("ticket", {
+                v: lastProduct,
+                url: {
+                    base: KEYS.URL_BASE,
+                    port: KEYS.PORT
+                },
+                user: false,
+                print: true
+            }, (err, html) => {
+                if (err) {
+                    console.log("Error rendering ticket:", err);
+                    reject(err);
+                } else {
+                    resolve(html);
+                }
+            });
+        });
+        const pdf = await generatePdf(ticketHtml, { base: KEYS.URL_BASE, port: KEYS.PORT })
+        res.setHeader("Content-Disposition", `attachment; filename=ticket-${ticketId}.pdf`).setHeader("Content-Type", "application/pdf").send(pdf);
+    }
+    catch (error) {
+        throw new HttpError(401, "Invalid token")
+    }
+})
+
+const generateTicketJwt = (ticketId: number) => {
+    const token = jwt.sign({ ticketId }, KEYS.JWT_SECRET, { expiresIn: '1h' })
+    return token
+}

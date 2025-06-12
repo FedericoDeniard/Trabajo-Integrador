@@ -7,12 +7,14 @@ import { purchaseRouter } from "./routes/purchase";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import cookieParser from "cookie-parser";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
 app.use(express.json())
+app.use(cookieParser())
 
 app.set("view engine", "ejs")
 app.set('views', path.join(__dirname, 'views'))
