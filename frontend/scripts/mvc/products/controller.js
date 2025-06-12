@@ -6,16 +6,18 @@ import cart from "../../utils/cart.js";
 
 class Controller {
   constructor() {
-    this.checkUser();
     this.model = new Model();
     this.view = new View();
-    this.logoutController();
   }
 
   async init() {
+    this.checkUser();
+    this.view.showLoader();
     const products = await this.model.getProducts();
     this.view.loadProducts(products);
     this.cardButtonsHandler();
+    this.view.hideLoader();
+    this.logoutController();
   }
 
   logoutController() {

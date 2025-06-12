@@ -5,6 +5,7 @@ class View {
     this.$products = this.$("products");
     this.chboxPeliculas = this.$("peliculas");
     this.chboxSeries = this.$("series");
+    this.$loader = this.$("general-loader");
     this.$logout = this.$("logout");
   }
 
@@ -32,6 +33,17 @@ class View {
     const amount = product.amount;
     input.value = amount;
     priceSpan.textContent = (unitaryPrice * amount).toFixed(2);
+  }
+
+  showLoader() {
+    this.$products.style.display = 'none';
+    this.$loader.style.display = 'flex';
+    this.$loader.style.flex = '1';
+  }
+
+  hideLoader() {
+    this.$products.style.display = 'flex';
+    this.$loader.style.display = 'none';
   }
 }
 
