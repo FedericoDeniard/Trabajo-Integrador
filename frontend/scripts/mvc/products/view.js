@@ -4,8 +4,8 @@ class View {
   constructor() {
     this.$cartCount = this.$("cart-count");
     this.$products = this.$("products");
-    this.chboxPeliculas = this.$("peliculas");
-    this.chboxSeries = this.$("series");
+    this.$chboxPeliculas = this.$("peliculas");
+    this.$chboxSeries = this.$("series");
     this.$loader = this.$("general-loader");
     this.$logout = this.$("logout");
   }
@@ -15,15 +15,28 @@ class View {
   }
 
   loadProducts(products) {
+    const showPeliculas = this.$chboxPeliculas.checked;
+    const showSeries = this.$chboxSeries.checked;
     let htmlText = "";
+
     if (products.length === 0) {
       this.$products.innerHTML =
         "<p class='no-products'>No hay contenido para ver</p>";
       return;
     }
-    products.forEach((p) => {
-      htmlText += createCardMedia(p);
-    });
+
+    if(showPeliculas) {
+      htmlText += this.#filterMedia(products.filter(p => p.duration));
+    }
+
+    if(showSeries) {
+      htmlText += this.#filterMedia(products.filter(p => p.seasons));;
+    }
+
+    if(htmlText == "") {
+      htmlText += "<p class='no-products'>Elige una categoría</p>";
+    }
+
     this.$products.innerHTML = htmlText;
   }
 
@@ -50,6 +63,14 @@ class View {
 
   updateCartCount(amount) {
     this.$cartCount.textContent = amount;
+  }
+  
+  #filterMedia(filteredProducts) {
+    let htmlText = "";
+    filteredProducts.forEach((p) => {
+      htmlText += createCardMedia(p);
+    })
+    return htmlText;
   }
 }
 

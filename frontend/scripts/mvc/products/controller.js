@@ -16,6 +16,7 @@ class Controller {
     this.view.showLoader();
     const products = await this.model.getProducts();
     this.view.loadProducts(products);
+    this.checkboxesHandler(products);
     this.cardButtonsHandler();
     this.view.hideLoader();
     this.logoutController();
@@ -68,6 +69,16 @@ class Controller {
     const productsInCart = cart.getProducts();
     const cartAmount = productsInCart.reduce((acc, p) => acc + p.amount, 0);
     this.view.updateCartCount(cartAmount);
+  }
+  
+  checkboxesHandler(products) {
+    this.view.$chboxPeliculas.addEventListener('change', () => {
+      this.view.loadProducts(products);
+    });
+
+    this.view.$chboxSeries.addEventListener('change', () => {
+      this.view.loadProducts(products);
+    });
   }
 }
 
