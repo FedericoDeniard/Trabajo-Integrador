@@ -22,7 +22,7 @@ class View {
     products.forEach((p) => {
       htmlText += createCardMedia(p);
     });
-    this.$products.innerHTML += htmlText;
+    this.$products.innerHTML = htmlText;
   }
 
   updateCard(card, product, unitaryPrice) {

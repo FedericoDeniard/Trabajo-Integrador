@@ -20,7 +20,7 @@ class Model {
   }
 
   decreaseAmount(productId) {
-    const product = this.products.find(p => p.id === productId);
+    const product = this.products.find(p => p.mediaId === productId);
     if (product) {
       if (product.amount > 1) {
         product.amount--;
@@ -29,7 +29,7 @@ class Model {
   }
 
   increaseAmount(productId) {
-    const product = this.products.find(p => p.id === productId);
+    const product = this.products.find(p => p.mediaId === productId);
     if (product) {
       product.amount++;
     }
