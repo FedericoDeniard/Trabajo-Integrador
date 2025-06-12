@@ -79,15 +79,12 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
 
 purchaseRouter.get("/ticket", async (req: Request, res: Response) => {
     const token = req.cookies.ticket_access
-    console.log("hola")
     if (!token) {
         throw new HttpError(401, "Unauthorized")
     }
     try {
         const { ticketId } = jwt.verify(token, KEYS.JWT_SECRET) as jwt.JwtPayload
-        console.log("la cookie: ", ticketId)
         if (!ticketId) throw new HttpError(401, "Unauthorized")
-        console.log(ticketId)
         const ticketHtml = await new Promise<string>((resolve, reject) => {
             res.render("ticket", {
                 v: lastProduct,
