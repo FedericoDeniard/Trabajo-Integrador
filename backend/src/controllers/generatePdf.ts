@@ -3,7 +3,7 @@ import puppeteer from "puppeteer"
 export const generatePdf = async (html: string, url: { base: string, port: string | number }) => {
     const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] })
     const page = await browser.newPage()
-    await page.setViewport({ width: 400, height: 800 })
+    await page.setViewport({ width: 200, height: 800 })
 
     const baseUrl = `http://${url.base}:${url.port}/`
     const htmlWithBase = html.replace('<head>', `<head><base href="${baseUrl}">`)
