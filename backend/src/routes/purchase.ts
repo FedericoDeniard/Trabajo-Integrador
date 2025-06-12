@@ -75,6 +75,7 @@ purchaseRouter.get("/ticket", async (req: Request, res: Response) => {
         res.setHeader("Content-Disposition", `attachment; filename=ticket-${ticketId}.pdf`).setHeader("Content-Type", "application/pdf").send(pdf);
     }
     catch (error) {
+        if (error instanceof HttpError) throw error
         throw new HttpError(401, "Invalid token")
     }
 })
