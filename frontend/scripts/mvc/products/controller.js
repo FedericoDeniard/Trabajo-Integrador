@@ -12,6 +12,7 @@ class Controller {
 
   async init() {
     this.checkUser();
+    this.updateCartCount();
     this.view.showLoader();
     const products = await this.model.getProducts();
     this.view.loadProducts(products);
@@ -58,7 +59,14 @@ class Controller {
       if(addToCart) {
         cart.addProduct({id: product.mediaId, amount: product.amount});
       }
+      this.updateCartCount();
     });
+  }
+
+  updateCartCount() {
+    const productsInCart = cart.getProducts();
+    const cartAmount = productsInCart.reduce((acc, p) => acc + p.amount, 0);
+    this.view.updateCartCount(cartAmount);
   }
 }
 

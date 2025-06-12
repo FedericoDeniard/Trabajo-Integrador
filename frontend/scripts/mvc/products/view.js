@@ -2,6 +2,7 @@ import createCardMedia from "../../utils/productCard.js";
 
 class View {
   constructor() {
+    this.$cartCount = this.$("cart-count");
     this.$products = this.$("products");
     this.chboxPeliculas = this.$("peliculas");
     this.chboxSeries = this.$("series");
@@ -44,6 +45,10 @@ class View {
   hideLoader() {
     this.$products.style.display = 'flex';
     this.$loader.style.display = 'none';
+  }
+
+  updateCartCount(amount) {
+    this.$cartCount.textContent = amount;
   }
 }
 
