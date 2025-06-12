@@ -2,7 +2,7 @@ export default function createCardMedia({
   duration = undefined,
   id,
   media,
-  amount = 0,
+  amount = 1,
   mediaId,
   released_date = undefined,
   seasons = undefined,
@@ -29,11 +29,11 @@ export default function createCardMedia({
         <div class="header">
           <div class="left-header">
             <h2><span>${media.title}</span>
-             ${
-               released_dateFormated
-                 ? `<em>(${released_dateFormated})</em>`
-                 : ""
-             }</h2>
+            ${
+              released_dateFormated
+                ? `<em>(${released_dateFormated})</em>`
+                : ""
+            }</h2>
             <p class="sub-directors">${media.directors
               .map((d) => d.director.name)
               .join(", ")}</p>
@@ -55,13 +55,13 @@ export default function createCardMedia({
               <label>Meses a alquilar</label>
               <div class="quantity-btns">
                 <button type="button" class="btn-minus">-</button>
-                <input type="text" value="${amount}" disabled/>
+                <input type="text" value="${amount}" disabled class="amount"/>
                 <button type="button" class="btn-plus">+</button>
               </div>
             </div>
 
             <div class="form-right">
-              <p class="price">$<span>${media.price}</span></p>
+              <p class="price">$<span class="price-span">${media.price * amount}</span></p>
               <button type="submit" class="btn-cart">${
                 cart ? "Quitar del carrito" : "Agregar al carrito"
               }</button>
@@ -73,7 +73,5 @@ export default function createCardMedia({
 const formateDate = (date) => {
   let dateFormated = new Date(date);
   const year = dateFormated.getFullYear();
-  const month = dateFormated.getMonth() + 1;
-  const day = dateFormated.getDate();
-  return `${year}-${month}-${day}`;
+  return `${year}`;
 };

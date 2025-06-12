@@ -6,7 +6,7 @@ class Model {
 
   async getProducts() {
     const products = await this.#fetchProducts();
-    this.products = products;
+    this.products = products.map(p => ({ ...p, amount: 1 }));
     return products;
   }
 
@@ -17,6 +17,29 @@ class Model {
     }
     const result = await response.json();
     return result.data;
+  }
+
+  decreaseAmount(productId) {
+    const product = this.products.find(p => p.mediaId === productId);
+    if (product) {
+      if (product.amount > 1) {
+        product.amount--;
+      }
+    }
+  }
+
+  increaseAmount(productId) {
+    const product = this.products.find(p => p.mediaId === productId);
+    if (product) {
+      product.amount++;
+    }
+  }
+
+  resetAmount(productId) {
+    const product = this.products.find(p => p.mediaId === productId);
+    if (product){
+      product.amount = 1;
+    }
   }
 }
 

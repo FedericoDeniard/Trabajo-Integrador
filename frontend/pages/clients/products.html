@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../styles/componentes/general.css" />
     <link rel="stylesheet" href="../../styles/componentes/forms.css" />
     <link rel="stylesheet" href="../../styles/componentes/product-card.css" />
+    <link rel="stylesheet" href="../../styles/componentes/spinner.css" />
     <link rel="stylesheet" href="../../styles/vistas/shopping-cart.css" />
   </head>
   <body>
@@ -26,6 +27,7 @@
         <a href="./shopping-cart.html">
           <img src="../../images/cart.svg" alt="Carrito" />
           <span>Carrito</span>
+          <span id="cart-count">0</span>
         </a>
         <a href="/index.html" id="logout">
           <img src="../../images/logout.svg" alt="Salir" />
@@ -34,22 +36,26 @@
       </div>
     </header>
 
-    <form class="form">
-      <h1>Productos</h1>
-      <div class="row">
-        <span class="checkbox-container">
-          <input type="checkbox" id="peliculas" checked />
-          <label for="peliculas">Peliculas</label>
-        </span>
-        <span class="checkbox-container">
-          <input type="checkbox" id="series" />
-          <label for="series">Series</label>
-        </span>
+    <section>
+      <form class="form">
+        <h1>Productos</h1>
+        <div class="row">
+          <span class="checkbox-container">
+            <input type="checkbox" id="peliculas" checked />
+            <label for="peliculas">Peliculas</label>
+          </span>
+          <span class="checkbox-container">
+            <input type="checkbox" id="series" checked />
+            <label for="series">Series</label>
+          </span>
+        </div>
+      </form>
+      
+      <div id="products"></div>  <!--en este se cargan los productos y se filtran según corresponda-->
+      <div id="general-loader" class="loader-container">
+        <div class="loader"></div>
       </div>
-    </form>
-
-    <!--en este se cargan los productos y se filtran segú corresponda-->
-    <div id="products"></div>
+    </section>
 
     <script type="module" src="../../scripts/mvc/products/index.js"></script>
   </body>
