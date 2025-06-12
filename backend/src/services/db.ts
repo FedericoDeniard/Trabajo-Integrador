@@ -1,5 +1,31 @@
-import { PrismaClient } from "../../generated/prisma"
+import { Prisma, PrismaClient } from "../../generated/prisma"
 import { HttpError } from "src/middlewares/errorHandler";
+
+export type MovieWithMedia = Prisma.MovieGetPayload<{
+    include: {
+        media: {
+            include: {
+                genres: { include: { genre: true } },
+                directors: { include: { director: true } }
+            }
+        }
+    }
+}>
+
+export type SerieWithMedia = Prisma.SerieGetPayload<{
+    include: {
+        seasons: true,
+        media: {
+            include: {
+                genres: { include: { genre: true } },
+                directors: { include: { director: true } }
+            }
+        }
+    }
+}>
+
+export type MediaByIdsResult = MovieWithMedia | SerieWithMedia
+
 class PrismaService {
     private prisma: PrismaClient;
     private isConnected = false;
@@ -45,7 +71,7 @@ class PrismaService {
         return this.prisma;
     }
 
-    async getMediasByIds(ids: number[]) {
+    async getMediasByIds(ids: number[]): Promise<MediaByIdsResult[]> {
         try {
             const [movies, series] = await Promise.all([
                 await this.client.movie.findMany({
@@ -70,7 +96,7 @@ class PrismaService {
         }
     }
 
-    async getAllProducts() {
+    async getAllProducts(): Promise<MediaByIdsResult[]> {
         try {
             const [movies, series] = await Promise.all([
                 this.client.movie.findMany({
