@@ -17,6 +17,7 @@ class Controller {
     this.view.loadProducts(products);
     console.log(products);
     this.cardButtonsHandler();
+    this.checkboxesHandler(products);
     this.view.hideLoader();
     this.logoutController();
   }
