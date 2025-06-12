@@ -16,8 +16,8 @@ class Controller {
     const products = await this.model.getProducts();
     this.view.loadProducts(products);
     console.log(products);
-    this.cardButtonsHandler();
     this.checkboxesHandler(products);
+    this.cardButtonsHandler();
     this.view.hideLoader();
     this.logoutController();
   }

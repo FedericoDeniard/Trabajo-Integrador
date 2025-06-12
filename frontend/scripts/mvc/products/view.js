@@ -32,6 +32,10 @@ class View {
       htmlText += this.#filterMedia(products.filter(p => p.seasons));;
     }
 
+    if(htmlText == "") {
+      htmlText += "<p class='no-products'>Elige una categoría</p>";
+    }
+
     this.$products.innerHTML = htmlText;
   }
 
