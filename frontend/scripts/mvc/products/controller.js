@@ -61,6 +61,16 @@ class Controller {
       }
     });
   }
+  
+  checkboxesHandler(products) {
+    this.view.$chboxPeliculas.addEventListener('change', () => {
+      this.view.loadProducts(products);
+    });
+
+    this.view.$chboxSeries.addEventListener('change', () => {
+      this.view.loadProducts(products);
+    });
+  }
 }
 
 export default Controller;

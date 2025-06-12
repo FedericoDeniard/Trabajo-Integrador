@@ -33,11 +33,6 @@ class View {
     }
 
     this.$products.innerHTML = htmlText;
-
-    // products.forEach((p) => {
-    //   htmlText += createCardMedia(p);
-    // });
-    // this.$products.innerHTML = htmlText;
   }
 
   updateCard(card, product, unitaryPrice) {
