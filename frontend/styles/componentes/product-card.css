@@ -17,9 +17,18 @@
   transform: scale(1.03);
 }
 
-.product-card img {
+.product-card .img-container {
   width: 90%;
   margin: 0.8rem;
+  aspect-ratio: 3/2;
+  overflow: hidden;
+}
+
+.product-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .product-card h2 {

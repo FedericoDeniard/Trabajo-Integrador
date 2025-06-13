@@ -43,8 +43,11 @@ export default function createCardMedia({
             <span>✮${media.rate}</span>
           </div>
         </div>
-
-        <img src="${media.thumbnail}" alt="${media.title}"/>
+        <div class="img-container">
+        <img src="${media.thumbnail}" alt="${
+    media.title
+  }" onerror="this.src='https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png'"/>
+        </div>
         <p class="description"><b>Descripción:</b> ${media.description}</p>
         <p class="genres"><b>Géneros:</b> ${media.genres
           .map((g) => g.genre.name)
