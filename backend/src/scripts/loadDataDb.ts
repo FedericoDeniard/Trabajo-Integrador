@@ -6,7 +6,7 @@ const products = [
     id: 1,
     title: "Inception",
     price: new Prisma.Decimal("14.99"),
-    thumbnail: "https://placehold.co/600x400",
+    thumbnail: "https://beam-images.warnermediacdn.com/BEAM_LWM_DELIVERABLES/14552c93-d318-4563-a00b-343df7e35d0b/4beb5159-7570-4f7e-bd37-6f7ea0ccff52?host=wbd-images.prod-vod.h264.io&partner=beamcom",
     description:
       "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
     rate: new Prisma.Decimal("4.8"),
@@ -34,7 +34,7 @@ const products = [
     id: 2,
     title: "The Shawshank Redemption",
     price: new Prisma.Decimal("12.99"),
-    thumbnail: "https://placehold.co/600x400",
+    thumbnail: "https://resizing.flixster.com/SzNzBSg0ezjiN6IEHyeZ-fF1aqU=/fit-in/705x460/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p15987_v_h9_at.jpg",
     description:
       "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
     rate: new Prisma.Decimal("4.9"),
@@ -61,7 +61,7 @@ const products = [
     id: 3,
     title: "The Godfather",
     price: new Prisma.Decimal("13.99"),
-    thumbnail: "https://placehold.co/600x400",
+    thumbnail: "https://communist.red/wp-content/uploads/2022/08/godfather.png",
     description:
       "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
     rate: new Prisma.Decimal("4.9"),
@@ -89,7 +89,7 @@ const products = [
     id: 4,
     title: "The Dark Knight",
     price: new Prisma.Decimal("14.99"),
-    thumbnail: "https://placehold.co/600x400",
+    thumbnail: "https://musicart.xboxlive.com/7/abb02f00-0000-0000-0000-000000000002/504/image.jpg",
     description:
       "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
     rate: new Prisma.Decimal("4.9"),
@@ -118,7 +118,7 @@ const products = [
     id: 5,
     title: "Pulp Fiction",
     price: new Prisma.Decimal("12.99"),
-    thumbnail: "https://placehold.co/600x400",
+    thumbnail: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.netflix.com%2Fes%2Ftitle%2F880640&psig=AOvVaw2bTb_eAuIdxvVenKEMzSEc&ust=1749860924249000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCLCi7IqS7Y0DFQAAAAAdAAAAABAE",
     description:
       "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
     rate: new Prisma.Decimal("4.8"),
@@ -146,7 +146,7 @@ const products = [
     id: 6,
     title: "Stranger Things",
     price: new Prisma.Decimal("24.99"),
-    thumbnail: "https://placehold.co/600x400",
+    thumbnail: "https://i0.wp.com/www.lacosacine.com/wp-content/uploads/2024/06/Stranger-Things-2.jpg?resize=800%2C600&ssl=1",
     description:
       "When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces and one strange little girl.",
     rate: new Prisma.Decimal("4.7"),
@@ -173,7 +173,7 @@ const products = [
     id: 7,
     title: "Breaking Bad",
     price: new Prisma.Decimal("29.99"),
-    thumbnail: "https://placehold.co/600x400",
+    thumbnail: "https://m.media-amazon.com/images/M/MV5BMTJiMzgwZTktYzZhZC00YzhhLWEzZDUtMGM2NTE4MzQ4NGFmXkEyXkFqcGdeQWpybA@@._V1_.jpg",
     description:
       "A high school chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine in order to secure his family's future.",
     rate: new Prisma.Decimal("4.9"),
@@ -207,7 +207,7 @@ const products = [
     id: 8,
     title: "The Mandalorian",
     price: new Prisma.Decimal("19.99"),
-    thumbnail: "https://placehold.co/600x400",
+    thumbnail: "https://disney.images.edge.bamgrid.com/ripcut-delivery/v1/variant/disney/62dad0e3-da6a-4261-89c0-258065b86e04?/scale?width=1200&aspectRatio=1.78&format=webp",
     description:
       "The travels of a lone bounty hunter in the outer reaches of the galaxy, far from the authority of the New Republic.",
     rate: new Prisma.Decimal("4.7"),
@@ -238,7 +238,7 @@ const products = [
     id: 9,
     title: "Game of Thrones",
     price: new Prisma.Decimal("34.99"),
-    thumbnail: "https://placehold.co/600x400",
+    thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHuE5xeOuv5MYUGzHbM0E7EgkO9FFtMflRhg&s",
     description:
       "Nine noble families fight for control over the lands of Westeros, while an ancient enemy returns after being dormant for millennia.",
     rate: new Prisma.Decimal("4.4"),
@@ -279,7 +279,7 @@ const products = [
     id: 10,
     title: "The Witcher",
     price: new Prisma.Decimal("22.99"),
-    thumbnail: "https://placehold.co/600x400",
+    thumbnail: "https://i.ytimg.com/vi/ETY44yszyNc/maxresdefault.jpg",
     description:
       "Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts.",
     rate: new Prisma.Decimal("4.5"),
