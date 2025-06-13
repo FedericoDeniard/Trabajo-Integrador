@@ -40,7 +40,8 @@ export default function createCardMedia({
             ${seasons ? `<p>${seasons.length} temporadas</p>` : ""}
           </div>
           <div class="right-header">
-            <span>✮${media.rate}</span>
+            <img src="../../images/star.svg" alt="Star"/>
+            <span>${media.rate}</span>
           </div>
         </div>
         <div class="img-container">
