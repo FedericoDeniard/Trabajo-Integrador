@@ -33,6 +33,9 @@
 
 .product-card h2 {
   font-size: 2rem;
+  text-align: left;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .product-card h2 em {
