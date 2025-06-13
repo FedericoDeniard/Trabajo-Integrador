@@ -46,7 +46,7 @@ export default function createCardMedia({
         <div class="img-container">
         <img src="${media.thumbnail}" alt="${
     media.title
-  }" onerror="this.src='https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png'"/>
+  }" onerror="this.src='../../images/not-found.png'"/>
         </div>
         <p class="description"><b>Descripción:</b> ${media.description}</p>
         <p class="genres"><b>Géneros:</b> ${media.genres

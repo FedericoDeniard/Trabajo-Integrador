@@ -21,6 +21,14 @@ app.use((_req, res, next) => {
   next();
 })
 
+app.use('/images', express.static(path.join(__dirname, 'frontend/images'), {
+  maxAge: '1y', 
+  etag: false,
+  setHeaders: (res, path) => {
+    res.setHeader('Cache-Control', 'public, max-age=31536000'); 
+  }
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'frontend')));
 
