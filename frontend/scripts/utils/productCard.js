@@ -65,7 +65,7 @@ export default function createCardMedia({
             </div>
 
             <div class="form-right">
-              <p class="price">$<span class="price-span">${media.price * amount}</span></p>
+              <p class="price">$<span class="price-span">${(media.price * amount).toFixed(2)}</span></p>
               <button type="submit" class="btn-cart">${
                 cart ? "Quitar del carrito" : "Agregar al carrito"
               }</button>
