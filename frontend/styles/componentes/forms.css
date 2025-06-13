@@ -80,6 +80,15 @@
   border-radius: 8px;
 }
 
+.--fit-content {
+  max-width: fit-content;
+}
+
+.--center {
+  justify-content: center;
+  align-items: center;
+}
+
 .form .row {
   display: flex;
   flex-direction: row;

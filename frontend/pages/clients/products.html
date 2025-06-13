@@ -37,9 +37,10 @@
     </header>
 
     <section>
-      <form class="form">
+      <form class="form --center">
         <h1>Productos</h1>
-        <div class="row">
+        <div class="row --fit-content">
+          <label for="peliculas">Mostrar</label>
           <span class="checkbox-container">
             <input type="checkbox" id="peliculas" checked />
             <label for="peliculas">Peliculas</label>
@@ -50,8 +51,9 @@
           </span>
         </div>
       </form>
-      
-      <div id="products"></div>  <!--en este se cargan los productos y se filtran según corresponda-->
+
+      <div id="products"></div>
+      <!--en este se cargan los productos y se filtran según corresponda-->
       <div id="general-loader" class="loader-container">
         <div class="loader"></div>
       </div>
