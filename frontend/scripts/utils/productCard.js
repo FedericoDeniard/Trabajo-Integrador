@@ -46,7 +46,7 @@ export default function createCardMedia({
         <div class="img-container">
         <img src="${media.thumbnail}" alt="${
     media.title
-  }" onerror="this.src='../../images/not-found.png'"/>
+  }" onerror="this.src='../../images/not-found.svg'"/>
         </div>
         <p class="description"><b>Descripción:</b> ${media.description}</p>
         <p class="genres"><b>Géneros:</b> ${media.genres
