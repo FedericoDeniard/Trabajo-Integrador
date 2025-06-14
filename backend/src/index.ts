@@ -17,7 +17,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use((_req, res, next) => {
-  res.cookie("url_base", `${KEYS.URL_BASE}:${KEYS.PORT}`, { httpOnly: false })
+  res.cookie("url_base", `${KEYS.URL_BASE}${KEYS.PORT ? ":" + KEYS.PORT : ""}`, { httpOnly: false })
   next();
 })
 
