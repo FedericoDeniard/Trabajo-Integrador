@@ -50,7 +50,10 @@
       <div id="products">
         <!--en este se cargan los productos y se filtran según corresponda-->
         <% products.forEach(p => { %>
-        <div class="product-card" data-id="${p.media.id}">
+        <div
+          class="product-card <%= p.media.available ? '' : 'hidden' %>"
+          data-id="${p.media.id}"
+        >
           <div class="header">
             <div class="left-header">
               <h2>
