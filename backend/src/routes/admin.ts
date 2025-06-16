@@ -33,3 +33,16 @@ adminRouter.get("/edit", async (req, res) => {
     const products = await prismaInstance.getAllProducts();
     res.render("admin/edit", { products })
 })
+
+adminRouter.post("/edit/:id", async (req, res) => {
+    const { id } = req.params;
+    console.log("edit")
+    console.log(id)
+    res.status(200).json(new ResponseObject(true, null, "Product edited successfully"))
+})
+
+adminRouter.post("/delete/:id", async (req, res) => {
+    const { id } = req.params;
+    console.log(id)
+    res.status(200).json(new ResponseObject(true, null, "Product deleted successfully"))
+})

@@ -92,17 +92,30 @@
             < p.media.genres.length - 1) { %>,<% } %> <% }) %>
           </p>
 
-          <form class="card-form">
+          <div class="card-form">
             <div class="form-left"></div>
 
             <div class="form-right">
               <p class="price">
                 $<span class="price-span"> <%= p.media.price %> </span>
               </p>
-              <button type="submit" class="button --yellow">Editar</button>
-              <button type="submit" class="button --red">Eliminar</button>
+              <form
+                action="/api/admin/edit/<%= p.media.id %>"
+                method="POST"
+                style="display: inline"
+              >
+                <button type="submit" class="button --yellow">Editar</button>
+              </form>
+
+              <form
+                action="/api/admin/delete/<%= p.media.id %>"
+                method="POST"
+                style="display: inline"
+              >
+                <button type="submit" class="button --red">Eliminar</button>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
         <% }) %>
       </div>
@@ -110,6 +123,5 @@
         <div class="loader"></div>
       </div>
     </section>
-    <script src="" async defer></script>
   </body>
 </html>
