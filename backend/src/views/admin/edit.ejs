@@ -25,10 +25,12 @@
         </div>
       </div>
       <div class="header__nav">
-        <a href="/index.html" id="logout">
-          <img src="../../images/logout.svg" alt="Salir" />
-          <span>Salir</span>
-        </a>
+        <form action="/api/admin/logout" method="POST" id="logout">
+          <button type="submit">
+            <img src="../../images/logout.svg" alt="Salir" />
+            <span>Salir</span>
+          </button>
+        </form>
       </div>
     </header>
     <section>

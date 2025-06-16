@@ -30,6 +30,10 @@ adminRouter.post("/", (req, res) => {
     res.status(401).redirect("/api/admin/login")
 })
 
+adminRouter.post("/logout", (req, res) => {
+    res.clearCookie("admin").redirect("/api/admin/login")
+})
+
 adminRouter.get("/login", (req, res) => {
     res.render("admin/login")
 })
