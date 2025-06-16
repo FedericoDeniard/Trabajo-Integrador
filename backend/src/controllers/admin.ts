@@ -12,7 +12,7 @@ export const generateAdminLoginHtml = () => {
 
 }
 
-export const generarteAdminJwt = ({ id }: UserType) => {
+export const generarteAdminJwt = ({ id }: Pick<UserType, "id">) => {
     const token = jwt.sign({ id }, KEYS.JWT_SECRET, { expiresIn: "1h" })
     return token
 }

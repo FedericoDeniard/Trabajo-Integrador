@@ -15,6 +15,7 @@ const __dirname = dirname(__filename);
 
 const app = express();
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 
 app.use((_req, res, next) => {
@@ -36,9 +37,6 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'frontend')));
 
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/pages/admin/login.html'));
-});
 app.use("/api/products", productsRouter)
 app.use("/api/purchase", purchaseRouter)
 app.use("/api/admin", adminRouter)
