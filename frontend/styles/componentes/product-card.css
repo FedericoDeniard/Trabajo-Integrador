@@ -181,3 +181,7 @@
   align-self: stretch;
   text-align: right;
 }
+
+.hidden {
+  opacity: 0.5;
+}

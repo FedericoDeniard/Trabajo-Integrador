@@ -9,7 +9,6 @@ export default function createCardMedia({
   cart = false,
 }) {
   if (!id) throw new Error("'id' no está definido");
-  if (!media.available) throw new Error("'available' no está definido");
   if (!media.description) throw new Error("'description' no está definido");
   if (!media.directors) throw new Error("'directors' no está definido");
   if (!media.genres) throw new Error("'genres' no está definido");
@@ -25,14 +24,14 @@ export default function createCardMedia({
     ? formateDate(seasons[0].released_date)
     : "";
 
-  return `<div class="product-card" data-id="${media.id}">
+  return `<div class="product-card ${
+    media.available ? "" : "hidden"
+  }" data-id="${media.id}">
         <div class="header">
           <div class="left-header">
             <h2><span>${media.title}</span>
             ${
-              released_dateFormated
-                ? `<em>(${released_dateFormated})</em>`
-                : ""
+              released_dateFormated ? `<em>(${released_dateFormated})</em>` : ""
             }</h2>
             <p class="sub-directors">${media.directors
               .map((d) => d.director.name)
@@ -65,7 +64,9 @@ export default function createCardMedia({
             </div>
 
             <div class="form-right">
-              <p class="price">$<span class="price-span">${(media.price * amount).toFixed(2)}</span></p>
+              <p class="price">$<span class="price-span">${(
+                media.price * amount
+              ).toFixed(2)}</span></p>
               <button type="submit" class="btn-cart">${
                 cart ? "Quitar del carrito" : "Agregar al carrito"
               }</button>
