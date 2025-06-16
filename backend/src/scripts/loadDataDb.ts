@@ -10,7 +10,7 @@ const products = [
     description:
       "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
     rate: new Prisma.Decimal("4.8"),
-    available: true,
+    available: false,
     directors: [
       {
         media_id: 1,
