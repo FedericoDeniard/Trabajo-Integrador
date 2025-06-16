@@ -36,6 +36,7 @@ class Controller {
         this.view.$errorMessage.textContent = error.message;
         this.view.$errorMessage.style.display = "block";
       }
+      window.location.href = cookiesReader.urlBase + "/api/admin/edit";
     });
   }
 

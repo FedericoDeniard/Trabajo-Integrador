@@ -4,6 +4,7 @@ import { dirname } from "node:path"
 import path from "node:path"
 import { ResponseObject } from "src/middlewares/errorHandler";
 import { generarteAdminJwt } from "src/controllers/admin";
+import prismaInstance from "src/services/db";
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -26,4 +27,9 @@ adminRouter.post("/", (req, res) => {
         return
     }
     res.status(401).json(new ResponseObject(false, null, "Usuario y/o contraseña incorrecta"))
+})
+
+adminRouter.get("/edit", async (req, res) => {
+    const products = await prismaInstance.getAllProducts();
+    res.render("admin/edit", { products })
 })
