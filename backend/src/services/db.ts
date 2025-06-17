@@ -111,6 +111,32 @@ class PrismaService {
             throw new HttpError(500, "Error retrieving products");
         }
     }
+
+    async createTicket(user_name: string, products: {media_id: number; amount: number}[], date: number) {
+        try {
+            const newTicket = await this.client.ticket.create({
+                data: {
+                    user_name,
+                    date: new Date(date),
+                    productTickets: {
+                        create: products.map((p) => ({
+                            media: {connect: {id: p.media_id}},
+                            amount: p.amount
+                        })),
+                    },
+                },
+                include: {
+                    productTickets: {
+                        include: {media: true}
+                    }
+                }
+            });
+
+            return newTicket;
+        } catch(error) {
+            throw new HttpError(500, "Error creating ticket");
+        }
+    }
 }
 
 const prismaInstance = new PrismaService()
