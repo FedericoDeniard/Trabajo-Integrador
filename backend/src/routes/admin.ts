@@ -38,9 +38,9 @@ adminRouter.get("/login", (req, res) => {
     res.render("admin/login")
 })
 
-adminRouter.get("/edit", adminAuth, async (req, res) => {
+adminRouter.get("/products", adminAuth, async (req, res) => {
     const products = await prismaInstance.getAllProducts();
-    res.render("admin/edit", { products })
+    res.render("admin/products", { products })
 })
 
 adminRouter.post("/edit/:id", adminAuth, async (req, res) => {
