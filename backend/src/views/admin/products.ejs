@@ -6,11 +6,11 @@
     <title></title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../../styles/componentes/header.css" />
-    <link rel="stylesheet" href="../../styles/componentes/general.css" />
-    <link rel="stylesheet" href="../../styles/componentes/buttons.css" />
-    <link rel="stylesheet" href="../../styles/componentes/product-card.css" />
-    <link rel="stylesheet" href="../../styles/vistas/shopping-cart.css" />
+    <link rel="stylesheet" href="/styles/componentes/header.css" />
+    <link rel="stylesheet" href="/styles/componentes/general.css" />
+    <link rel="stylesheet" href="/styles/componentes/buttons.css" />
+    <link rel="stylesheet" href="/styles/componentes/product-card.css" />
+    <link rel="stylesheet" href="/styles/vistas/shopping-cart.css" />
   </head>
   <body>
     <header class="header">
@@ -27,7 +27,7 @@
       <div class="header__nav">
         <form action="/api/admin/logout" method="POST" id="logout">
           <button type="submit">
-            <img src="../../images/logout.svg" alt="Salir" />
+            <img src="/images/logout.svg" alt="Salir" />
             <span>Salir</span>
           </button>
         </form>
@@ -77,7 +77,7 @@
               <% } %>
             </div>
             <div class="right-header">
-              <img src="../../images/star.svg" alt="Star" />
+              <img src="/images/star.svg" alt="Star" />
               <span><%= p.media.rate %></span>
             </div>
           </div>
@@ -85,7 +85,7 @@
             <img
               src="<%= p.media.thumbnail %>"
               alt="<%= p.media.title %>"
-              onerror="this.src='../../images/not-found.svg'"
+              onerror="this.src='/images/not-found.svg'"
             />
           </div>
           <p class="description">
@@ -123,9 +123,6 @@
           </div>
         </div>
         <% }) %>
-      </div>
-      <div id="general-loader" class="loader-container">
-        <div class="loader"></div>
       </div>
     </section>
   </body>
