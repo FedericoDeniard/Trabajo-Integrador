@@ -111,15 +111,10 @@ class PrismaService {
             const mediaIds = ticket.productTickets.map(pt => pt.media_id);
             const allMedias = await this.getMediasByIds(mediaIds);
 
-            const result: ProductWithAmount[] = allMedias.map((media) => {
-                const amount = ticket.productTickets.find(pt => pt.media_id === media.mediaId)?.amount ?? 0;
-                return {
-                    ...media,
-                    amount
-                }
-            });
-
-            return result;
+            return allMedias.map(media => ({
+                ...media,
+                amount: ticket.productTickets.find(pt => pt.media_id === media.mediaId)?.amount ?? 0
+            }));
         } catch (error) {
             throw new HttpError(500, "Error retrieving products from ticket");
         }
