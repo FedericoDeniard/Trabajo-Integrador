@@ -86,6 +86,7 @@ purchaseRouter.get("/ticket", async (req: Request, res: Response) => {
             print: true
         })
 
+        const pdf = await generatePdf(ticketHtml, { base: KEYS.URL_BASE, port: KEYS.PORT });
         res.setHeader("Content-Disposition", `attachment; filename=ticket-${ticketId}.pdf`).setHeader("Content-Type", "application/pdf").send(pdf);
     }
     catch (error) {
