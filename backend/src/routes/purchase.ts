@@ -45,13 +45,21 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
         const ticketProducts: ProductWithAmount[] = mediaProducts.map((p: MediaByIdsResult) => ({
             ...p,
             amount: purchaseProducts.find((pp: PurchaseProduct) => pp.mediaId === p.id).amount
-        }))
-        const ticketId = Math.ceil(Math.random() * 10)
-        lastProduct = ticketProducts
-        const ticketHtml = await generateTicketHTML({ products: lastProduct, username, print: false })
-        const token = generateTicketJwt(ticketId)
+        }));
 
-        res.cookie('ticket_access', token, { httpOnly: true, secure: false, maxAge: 60 * 60 * 1000 }).status(201).json(new ResponseObject(true, { ticketId: ticketId, html: ticketHtml }, "Purchase successfully created"))
+        const ticketDB = await prismaInstance.createTicket(username,
+            purchaseProducts.map((pp: PurchaseProduct) => ({media_id: pp.mediaId, amount: pp.amount})),
+            Date.now()
+        );
+
+        //const ticketId = Math.ceil(Math.random() * 10)
+        lastProduct = ticketProducts;
+        const ticketHtml = await generateTicketHTML({ products: lastProduct, username, print: false });
+
+        //const token = generateTicketJwt(ticketId)
+        const token = generateTicketJwt(ticketDB.id);
+
+        res.cookie('ticket_access', token, { httpOnly: true, secure: false, maxAge: 60 * 60 * 1000 }).status(201).json(new ResponseObject(true, { ticketId: ticketDB.id, html: ticketHtml }, "Purchase successfully created"))
         return
     }
     catch (error) {
