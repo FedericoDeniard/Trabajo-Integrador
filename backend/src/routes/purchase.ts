@@ -79,6 +79,12 @@ purchaseRouter.get("/ticket", async (req: Request, res: Response) => {
         const { ticketId } = jwt.verify(token, KEYS.JWT_SECRET) as jwt.JwtPayload
         if (!ticketId) throw new HttpError(401, "Unauthorized");
 
+        const ticketProducts = await prismaInstance.getProductsFromTicket(ticketId);
+        const ticketHtml = await generateTicketHTML({
+            products: ticketProducts,
+            username: false,
+            print: true
+        })
 
         res.setHeader("Content-Disposition", `attachment; filename=ticket-${ticketId}.pdf`).setHeader("Content-Type", "application/pdf").send(pdf);
     }
