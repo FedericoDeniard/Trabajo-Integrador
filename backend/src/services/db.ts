@@ -1,5 +1,6 @@
-import { Prisma, PrismaClient } from "../../generated/prisma"
+import { Prisma, PrismaClient } from "../../generated/prisma";
 import { HttpError } from "src/middlewares/errorHandler";
+import { ProductWithAmount } from "src/controllers/tickets";
 
 export type MovieWithMedia = Prisma.MovieGetPayload<{
     include: {
@@ -93,6 +94,29 @@ class PrismaService {
             return [...movies, ...series]
         } catch (error) {
             throw new HttpError(500, "Error retrieving products by ids");
+        }
+    }
+
+    async getProductsFromTicket(ticketId: number): Promise<ProductWithAmount[]> {
+        try {
+            const ticket = await this.client.ticket.findUnique({
+                where: {id: ticketId},
+                include: {
+                    productTickets: true
+                }
+            });
+
+            if (!ticket) throw new HttpError(404, "Ticket not found");
+
+            const mediaIds = ticket.productTickets.map(pt => pt.media_id);
+            const allMedias = await this.getMediasByIds(mediaIds);
+
+            return allMedias.map(media => ({
+                ...media,
+                amount: ticket.productTickets.find(pt => pt.media_id === media.mediaId)?.amount ?? 0
+            }));
+        } catch (error) {
+            throw new HttpError(500, "Error retrieving products from ticket");
         }
     }
 
