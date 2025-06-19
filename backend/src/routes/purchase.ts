@@ -77,9 +77,9 @@ purchaseRouter.get("/ticket", async (req: Request, res: Response) => {
     }
     try {
         const { ticketId } = jwt.verify(token, KEYS.JWT_SECRET) as jwt.JwtPayload
-        if (!ticketId) throw new HttpError(401, "Unauthorized")
-        const ticketHtml = await generateTicketHTML({ products: lastProduct, username: false, print: true })
-        const pdf = await generatePdf(ticketHtml, { base: KEYS.URL_BASE, port: KEYS.PORT })
+        if (!ticketId) throw new HttpError(401, "Unauthorized");
+
+
         res.setHeader("Content-Disposition", `attachment; filename=ticket-${ticketId}.pdf`).setHeader("Content-Type", "application/pdf").send(pdf);
     }
     catch (error) {
