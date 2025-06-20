@@ -247,6 +247,32 @@ class PrismaService {
         }
     }
 
+    async disableProduct(id: number) {
+        try {
+            const disabledProduct = await this.client.media.update({
+                where: { id },
+                data: { available: false }
+            });
+            return disabledProduct;
+        } catch (error) {
+            console.error('Error disabling product:', error);
+            throw error;
+        }
+    }
+
+    async activateProduct(id: number) {
+        try {
+            const activatedProduct = await this.client.media.update({
+                where: { id },
+                data: { available: true }
+            });
+            return activatedProduct;
+        } catch (error) {
+            console.error('Error activating product:', error);
+            throw error;
+        }
+    }
+
 }
 
 const prismaInstance = new PrismaService()

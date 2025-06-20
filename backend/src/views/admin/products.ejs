@@ -111,13 +111,25 @@
                 <button type="submit" class="button --yellow">Editar</button>
               </form>
 
+              <% if (p.media.available === true) { %>
               <form
                 action="/api/admin/delete/<%= p.media.id %>"
                 method="POST"
                 style="display: inline"
               >
-                <button type="submit" class="button --red">Eliminar</button>
+                <button type="submit" class="button --red">Dar de baja</button>
               </form>
+              <% } else { %>
+              <form
+                action="/api/admin/activate/<%= p.media.id %>"
+                method="POST"
+                style="display: inline"
+              >
+                <button type="submit" class="button --green">
+                  Dar de alta
+                </button>
+              </form>
+              <% } %>
             </div>
           </div>
         </div>

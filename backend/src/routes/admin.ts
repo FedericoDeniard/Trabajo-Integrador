@@ -64,6 +64,24 @@ adminRouter.post("/update/:id", adminAuth, async (req, res) => {
 
 adminRouter.post("/delete/:id", adminAuth, async (req, res) => {
     const { id } = req.params;
-    console.log(id)
-    res.status(200).json(new ResponseObject(true, null, "Product deleted successfully"))
+    try {
+        await prismaInstance.disableProduct(Number(id))
+        console.log(id)
+        res.render("admin/info", { title: "Producto deshabilitado", message: "Producto deshabilitado correctamente", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
+
+    } catch (error) {
+        res.render("admin/info", { title: "Error deshabilitando producto", message: "Error deshabilitando producto", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
+    }
+})
+
+adminRouter.post("/activate/:id", adminAuth, async (req, res) => {
+    const { id } = req.params;
+    try {
+        await prismaInstance.activateProduct(Number(id))
+        console.log(id)
+        res.render("admin/info", { title: "Producto habilitado", message: "Producto habilitado correctamente", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
+
+    } catch (error) {
+        res.render("admin/info", { title: "Error habilitando producto", message: "Error habilitando producto", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
+    }
 })
