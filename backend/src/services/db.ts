@@ -1,6 +1,7 @@
 import { Prisma, PrismaClient } from "../../generated/prisma";
 import { HttpError } from "src/middlewares/errorHandler";
 import { ProductWithAmount } from "src/controllers/tickets";
+import { PurchaseProduct } from "src/routes/purchase";
 
 export type MovieWithMedia = Prisma.MovieGetPayload<{
     include: {
@@ -100,7 +101,7 @@ class PrismaService {
     async getProductsFromTicket(ticketId: number): Promise<ProductWithAmount[]> {
         try {
             const ticket = await this.client.ticket.findUnique({
-                where: {id: ticketId},
+                where: { id: ticketId },
                 include: {
                     productTickets: true
                 }
@@ -136,7 +137,7 @@ class PrismaService {
         }
     }
 
-    async createTicket(user_name: string, products: {media_id: number; amount: number}[], date: number) {
+    async createTicket(user_name: string, products: PurchaseProduct[], date: number) {
         try {
             const newTicket = await this.client.ticket.create({
                 data: {
@@ -144,20 +145,20 @@ class PrismaService {
                     date: new Date(date),
                     productTickets: {
                         create: products.map((p) => ({
-                            media: {connect: {id: p.media_id}},
+                            media: { connect: { id: p.mediaId } },
                             amount: p.amount
                         })),
                     },
                 },
                 include: {
                     productTickets: {
-                        include: {media: true}
+                        include: { media: true }
                     }
                 }
             });
 
             return newTicket;
-        } catch(error) {
+        } catch (error) {
             throw new HttpError(500, "Error creating ticket");
         }
     }

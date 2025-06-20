@@ -8,7 +8,7 @@ import { generatePdf, generateTicketHTML, ProductWithAmount } from 'src/controll
 
 export const purchaseRouter = express.Router()
 
-class PurchaseProduct {
+export class PurchaseProduct {
     mediaId: number;
     amount: number;
 
@@ -39,16 +39,23 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
 
     try {
 
-        const purchaseProducts = products.map((product: any) => new PurchaseProduct(product.mediaId, product.amount))
+        const purchaseProducts: PurchaseProduct[] = products.map((product: any) => new PurchaseProduct(product.mediaId, product.amount))
         const productsId = purchaseProducts.map((p: PurchaseProduct) => p.mediaId)
         const mediaProducts = await prismaInstance.getMediasByIds(productsId)
-        const ticketProducts: ProductWithAmount[] = mediaProducts.map((p: MediaByIdsResult) => ({
-            ...p,
-            amount: purchaseProducts.find((pp: PurchaseProduct) => pp.mediaId === p.id).amount
-        }));
+        const ticketProducts: ProductWithAmount[] = mediaProducts.map((p: MediaByIdsResult) => {
+            const match = purchaseProducts.find((pp: PurchaseProduct) => pp.mediaId === p.id);
+            if (!match) {
+                throw new HttpError(400, `No matching product found for mediaId ${p.id}`);
+            }
+
+            return {
+                ...p,
+                amount: match.amount
+            };
+        });
 
         const ticketDB = await prismaInstance.createTicket(username,
-            purchaseProducts.map((pp: PurchaseProduct) => ({media_id: pp.mediaId, amount: pp.amount})),
+            ticketProducts,
             Date.now()
         );
 
