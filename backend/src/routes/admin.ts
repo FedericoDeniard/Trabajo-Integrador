@@ -53,9 +53,13 @@ adminRouter.post("/edit/:id", adminAuth, async (req, res) => {
 adminRouter.post("/update/:id", adminAuth, async (req, res) => {
     const data = req.body;
     const updatedProduct = validateProduct(data)
-    const dbResponse = await prismaInstance.updateProduct(updatedProduct)
+    try {
+        const dbResponse = await prismaInstance.updateProduct(updatedProduct)
+        res.render("admin/info", { title: "Producto actualizado", message: "Producto actualizado correctamente", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
 
-    res.status(200).json(new ResponseObject(true, null, "Product updated successfully"))
+    } catch (error) {
+        res.render("admin/info", { title: "Error actualizando producto", message: "Error actualizando producto", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
+    }
 })
 
 adminRouter.post("/delete/:id", adminAuth, async (req, res) => {
