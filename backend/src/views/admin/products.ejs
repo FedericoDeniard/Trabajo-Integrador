@@ -60,9 +60,8 @@
             <div class="left-header">
               <h2>
                 <span><%= p.media.title %></span>
-                <% const fechaStr = p.released_date ||
-                (p.seasons?.[0]?.released_date); const fecha = fechaStr ? new
-                Date(fechaStr) : null; if (fecha) { const yyyy =
+                <% const fechaStr = p.released_date; const fecha = fechaStr ?
+                new Date(fechaStr) : null; if (fecha) { const yyyy =
                 fecha.getFullYear(); const mm = String(fecha.getMonth() +
                 1).padStart(2, '0'); const dd =
                 String(fecha.getDate()).padStart(2, '0'); %>

@@ -6,6 +6,7 @@ import { ResponseObject } from "src/middlewares/errorHandler";
 import { generarteAdminJwt } from "src/controllers/admin";
 import prismaInstance from "src/services/db";
 import { adminAuth } from "src/middlewares/auth";
+import { validateProduct } from "src/controllers/products";
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -24,7 +25,7 @@ adminRouter.post("/", (req, res) => {
     const { username, password } = req.body;
     if (username === mockedUser.username && password === mockedUser.password) {
         const jwt = generarteAdminJwt(mockedUser)
-        res.status(200).cookie("admin", jwt, { httpOnly: true }).redirect("/api/admin/edit")
+        res.status(200).cookie("admin", jwt, { httpOnly: true }).redirect("/api/admin/products")
         return
     }
     res.status(401).redirect("/api/admin/login")
@@ -45,9 +46,16 @@ adminRouter.get("/products", adminAuth, async (req, res) => {
 
 adminRouter.post("/edit/:id", adminAuth, async (req, res) => {
     const { id } = req.params;
-    console.log("edit")
-    console.log(id)
-    res.status(200).json(new ResponseObject(true, null, "Product edited successfully"))
+    const product = await prismaInstance.getMediaById(Number(id))
+    res.render("admin/edit", { p: product })
+})
+
+adminRouter.post("/update/:id", adminAuth, async (req, res) => {
+    const data = req.body;
+    const updatedProduct = validateProduct(data)
+    const dbResponse = await prismaInstance.updateProduct(updatedProduct)
+
+    res.status(200).json(new ResponseObject(true, null, "Product updated successfully"))
 })
 
 adminRouter.post("/delete/:id", adminAuth, async (req, res) => {
