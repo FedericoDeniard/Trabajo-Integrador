@@ -36,7 +36,7 @@ export default function createCardMedia({
             <p class="sub-directors">${media.directors
               .map((d) => d.director.name)
               .join(", ")}</p>
-            ${seasons ? `<p>${seasons.length} temporadas</p>` : ""}
+            ${seasons ? `<p>${seasons} temporadas</p>` : ""}
           </div>
           <div class="right-header">
             <img src="../../images/star.svg" alt="Star"/>

@@ -1,3 +1,4 @@
+import { ProductType } from "src/controllers/products";
 import { Prisma, PrismaClient } from "../../generated/prisma"
 import { HttpError } from "src/middlewares/errorHandler";
 
@@ -14,7 +15,6 @@ export type MovieWithMedia = Prisma.MovieGetPayload<{
 
 export type SerieWithMedia = Prisma.SerieGetPayload<{
     include: {
-        seasons: true,
         media: {
             include: {
                 genres: { include: { genre: true } },
@@ -25,7 +25,7 @@ export type SerieWithMedia = Prisma.SerieGetPayload<{
 }>
 
 type MediaWithProduct = Prisma.MediaGetPayload<{
-    include: { Movie: true, Serie: { include: { seasons: true } }, genres: { include: { genre: true } }, directors: { include: { director: true } } }
+    include: { Movie: true, Serie: true, genres: { include: { genre: true } }, directors: { include: { director: true } } }
 }>
 
 export type MediaByIdsResult = MovieWithMedia | SerieWithMedia
@@ -92,7 +92,7 @@ class PrismaService {
                             id: { in: ids }
                         }
                     },
-                    include: { seasons: true, media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
+                    include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
                 })])
             return [...movies, ...series]
         } catch (error) {
@@ -106,7 +106,7 @@ class PrismaService {
                 where: {
                     id: id
                 },
-                include: { Movie: true, Serie: { include: { seasons: true } }, genres: { include: { genre: true } }, directors: { include: { director: true } } }
+                include: { Movie: true, Serie: true, genres: { include: { genre: true } }, directors: { include: { director: true } } }
             })
             let mappedMedia: MediaByIdsResult
             if (media?.Movie) {
@@ -127,7 +127,7 @@ class PrismaService {
                     include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
                 }),
                 this.client.serie.findMany({
-                    include: { seasons: true, media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
+                    include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
                 })
             ])
             return [...movies, ...series]
@@ -142,6 +142,7 @@ class PrismaService {
             id: media.Serie.id,
             seasons: media.Serie.seasons,
             mediaId: media.id,
+            released_date: media.Serie.released_date,
             media: {
                 id: media.id,
                 title: media.title,
@@ -179,6 +180,71 @@ class PrismaService {
 
         }
         return movie
+    }
+    async updateProduct(product: ProductType) {
+        try {
+            const updatedProduct = await this.client.$transaction(async (prisma) => {
+                const genrePromises = product.genres.map(async (genreName) => {
+                    let genre = await prisma.genre.findUnique({
+                        where: { name: genreName }
+                    });
+
+                    if (!genre) {
+                        genre = await prisma.genre.create({
+                            data: { name: genreName }
+                        });
+                    }
+
+                    return genre;
+                });
+
+                const genres = await Promise.all(genrePromises);
+
+                await prisma.productGenre.deleteMany({
+                    where: { media_id: product.id }
+                });
+
+                const updated = await prisma.media.update({
+                    where: { id: product.id },
+                    data: {
+                        title: product.title,
+                        price: product.price,
+                        description: product.description,
+                        rate: product.rate
+                    }
+                });
+
+                if (genres.length > 0) {
+                    await prisma.productGenre.createMany({
+                        data: genres.map(genre => ({
+                            media_id: product.id,
+                            genre_id: genre.id
+                        }))
+                    });
+                }
+                if (product.seasons) {
+                    await prisma.serie.update({
+                        where: {
+                            mediaId: product.id
+                        },
+                        data: { seasons: product.seasons }
+                    });
+                } else {
+                    await prisma.movie.update({
+                        where: { mediaId: product.id },
+                        data: { released_date: product.released_date }
+                    });
+                }
+
+                return updated;
+            });
+
+            return updatedProduct;
+
+        } catch (error) {
+            console.error('Error updating product:', error);
+            throw error;
+        }
     }
 
 }

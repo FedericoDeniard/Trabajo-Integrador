@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "npm run build && node --env-file=.env dist/index.js",
-    "rollup:db": "prisma migrate reset --force && npx prisma generate && rollup -c rollup.script.js && node --env-file=.env dist/scripts/loadDataDb.js"
+    "rollup:db": "prisma migrate reset --force && npx prisma generate && rollup -c rollup.script.js && node --env-file=.env dist/scripts/loadDataDb.js",
+    "new:rollup:db": "prisma db push --force-reset && npx prisma generate && rollup -c rollup.script.js && node --env-file=.env dist/scripts/loadDataDb.js"
   },
   "keywords": [],
   "author": "",

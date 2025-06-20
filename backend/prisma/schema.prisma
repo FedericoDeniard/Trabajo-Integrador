@@ -27,11 +27,11 @@ model Movie {
 }
 
 model Serie {
-  id      Int      @id @default(autoincrement())
-  seasons Season[]
-
-  mediaId Int   @unique
-  media   Media @relation("SerieMedia", fields: [mediaId], references: [id])
+  id            Int      @id @default(autoincrement())
+  seasons       Int
+  released_date DateTime @db.Date
+  mediaId       Int      @unique
+  media         Media    @relation("SerieMedia", fields: [mediaId], references: [id])
 }
 
 model Media {
@@ -82,14 +82,4 @@ model TitleDirector {
   director Director @relation(fields: [director_id], references: [id])
 
   @@id([media_id, director_id])
-}
-
-model Season {
-  id             Int      @id @default(autoincrement())
-  serie_id       Int
-  number         Int
-  total_episodes Int
-  released_date  DateTime @db.Date
-
-  serie Serie @relation(fields: [serie_id], references: [id])
 }
