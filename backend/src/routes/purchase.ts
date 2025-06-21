@@ -26,8 +26,6 @@ export class PurchaseProduct {
     }
 }
 
-let lastProduct: ProductWithAmount[] = [] // Esto es temporal, debería consultar a la db
-
 purchaseRouter.post("/", async (req: Request, res: Response) => {
     const { products, username } = req.body
     if (!products) {
@@ -38,10 +36,10 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
     }
 
     try {
+        const purchaseProducts: PurchaseProduct[] = products.map((product: any) => new PurchaseProduct(product.mediaId, product.amount));
+        const productsId = purchaseProducts.map((p: PurchaseProduct) => p.mediaId);
+        const mediaProducts = await prismaInstance.getMediasByIds(productsId);
 
-        const purchaseProducts: PurchaseProduct[] = products.map((product: any) => new PurchaseProduct(product.mediaId, product.amount))
-        const productsId = purchaseProducts.map((p: PurchaseProduct) => p.mediaId)
-        const mediaProducts = await prismaInstance.getMediasByIds(productsId)
         const ticketProducts: ProductWithAmount[] = mediaProducts.map((p: MediaByIdsResult) => {
             const match = purchaseProducts.find((pp: PurchaseProduct) => pp.mediaId === p.id);
             if (!match) {
@@ -59,11 +57,8 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
             Date.now()
         );
 
-        //const ticketId = Math.ceil(Math.random() * 10)
-        lastProduct = ticketProducts;
-        const ticketHtml = await generateTicketHTML({ products: lastProduct, username, print: false });
+        const ticketHtml = await generateTicketHTML({ products: ticketProducts, username, print: false });
 
-        //const token = generateTicketJwt(ticketId)
         const token = generateTicketJwt(ticketDB.id);
 
         res.cookie('ticket_access', token, { httpOnly: true, secure: false, maxAge: 60 * 60 * 1000 }).status(201).json(new ResponseObject(true, { ticketId: ticketDB.id, html: ticketHtml }, "Purchase successfully created"))
