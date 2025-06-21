@@ -39,7 +39,6 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
         const purchaseProducts: PurchaseProduct[] = products.map((product: any) => new PurchaseProduct(product.mediaId, product.amount));
         const productsId = purchaseProducts.map((p: PurchaseProduct) => p.mediaId);
         const mediaProducts = await prismaInstance.getMediasByIds(productsId);
-
         const ticketProducts: ProductWithAmount[] = mediaProducts.map((p: MediaByIdsResult) => {
             const match = purchaseProducts.find((pp: PurchaseProduct) => pp.mediaId === p.id);
             if (!match) {
