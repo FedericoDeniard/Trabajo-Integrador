@@ -137,11 +137,11 @@ class PrismaService {
         }
     }
 
-    async createTicket(user_name: string, products: PurchaseProduct[], date: number) {
+    async createTicket(username: string, products: PurchaseProduct[], date: number) {
         try {
             const newTicket = await this.client.ticket.create({
                 data: {
-                    user_name,
+                    user_name: username,
                     date: new Date(date),
                     productTickets: {
                         create: products.map((p) => ({
