@@ -27,11 +27,11 @@ model Movie {
 }
 
 model Serie {
-  id      Int      @id @default(autoincrement())
-  seasons Season[]
-
-  mediaId Int   @unique
-  media   Media @relation("SerieMedia", fields: [mediaId], references: [id])
+  id            Int      @id @default(autoincrement())
+  seasons       Int
+  released_date DateTime @db.Date
+  mediaId       Int      @unique
+  media         Media    @relation("SerieMedia", fields: [mediaId], references: [id])
 }
 
 model Media {
@@ -43,8 +43,8 @@ model Media {
   rate        Decimal @db.Decimal(2, 1)
   available   Boolean
 
-  genres    ProductGenre[]
-  directors TitleDirector[]
+  genres        ProductGenre[]
+  directors     TitleDirector[]
   productTicket ProductTicket[]
 
   Movie Movie? @relation("MovieMedia")
@@ -85,31 +85,21 @@ model TitleDirector {
   @@id([media_id, director_id])
 }
 
-model Season {
-  id             Int      @id @default(autoincrement())
-  serie_id       Int
-  number         Int
-  total_episodes Int
-  released_date  DateTime @db.Date
-
-  serie Serie @relation(fields: [serie_id], references: [id])
-}
-
 model Ticket {
-  id            Int      @id @default(autoincrement())
-  user_name     String
-  date          DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  user_name String
+  date      DateTime @default(now())
 
   productTickets ProductTicket[]
 }
 
 model ProductTicket {
-  ticket_id     Int
-  media_id      Int
-  amount        Int
+  ticket_id Int
+  media_id  Int
+  amount    Int
 
-  ticket        Ticket @relation(fields: [ticket_id], references: [id])
-  media         Media  @relation(fields: [media_id], references: [id])
+  ticket Ticket @relation(fields: [ticket_id], references: [id])
+  media  Media  @relation(fields: [media_id], references: [id])
 
   @@id([ticket_id, media_id])
 }

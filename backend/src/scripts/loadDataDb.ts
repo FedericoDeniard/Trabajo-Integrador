@@ -10,7 +10,7 @@ const products = [
     description:
       "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
     rate: new Prisma.Decimal("4.8"),
-    available: true,
+    available: false,
     directors: [
       {
         media_id: 1,
@@ -158,10 +158,8 @@ const products = [
         director: { name: "The Duffer Brothers", id: 12 },
       },
     ],
-    serie: {
-      media_id: 6,
-      seasons: [{ id: 1, number: 1, serie_id: 6, total_episodes: 4, released_date: new Date("2016-07-15") }],
-    },
+    seasons: 3,
+    released_date: new Date("2016-07-15"),
     genres: [
       { media_id: 6, genre_id: 4, genre: { name: "Drama", id: 4 } },
       { media_id: 6, genre_id: 6, genre: { name: "Sci-Fi", id: 6 } },
@@ -191,17 +189,8 @@ const products = [
       { media_id: 7, genre_id: 4, genre: { name: "Drama", id: 4 } },
       { media_id: 7, genre_id: 6, genre: { name: "Thriller", id: 6 } },
     ],
-    serie: {
-      media_id: 7,
-      seasons: [
-        { id: 1, number: 1, serie_id: 7, total_episodes: 8, released_date: new Date("2008-01-20") },
-        { id: 2, number: 2, serie_id: 7, total_episodes: 10, released_date: new Date("2009-01-20") },
-        { id: 3, number: 3, serie_id: 7, total_episodes: 11, released_date: new Date("2010-01-20") },
-        { id: 4, number: 4, serie_id: 7, total_episodes: 7, released_date: new Date("2011-01-20") },
-        { id: 5, number: 5, serie_id: 7, total_episodes: 9, released_date: new Date("2012-01-20") },
-        { id: 6, number: 6, serie_id: 7, total_episodes: 13, released_date: new Date("2013-01-20") },
-      ],
-    },
+    seasons: 5,
+    released_date: new Date("2008-01-20"),
   },
   {
     id: 8,
@@ -220,14 +209,8 @@ const products = [
       },
     ],
     movie: null,
-    serie: {
-      media_id: 8,
-      seasons: [
-        { id: 1, number: 1, serie_id: 8, total_episodes: 8, released_date: new Date("2019-01-20") },
-        { id: 2, number: 2, serie_id: 8, total_episodes: 2, released_date: new Date("2020-01-20") },
-        { id: 3, number: 3, serie_id: 8, total_episodes: 3, released_date: new Date("2021-01-20") },
-      ],
-    },
+    seasons: 2,
+    released_date: new Date("2019-01-20"),
     genres: [
       { media_id: 8, genre_id: 1, genre: { name: "Action", id: 1 } },
       { media_id: 8, genre_id: 4, genre: { name: "Drama", id: 4 } },
@@ -261,19 +244,8 @@ const products = [
       { media_id: 9, genre_id: 9, genre: { name: "Medieval", id: 9 } },
     ],
     movie: null,
-    serie: {
-      media_id: 9,
-      seasons: [
-        { id: 1, number: 1, serie_id: 9, total_episodes: 6, released_date: new Date("2011-01-20") },
-        { id: 2, number: 2, serie_id: 9, total_episodes: 5, released_date: new Date("2012-01-20") },
-        { id: 3, number: 3, serie_id: 9, total_episodes: 7, released_date: new Date("2013-01-20") },
-        { id: 4, number: 4, serie_id: 9, total_episodes: 8, released_date: new Date("2014-01-20") },
-        { id: 5, number: 5, serie_id: 9, total_episodes: 6, released_date: new Date("2015-01-20") },
-        { id: 6, number: 6, serie_id: 9, total_episodes: 9, released_date: new Date("2016-01-20") },
-        { id: 7, number: 7, serie_id: 9, total_episodes: 5, released_date: new Date("2017-01-20") },
-        { id: 8, number: 8, serie_id: 9, total_episodes: 7, released_date: new Date("2018-01-20") },
-      ],
-    },
+    seasons: 8,
+    released_date: new Date("2011-01-20"),
   },
   {
     id: 10,
@@ -298,18 +270,8 @@ const products = [
       { media_id: 10, genre_id: 8, genre: { name: "Fantasy", id: 8 } },
     ],
     movie: null,
-    serie: {
-      media_id: 10,
-      seasons: [
-        {
-          id: 1,
-          number: 1,
-          serie_id: 10,
-          total_episodes: 8,
-          released_date: new Date("2019-01-20")
-        },
-      ],
-    },
+    seasons: 1,
+    released_date: new Date("2019-01-20"),
   },
 
 ];
@@ -381,17 +343,12 @@ export const createProducts = async () => {
             media: { connect: { id: media.id } },
           },
         });
-      } else if (product.serie) {
+      } else if (product.seasons) {
         await prisma.serie.create({
           data: {
             media: { connect: { id: media.id } },
-            seasons: {
-              create: product.serie.seasons.map(season => ({
-                number: season.number,
-                total_episodes: season.total_episodes,
-                released_date: new Date(season.released_date),
-              })),
-            },
+            seasons: product.seasons,
+            released_date: new Date(product.released_date),
           },
         });
       }

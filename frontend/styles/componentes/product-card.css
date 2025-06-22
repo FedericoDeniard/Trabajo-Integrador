@@ -181,3 +181,158 @@
   align-self: stretch;
   text-align: right;
 }
+
+.hidden {
+  opacity: 0.5;
+}
+
+/* Editables */
+
+.product-card input[type="text"],
+.product-card input[type="number"],
+.product-card input[type="date"] {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: white;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.product-card input[type="text"]:focus,
+.product-card input[type="number"]:focus,
+.product-card input[type="date"]:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.product-card input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.product-card h2 input[type="text"] {
+  font-size: 2rem;
+  font-weight: inherit;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0;
+  padding: 2px 0;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.product-card h2 input[type="text"]:focus {
+  border-bottom-color: rgba(255, 255, 255, 0.8);
+  background: transparent;
+  box-shadow: none;
+}
+
+.product-card h2 input[type="date"] {
+  font-size: 1.3rem;
+  font-weight: bold;
+  opacity: 0.7;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0;
+  padding: 2px 0;
+  color: white;
+}
+
+.product-card h2 input[type="date"]:focus {
+  border-bottom-color: rgba(255, 255, 255, 0.8);
+  background: transparent;
+  box-shadow: none;
+  opacity: 1;
+}
+
+.product-card input.sub-directors {
+  font-size: 0.9rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0;
+  padding: 2px 0;
+  margin-bottom: 4px;
+  width: 100%;
+}
+
+.product-card input.sub-directors:focus {
+  border-bottom-color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  box-shadow: none;
+}
+
+.right-header input[type="number"] {
+  font-size: 2.5rem;
+  font-weight: 640;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0;
+  padding: 0;
+  width: 80px;
+  text-align: center;
+  margin-left: 8px;
+}
+
+.right-header input[type="number"]:focus {
+  border-bottom-color: rgba(255, 255, 255, 0.8);
+  background: transparent;
+  box-shadow: none;
+}
+
+.description input[type="text"] {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0;
+  padding: 4px 0;
+  width: 100%;
+  font-size: inherit;
+}
+
+.description input[type="text"]:focus {
+  border-bottom-color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  box-shadow: none;
+}
+
+.genres input[type="text"] {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0;
+  padding: 2px 4px;
+  font-style: italic;
+  font-size: inherit;
+  margin: 0 2px;
+  min-width: 60px;
+}
+
+.genres input[type="text"]:focus {
+  border-bottom-color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  box-shadow: none;
+}
+
+.price input[type="number"] {
+  font-size: 2rem;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0;
+  padding: 0;
+  width: 120px;
+  text-align: right;
+}
+
+.price input[type="number"]:focus {
+  border-bottom-color: rgba(255, 255, 255, 0.8);
+  background: transparent;
+  box-shadow: none;
+}
