@@ -60,13 +60,11 @@ export default class Controller {
     });
     this.view.$modalCloseButton.addEventListener("click", () => {
       this.view.$modal.close();
-      console.log("Cerraste el modal");
     });
     this.view.$modalSendButton.addEventListener("click", async () => {
       this.view.$modal.close();
       try {
         const ticketResponse = await this.model.purchaseProducts();
-        console.log("Compra exitosa");
         const newWindow = window.open("");
         newWindow.document.body.innerHTML = ticketResponse.html;
         userManager.logout();
