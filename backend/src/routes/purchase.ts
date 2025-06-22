@@ -53,7 +53,7 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
 
         const ticketDB = await prismaInstance.createTicket(username,
             ticketProducts,
-            Date.now()
+            new Date()
         );
 
         const ticketHtml = await generateTicketHTML({ products: ticketProducts, username, print: false });

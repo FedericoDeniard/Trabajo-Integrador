@@ -137,12 +137,12 @@ class PrismaService {
         }
     }
 
-    async createTicket(username: string, products: PurchaseProduct[], date: number) {
+    async createTicket(username: string, products: PurchaseProduct[], date: Date) {
         try {
             const newTicket = await this.client.ticket.create({
                 data: {
                     user_name: username,
-                    date: new Date(date),
+                    date: date,
                     productTickets: {
                         create: products.map((p) => ({
                             media: { connect: { id: p.mediaId } },
