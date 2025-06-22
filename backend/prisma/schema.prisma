@@ -45,6 +45,7 @@ model Media {
 
   genres    ProductGenre[]
   directors TitleDirector[]
+  productTicket ProductTicket[]
 
   Movie Movie? @relation("MovieMedia")
   Serie Serie? @relation("SerieMedia")
@@ -92,4 +93,23 @@ model Season {
   released_date  DateTime @db.Date
 
   serie Serie @relation(fields: [serie_id], references: [id])
+}
+
+model Ticket {
+  id            Int      @id @default(autoincrement())
+  user_name     String
+  date          DateTime @default(now())
+
+  productTickets ProductTicket[]
+}
+
+model ProductTicket {
+  ticket_id     Int
+  media_id      Int
+  amount        Int
+
+  ticket        Ticket @relation(fields: [ticket_id], references: [id])
+  media         Media  @relation(fields: [media_id], references: [id])
+
+  @@id([ticket_id, media_id])
 }
