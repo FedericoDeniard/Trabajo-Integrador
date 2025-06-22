@@ -87,3 +87,11 @@ adminRouter.post("/activate/:id", adminAuth, async (req, res) => {
         res.render("admin/info", { title: "Error habilitando producto", message: "Error habilitando producto", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
     }
 })
+
+adminRouter.get("/movie/create", adminAuth, (req, res) => {
+    res.render("admin/createMovie")
+})
+
+adminRouter.get("/series/create", adminAuth, (req, res) => {
+    res.render("admin/createSerie")
+})

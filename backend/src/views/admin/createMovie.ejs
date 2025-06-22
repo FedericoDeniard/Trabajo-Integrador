@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="/styles/componentes/header.css" />
     <link rel="stylesheet" href="/styles/componentes/general.css" />
     <link rel="stylesheet" href="/styles/componentes/buttons.css" />
-    <link rel="stylesheet" href="/styles/componentes/product-card.css" />
-    <link rel="stylesheet" href="/styles/vistas/shopping-cart.css" />
-    <link rel="stylesheet" href="/styles/componentes/forms.css" />
+    <link rel="stylesheet" href="/styles/componentes/image.css" />
+
+    <link rel="stylesheet" href="/styles/vistas/new-product.css" />
   </head>
   <body>
     <header class="header">
@@ -34,118 +34,101 @@
         </form>
       </div>
     </header>
-    <section>
-      <h1>Productos</h1>
-      <div class="form --center sent-content borderless">
-        <form action="/api/admin/movie/create" method="GET">
-          <button type="submit" class="button">Crear nueva película</button>
-        </form>
-        <form action="/api/admin/series/create" method="GET">
-          <button type="submit" class="button --yellow">
-            Crear nueva serie
-          </button>
-        </form>
-      </div>
-      <form class="form --center borderless">
-        <div class="row --fit-content">
-          <label for="peliculas">Mostrar</label>
-          <span class="checkbox-container">
-            <input type="checkbox" id="peliculas" checked />
-            <label for="peliculas">Peliculas</label>
-          </span>
-          <span class="checkbox-container">
-            <input type="checkbox" id="series" checked />
-            <label for="series">Series</label>
-          </span>
+    <form class="form" method="POST" enctype="multipart/form-data">
+      <div class="form__inputs-container">
+        <div class="form__field">
+          <label for="title">Título:</label>
+          <input type="text" id="title" name="title" required />
         </div>
-      </form>
 
-      <div id="products">
-        <!--en este se cargan los productos y se filtran según corresponda-->
-        <% products.forEach(p => { %>
-        <div
-          class="product-card <%= p.media.available ? '' : 'hidden' %>"
-          data-id="${p.media.id}"
-        >
-          <div class="header">
-            <div class="left-header">
-              <h2>
-                <span><%= p.media.title %></span>
-                <% const fechaStr = p.released_date; const fecha = fechaStr ?
-                new Date(fechaStr) : null; if (fecha) { const yyyy =
-                fecha.getFullYear(); const mm = String(fecha.getMonth() +
-                1).padStart(2, '0'); const dd =
-                String(fecha.getDate()).padStart(2, '0'); %>
-                <em>(<%= `${yyyy}/${mm}/${dd}` %>)</em>
-                <% } %>
-              </h2>
-              <p class="sub-directors">
-                <%= p.media.directors.map((d) => d.director.name).join(", ") %>
-              </p>
-              <% if (p.seasons) { %>
-              <p><%= p.seasons %> temporadas</p>
-              <% } %>
-            </div>
-            <div class="right-header">
-              <img src="/images/star.svg" alt="Star" />
-              <span><%= p.media.rate %></span>
-            </div>
-          </div>
+        <div class="form__field">
+          <label for="price">Precio:</label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            step="0.01"
+            min="0"
+            required
+          />
+        </div>
+
+        <div class="form__field">
+          <label for="description">Descripción:</label>
+          <textarea
+            id="description"
+            name="description"
+            rows="4"
+            required
+          ></textarea>
+        </div>
+
+        <div class="form__field">
+          <label for="rate">Calificación:</label>
+          <input type="number" id="rate" name="rate" min="0" max="5", step="0.1" required>
+          </input>
+        </div>
+
+        <div class="form__field">
+          <label for="available">Disponible:</label>
+          <select id="available" name="available" required>
+            <option value="">Seleccionar...</option>
+            <option value="true">Sí</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+
+        <div class="form__field">
+          <label for="duration">Duración (minutos):</label>
+          <input type="number" id="duration" name="duration" min="1" required />
+        </div>
+
+        <div class="form__field">
+          <label for="released_date">Fecha de lanzamiento:</label>
+          <input type="date" id="released_date" name="released_date" required />
+        </div>
+      </div>
+
+      <div class="form__image-container">
+        <div class="form__field">
+          <label for="thumbnail">Imagen:</label>
           <div class="img-container">
             <img
-              src="<%= p.media.thumbnail %>"
-              alt="<%= p.media.title %>"
+              src="/images/placeholder.jpg"
+              alt="Vista previa"
               onerror="this.src='/images/not-found.svg'"
+              onclick="document.getElementById('thumbnail').click()"
+            />
+            <input
+              type="file"
+              id="thumbnail"
+              name="thumbnail"
+              accept="image/*"
+              style="display: none"
+              required
+              onchange="previewImage(this)"
             />
           </div>
-          <p class="description">
-            <b>Descripción:</b> <%= p.media.description %>
-          </p>
-          <p class="genres">
-            <b>Géneros:</b>
-            <% p.media.genres.forEach((g, i) => { %> <%= g.genre.name %><% if (i
-            < p.media.genres.length - 1) { %>,<% } %> <% }) %>
-          </p>
-
-          <div class="card-form">
-            <div class="form-left"></div>
-
-            <div class="form-right">
-              <p class="price">
-                $<span class="price-span"> <%= p.media.price %> </span>
-              </p>
-              <form
-                action="/api/admin/edit/<%= p.media.id %>"
-                method="POST"
-                style="display: inline"
-              >
-                <button type="submit" class="button --yellow">Editar</button>
-              </form>
-
-              <% if (p.media.available === true) { %>
-              <form
-                action="/api/admin/delete/<%= p.media.id %>"
-                method="POST"
-                style="display: inline"
-              >
-                <button type="submit" class="button --red">Dar de baja</button>
-              </form>
-              <% } else { %>
-              <form
-                action="/api/admin/activate/<%= p.media.id %>"
-                method="POST"
-                style="display: inline"
-              >
-                <button type="submit" class="button --green">
-                  Dar de alta
-                </button>
-              </form>
-              <% } %>
-            </div>
-          </div>
         </div>
-        <% }) %>
       </div>
-    </section>
+
+      <div class="form__submit-container">
+        <button type="submit">Guardar Producto</button>
+        <button type="reset">Limpiar</button>
+      </div>
+    </form>
+
+    <script>
+      function previewImage(input) {
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const img = input.parentNode.querySelector("img");
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+    </script>
   </body>
 </html>
