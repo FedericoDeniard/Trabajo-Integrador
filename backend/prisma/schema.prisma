@@ -43,8 +43,9 @@ model Media {
   rate        Decimal @db.Decimal(2, 1)
   available   Boolean
 
-  genres    ProductGenre[]
-  directors TitleDirector[]
+  genres        ProductGenre[]
+  directors     TitleDirector[]
+  productTicket ProductTicket[]
 
   Movie Movie? @relation("MovieMedia")
   Serie Serie? @relation("SerieMedia")
@@ -82,4 +83,23 @@ model TitleDirector {
   director Director @relation(fields: [director_id], references: [id])
 
   @@id([media_id, director_id])
+}
+
+model Ticket {
+  id        Int      @id @default(autoincrement())
+  user_name String
+  date      DateTime @default(now())
+
+  productTickets ProductTicket[]
+}
+
+model ProductTicket {
+  ticket_id Int
+  media_id  Int
+  amount    Int
+
+  ticket Ticket @relation(fields: [ticket_id], references: [id])
+  media  Media  @relation(fields: [media_id], references: [id])
+
+  @@id([ticket_id, media_id])
 }

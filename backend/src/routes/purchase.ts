@@ -8,7 +8,7 @@ import { generatePdf, generateTicketHTML, ProductWithAmount } from 'src/controll
 
 export const purchaseRouter = express.Router()
 
-class PurchaseProduct {
+export class PurchaseProduct {
     mediaId: number;
     amount: number;
 
@@ -26,8 +26,6 @@ class PurchaseProduct {
     }
 }
 
-let lastProduct: ProductWithAmount[] = [] // Esto es temporal, debería consultar a la db
-
 purchaseRouter.post("/", async (req: Request, res: Response) => {
     const { products, username } = req.body
     if (!products) {
@@ -38,20 +36,31 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
     }
 
     try {
+        const purchaseProducts: PurchaseProduct[] = products.map((product: any) => new PurchaseProduct(product.mediaId, product.amount));
+        const productsId = purchaseProducts.map((p: PurchaseProduct) => p.mediaId);
+        const mediaProducts = await prismaInstance.getMediasByIds(productsId);
+        const ticketProducts: ProductWithAmount[] = mediaProducts.map((p: MediaByIdsResult) => {
+            const match = purchaseProducts.find((pp: PurchaseProduct) => pp.mediaId === p.id);
+            if (!match) {
+                throw new HttpError(400, `No matching product found for mediaId ${p.id}`);
+            }
 
-        const purchaseProducts = products.map((product: any) => new PurchaseProduct(product.mediaId, product.amount))
-        const productsId = purchaseProducts.map((p: PurchaseProduct) => p.mediaId)
-        const mediaProducts = await prismaInstance.getMediasByIds(productsId)
-        const ticketProducts: ProductWithAmount[] = mediaProducts.map((p: MediaByIdsResult) => ({
-            ...p,
-            amount: purchaseProducts.find((pp: PurchaseProduct) => pp.mediaId === p.id).amount
-        }))
-        const ticketId = Math.ceil(Math.random() * 10)
-        lastProduct = ticketProducts
-        const ticketHtml = await generateTicketHTML({ products: lastProduct, username, print: false })
-        const token = generateTicketJwt(ticketId)
+            return {
+                ...p,
+                amount: match.amount
+            };
+        });
 
-        res.cookie('ticket_access', token, { httpOnly: true, secure: false, maxAge: 60 * 60 * 1000 }).status(201).json(new ResponseObject(true, { ticketId: ticketId, html: ticketHtml }, "Purchase successfully created"))
+        const ticketDB = await prismaInstance.createTicket(username,
+            ticketProducts,
+            new Date()
+        );
+
+        const ticketHtml = await generateTicketHTML({ products: ticketProducts, username, print: false });
+
+        const token = generateTicketJwt(ticketDB.id);
+
+        res.cookie('ticket_access', token, { httpOnly: true, secure: false, maxAge: 60 * 60 * 1000 }).status(201).json(new ResponseObject(true, { ticketId: ticketDB.id, html: ticketHtml }, "Purchase successfully created"))
         return
     }
     catch (error) {
@@ -69,9 +78,16 @@ purchaseRouter.get("/ticket", async (req: Request, res: Response) => {
     }
     try {
         const { ticketId } = jwt.verify(token, KEYS.JWT_SECRET) as jwt.JwtPayload
-        if (!ticketId) throw new HttpError(401, "Unauthorized")
-        const ticketHtml = await generateTicketHTML({ products: lastProduct, username: false, print: true })
-        const pdf = await generatePdf(ticketHtml, { base: KEYS.URL_BASE, port: KEYS.PORT })
+        if (!ticketId) throw new HttpError(401, "Unauthorized");
+
+        const ticketProducts = await prismaInstance.getProductsFromTicket(ticketId);
+        const ticketHtml = await generateTicketHTML({
+            products: ticketProducts,
+            username: false,
+            print: true
+        })
+
+        const pdf = await generatePdf(ticketHtml, { base: KEYS.URL_BASE, port: KEYS.PORT });
         res.setHeader("Content-Disposition", `attachment; filename=ticket-${ticketId}.pdf`).setHeader("Content-Type", "application/pdf").send(pdf);
     }
     catch (error) {
