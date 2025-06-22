@@ -7,7 +7,8 @@ type ProductForm = {
     description: string,
     genres: string[],
     price: string,
-    seasons?: string
+    seasons?: string,
+    duration?: string
 }
 
 export type ProductType = {
@@ -20,6 +21,7 @@ export type ProductType = {
     genres: string[],
     price: number,
     seasons?: number,
+    duration?: number,
     thumbnail?: string
 }
 
@@ -30,6 +32,10 @@ export const validateProduct = (product: ProductForm): ProductType => {
     }
 
     const seasonsNumber = product.seasons ? Number(product.seasons) : NaN;
+    const durationNumber = product.duration ? Number(product.duration) : NaN;
+    if (isNaN(seasonsNumber) && isNaN(durationNumber)) {
+        throw new Error("Invalid product data");
+    }
 
     return {
         id: Number(product.id),
@@ -40,7 +46,8 @@ export const validateProduct = (product: ProductForm): ProductType => {
         description: product.description,
         genres: product.genres,
         price: Number(product.price),
-        ...((!isNaN(seasonsNumber)) && { seasons: seasonsNumber })
+        ...((!isNaN(seasonsNumber)) && { seasons: seasonsNumber }),
+        ...((!isNaN(durationNumber)) && { duration: durationNumber })
     }
 }
 

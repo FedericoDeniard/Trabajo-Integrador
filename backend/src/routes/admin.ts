@@ -55,7 +55,6 @@ adminRouter.post("/update/:id", adminAuth, mediaThumbnailUpload.single("thumbnai
     const image = req.file
     try {
         const updated = await prismaInstance.updateProduct({ ...updatedProduct, thumbnail: image?.path })
-        console.log(updated)
         res.render("admin/info", { title: "Producto actualizado", message: "Producto actualizado correctamente", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
 
     } catch (error) {

@@ -271,7 +271,7 @@ class PrismaService {
                 } else {
                     await prisma.movie.update({
                         where: { mediaId: product.id },
-                        data: { released_date: product.released_date }
+                        data: { duration: product.duration, released_date: product.released_date }
                     });
                 }
 

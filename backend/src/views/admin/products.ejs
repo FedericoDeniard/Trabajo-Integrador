@@ -84,6 +84,8 @@
               </p>
               <% if (p.seasons) { %>
               <p><%= p.seasons %> temporadas</p>
+              <% } else { %>
+              <p>Duración: <%= p.duration %> minutos</p>
               <% } %>
             </div>
             <div class="right-header">
