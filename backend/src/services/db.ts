@@ -3,6 +3,7 @@ import { Prisma, PrismaClient } from "../../generated/prisma";
 import { HttpError } from "src/middlewares/errorHandler";
 import { ProductWithAmount } from "src/controllers/tickets";
 import { PurchaseProduct } from "src/routes/purchase";
+import { deleteThumbnail } from "src/constants/multer";
 
 export type MovieWithMedia = Prisma.MovieGetPayload<{
     include: {
@@ -228,15 +229,29 @@ class PrismaService {
                     where: { media_id: product.id }
                 });
 
-                const updated = await prisma.media.update({
+
+                let updated = await prisma.media.update({
                     where: { id: product.id },
                     data: {
                         title: product.title,
                         price: product.price,
                         description: product.description,
-                        rate: product.rate
+                        rate: product.rate,
                     }
                 });
+
+                if (product.thumbnail !== updated.thumbnail && product.thumbnail) {
+                    try {
+                        await deleteThumbnail(updated.thumbnail)
+                    } catch (error) {
+                        console.error('Error deleting thumbnail:', error);
+                    } finally {
+                        updated = await prisma.media.update({
+                            where: { id: product.id },
+                            data: { thumbnail: "/" + product.thumbnail.replace('dist/', '') }
+                        })
+                    }
+                }
 
                 if (genres.length > 0) {
                     await prisma.productGenre.createMany({
@@ -259,6 +274,7 @@ class PrismaService {
                         data: { released_date: product.released_date }
                     });
                 }
+
 
                 return updated;
             });

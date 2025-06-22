@@ -1,12 +1,11 @@
 import express from "express";
 import { fileURLToPath } from "node:url"
 import { dirname } from "node:path"
-import path from "node:path"
-import { ResponseObject } from "src/middlewares/errorHandler";
 import { generarteAdminJwt } from "src/controllers/admin";
 import prismaInstance from "src/services/db";
 import { adminAuth } from "src/middlewares/auth";
 import { validateProduct } from "src/controllers/products";
+import { deleteThumbnail, mediaThumbnailUpload } from "src/constants/multer";
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -50,14 +49,19 @@ adminRouter.post("/edit/:id", adminAuth, async (req, res) => {
     res.render("admin/edit", { p: product })
 })
 
-adminRouter.post("/update/:id", adminAuth, async (req, res) => {
+adminRouter.post("/update/:id", adminAuth, mediaThumbnailUpload.single("thumbnail"), async (req, res) => {
     const data = req.body;
     const updatedProduct = validateProduct(data)
+    const image = req.file
     try {
-        await prismaInstance.updateProduct(updatedProduct)
+        const updated = await prismaInstance.updateProduct({ ...updatedProduct, thumbnail: image?.path })
+        console.log(updated)
         res.render("admin/info", { title: "Producto actualizado", message: "Producto actualizado correctamente", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
 
     } catch (error) {
+        if (image) {
+            await deleteThumbnail(image.path)
+        }
         res.render("admin/info", { title: "Error actualizando producto", message: "Error actualizando producto", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
     }
 })

@@ -19,7 +19,8 @@ export type ProductType = {
     description: string,
     genres: string[],
     price: number,
-    seasons?: number
+    seasons?: number,
+    thumbnail?: string
 }
 
 

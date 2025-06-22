@@ -14,7 +14,7 @@ export default {
     sourcemap: true,
   },
   plugins: [
-    del({ targets: "dist/*" }),
+    del({ targets: ["dist/frontend", "dist/views", "dist/public"] }),
 
     copy({
       targets: [

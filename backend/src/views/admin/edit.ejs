@@ -42,6 +42,7 @@
           action="/api/admin/update/<%= p.media.id %>"
           method="POST"
           style="display: inline"
+          enctype="multipart/form-data"
         >
         <input type="hidden" name="id" value="<%= p.media.id %>" readonly style="display: none;"></input>
           <div class="header">
@@ -88,6 +89,15 @@
               src="<%= p.media.thumbnail %>"
               alt="<%= p.media.title %>"
               onerror="this.src='/images/not-found.svg'"
+              onclick="document.getElementById('imageInput').click()"
+            />
+            <input 
+              type="file" 
+              id="imageInput" 
+              name="thumbnail"
+              accept="image/*" 
+              style="display: none;" 
+              onchange="previewImage(this)"
             />
           </div>
           <p class="description">
@@ -114,5 +124,17 @@
         </form>
       </div>
     </section>
+    <script>
+function previewImage(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = input.parentNode.querySelector('img');
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+</script>
   </body>
 </html>
