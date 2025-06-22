@@ -6,7 +6,7 @@ import prismaInstance from "../services/db";
 export const productsRouter = express.Router();
 
 productsRouter.get("/", async (req: Request, res: Response) => {
-    const products = await prismaInstance.getAllProducts();
+    const products = await prismaInstance.getAvailableProducts();
     res.json(new ResponseObject(true, products, "Products list successfully retrieved"))
 })
 

@@ -160,6 +160,24 @@ class PrismaService {
         }
     }
 
+    async getAvailableProducts(): Promise<MediaByIdsResult[]> {
+        try {
+            const [movies, series] = await Promise.all([
+                this.client.movie.findMany({
+                    where: {media: {available: true}},
+                    include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
+                }),
+                this.client.serie.findMany({
+                    where: {media: {available: true}},
+                    include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
+                })
+            ])
+            return [...movies, ...series]
+        } catch (error) {
+            throw new HttpError(500, "Error retrieving products");
+        }
+    }
+
     private mediaToSerie = (media: MediaWithProduct): SerieWithMedia => {
         if (!media.Serie) throw new Error("Media is not a serie");
         const serie = {
