@@ -121,6 +121,7 @@ class PrismaService {
             throw new HttpError(500, "Error retrieving products by ids");
         }
     }
+    
     async getProductsFromTicket(ticketId: number): Promise<ProductWithAmount[]> {
         try {
             const ticket = await this.client.ticket.findUnique({
