@@ -144,22 +144,6 @@ class PrismaService {
         }
     }
 
-    async getAllProducts(): Promise<MediaByIdsResult[]> {
-        try {
-            const [movies, series] = await Promise.all([
-                this.client.movie.findMany({
-                    include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
-                }),
-                this.client.serie.findMany({
-                    include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
-                })
-            ])
-            return [...movies, ...series]
-        } catch (error) {
-            throw new HttpError(500, "Error retrieving products");
-        }
-    }
-
     async getProducts(showAllProducts: boolean = true): Promise<MediaByIdsResult[]> {
         try {
             let hideProducts = {}
@@ -174,24 +158,6 @@ class PrismaService {
                 }),
                 this.client.serie.findMany({
                     where: { media: hideProducts },
-                    include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
-                })
-            ])
-            return [...movies, ...series]
-        } catch (error) {
-            throw new HttpError(500, "Error retrieving products");
-        }
-    }
-
-    async getAvailableProducts(): Promise<MediaByIdsResult[]> {
-        try {
-            const [movies, series] = await Promise.all([
-                this.client.movie.findMany({
-                    where: {media: {available: true}},
-                    include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
-                }),
-                this.client.serie.findMany({
-                    where: {media: {available: true}},
                     include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
                 })
             ])
