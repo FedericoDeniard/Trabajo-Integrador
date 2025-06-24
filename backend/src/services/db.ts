@@ -338,6 +338,90 @@ class PrismaService {
             throw new HttpError(500, "Error creating ticket");
         }
     }
+
+    async createProduct(product: ProductType) {
+        try {
+
+            const newProduct = await this.client.$transaction(async (prisma) => {
+                if (!product.thumbnail) throw new HttpError(400, "Missing thumbnail");
+                if (!product.available) throw new HttpError(400, "Missing available");
+                const genrePromises = product.genres.map(async (genreName) => {
+                    let genre = await prisma.genre.findUnique({
+                        where: { name: genreName }
+                    });
+
+                    if (!genre) {
+                        genre = await prisma.genre.create({
+                            data: { name: genreName }
+                        });
+                    }
+
+                    return genre;
+                });
+
+                const genres = await Promise.all(genrePromises);
+
+                const directorPromises = product.directors.map(async (directorName) => {
+                    let director = await prisma.director.findUnique({
+                        where: { name: directorName }
+                    });
+
+                    if (!director) {
+                        director = await prisma.director.create({
+                            data: { name: directorName }
+                        });
+                    }
+
+                    return director;
+                });
+
+                const directors = await Promise.all(directorPromises);
+
+                const media = await prisma.media.create({
+                    data: {
+                        title: product.title,
+                        price: product.price,
+                        thumbnail: product.thumbnail,
+                        description: product.description,
+                        rate: product.rate,
+                        available: product.available,
+                        genres: {
+                            create: genres.map(genre => ({
+                                genre: { connect: { id: genre.id } },
+                            })),
+                        },
+                        directors: {
+                            create: directors.map(director => ({
+                                director: { connect: { id: director.id } },
+                            })),
+                        },
+                    },
+                });
+
+                if (product.seasons) {
+                    await prisma.serie.create({
+                        data: {
+                            media: { connect: { id: media.id } },
+                            seasons: product.seasons,
+                            released_date: product.released_date,
+                        },
+                    });
+                } else if (product.duration) {
+                    await prisma.movie.create({
+                        data: {
+                            duration: product.duration,
+                            released_date: product.released_date,
+                            media: { connect: { id: media.id } },
+                        },
+                    });
+                }
+                return media;
+            });
+            return newProduct
+        } catch (error) {
+            throw error
+        }
+    }
 }
 
 const prismaInstance = new PrismaService()
