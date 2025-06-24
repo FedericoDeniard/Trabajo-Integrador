@@ -121,6 +121,7 @@ class PrismaService {
             throw new HttpError(500, "Error retrieving products by ids");
         }
     }
+    
     async getProductsFromTicket(ticketId: number): Promise<ProductWithAmount[]> {
         try {
             const ticket = await this.client.ticket.findUnique({
@@ -144,13 +145,20 @@ class PrismaService {
         }
     }
 
-    async getAllProducts(): Promise<MediaByIdsResult[]> {
+    async getProducts(showAllProducts: boolean = true): Promise<MediaByIdsResult[]> {
         try {
+            let hideProducts = {}
+            if(showAllProducts == false) {
+                hideProducts = { available: true };
+            }
+
             const [movies, series] = await Promise.all([
                 this.client.movie.findMany({
+                    where: { media: hideProducts },
                     include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
                 }),
                 this.client.serie.findMany({
+                    where: { media: hideProducts },
                     include: { media: { include: { genres: { include: { genre: true } }, directors: { include: { director: true } } } } }
                 })
             ])
