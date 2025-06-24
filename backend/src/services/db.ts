@@ -381,7 +381,7 @@ class PrismaService {
                     data: {
                         title: product.title,
                         price: product.price,
-                        thumbnail: product.thumbnail,
+                        thumbnail: "/" + product.thumbnail.replace('dist/', ''),
                         description: product.description,
                         rate: product.rate,
                         available: product.available,

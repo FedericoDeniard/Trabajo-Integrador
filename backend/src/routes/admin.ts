@@ -113,3 +113,23 @@ adminRouter.post("/movie/create", adminAuth, mediaThumbnailUpload.single("thumbn
     }
 
 })
+
+adminRouter.post("/series/create", adminAuth, mediaThumbnailUpload.single("thumbnail"), async (req, res) => {
+    console.log(req.body)
+    const product = validateProduct(req.body)
+    console.log(product)
+    console.log(req.file?.path)
+    try {
+
+        const newProduct = await prismaInstance.createProduct({ ...product, thumbnail: req.file?.path })
+        console.log(newProduct)
+        res.render("admin/info", { title: "Producto creado", message: "Producto creado correctamente", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
+    } catch (error) {
+        console.log(error)
+        if (req.file) {
+            await deleteThumbnail(req.file?.path)
+        }
+        res.render("admin/info", { title: "Error creando producto", message: "Error creando producto", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
+    }
+
+})
