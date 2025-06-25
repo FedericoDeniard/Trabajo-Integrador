@@ -13,18 +13,11 @@ const __dirname = dirname(__filename)
 
 export const adminRouter = express.Router();
 
-const mockedUser = {
-    id: 1,
-    username: "admin",
-    password: "administrador"
-}
-
-export type UserType = typeof mockedUser
-
-adminRouter.post("/", (req, res) => {
+adminRouter.post("/", async (req, res) => {
     const { username, password } = req.body;
-    if (username === mockedUser.username && password === mockedUser.password) {
-        const jwt = generarteAdminJwt(mockedUser)
+    const id = await prismaInstance.loginAdmin(username, password)
+    if (id) {
+        const jwt = generarteAdminJwt({ id })
         res.status(200).cookie("admin", jwt, { httpOnly: true }).redirect("/api/admin/products")
         return
     }
