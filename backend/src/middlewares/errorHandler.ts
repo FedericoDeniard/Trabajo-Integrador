@@ -18,5 +18,9 @@ export class ResponseObject<T> {
 }
 
 export const errorHandler = (err: HttpError, req: Request, res: Response, next: NextFunction) => {
+    if (err.statusCode === 401) {
+        res.redirect("/api/admin/login")
+        return
+    }
     res.status(err.statusCode || 500).json(new ResponseObject(false, null, err.message))
 }

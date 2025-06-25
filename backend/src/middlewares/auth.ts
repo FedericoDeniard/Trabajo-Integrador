@@ -17,8 +17,7 @@ interface JwtPayload {
 export const adminAuth = (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.admin;
     if (!token) {
-        res.redirect("/api/admin/login")
-        return
+        throw new HttpError(401, "Unauthorized")
     }
     try {
         const decoded = jwt.verify(token, KEYS.JWT_SECRET) as JwtPayload;
@@ -29,7 +28,6 @@ export const adminAuth = (req: Request, res: Response, next: NextFunction) => {
 
         next();
     } catch (error) {
-        res.redirect("/api/admin/login")
-        return
+        throw new HttpError(401, "Invalid credentials")
     }
 }
