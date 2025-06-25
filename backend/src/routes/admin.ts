@@ -39,7 +39,7 @@ adminRouter.get("/login", (req, res) => {
 })
 
 adminRouter.get("/products", adminAuth, async (req, res) => {
-    const products = await prismaInstance.getAllProducts();
+    const products = await prismaInstance.getProducts();
     res.render("admin/products", { products })
 })
 
