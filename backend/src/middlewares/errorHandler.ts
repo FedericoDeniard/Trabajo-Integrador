@@ -11,7 +11,7 @@ export class HttpError extends Error {
 
 export class ResponseObject<T> {
     constructor(
-        public sucess: boolean,
+        public success: boolean,
         public data: T,
         public message: string
     ) { }
