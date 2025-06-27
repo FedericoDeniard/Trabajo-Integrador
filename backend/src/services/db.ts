@@ -162,6 +162,19 @@ class PrismaService {
         }
     }
 
+    async getTicketDate(ticketId: number): Promise<Date> {
+        try {
+            const ticket = await this.client.ticket.findUnique({
+                where: { id: ticketId },
+                select: { date: true }
+            });
+            if (!ticket) throw new HttpError(404, "Ticket not found");
+            return ticket.date
+        } catch (error) {
+            throw new HttpError(500, "Error retrieving ticket date");
+        }
+    }
+
     async getProducts(showAllProducts: boolean = true): Promise<MediaByIdsResult[]> {
         try {
             let hideProducts = {}

@@ -51,12 +51,13 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
             };
         });
 
+        const ticketDate = new Date()
         const ticketDB = await prismaInstance.createTicket(username,
             ticketProducts,
-            new Date()
+            ticketDate
         );
 
-        const ticketHtml = await generateTicketHTML({ products: ticketProducts, username, print: false });
+        const ticketHtml = await generateTicketHTML({ products: ticketProducts, username, print: false, date: ticketDate });
 
         const token = generateTicketJwt(ticketDB.id);
 
@@ -80,11 +81,15 @@ purchaseRouter.get("/ticket", async (req: Request, res: Response) => {
         const { ticketId } = jwt.verify(token, KEYS.JWT_SECRET) as jwt.JwtPayload
         if (!ticketId) throw new HttpError(401, "Unauthorized");
 
-        const ticketProducts = await prismaInstance.getProductsFromTicket(ticketId);
+        const [ticketProducts, ticketDate] = await Promise.all([
+            prismaInstance.getProductsFromTicket(ticketId),
+            prismaInstance.getTicketDate(ticketId)
+        ])
         const ticketHtml = await generateTicketHTML({
             products: ticketProducts,
             username: false,
-            print: true
+            print: true,
+            date: ticketDate
         })
 
         const pdf = await generatePdf(ticketHtml, { base: KEYS.URL_BASE, port: KEYS.PORT });
