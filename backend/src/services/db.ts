@@ -7,6 +7,7 @@ import { Client } from 'pg'
 import { KEYS } from "src/constants/keys";
 import { comparePassword, hashPassword } from "src/utils/encrypt";
 import { deleteThumbnail } from "src/constants/multer";
+import { PaginatedResponse } from "src/routes/products";
 
 export type MovieWithMedia = Prisma.MovieGetPayload<{
     include: {
@@ -193,6 +194,45 @@ class PrismaService {
                 })
             ])
             return [...movies, ...series]
+        } catch (error) {
+            throw new HttpError(500, "Error retrieving products");
+        }
+    }
+    async getPaginatedProducts(showAllProducts: boolean = true, lastCursor: number, pageAmount: number): Promise<PaginatedResponse> {
+        try {
+            let hideProducts = {}
+            if (showAllProducts == false) {
+                hideProducts = { available: true };
+            }
+
+            const [medias, totalProducts, lastProductId] = await Promise.all([
+                this.client.media.findMany({
+                    where: { ...hideProducts, id: { gt: lastCursor } },
+                    orderBy: { id: "asc" },
+                    take: pageAmount,
+                    include: { Movie: true, Serie: true, genres: { include: { genre: true } }, directors: { include: { director: true } } }
+                }),
+                this.client.media.count({
+                    where: { ...hideProducts, id: { gt: lastCursor } }
+                }),
+                this.client.media.findFirst({
+                    where: { ...hideProducts },
+                    orderBy: { id: "desc" }
+                })
+            ])
+
+
+            const mappedMedias = medias.map(media => {
+                if (media.Movie) {
+                    return this.mediaToMovie(media)
+                } else if (media.Serie) {
+                    return this.mediaToSerie(media)
+                } else throw new Error("Media not found");
+            })
+            const lastMedia = medias[medias.length - 1];
+            const hasMore = lastMedia && lastProductId ? lastMedia.id < lastProductId.id : false;
+            const nextCursor = hasMore && lastMedia ? lastMedia.id : null;
+            return { products: mappedMedias, nextCursor, pageSize: pageAmount, hasMore, totalProducts }
         } catch (error) {
             throw new HttpError(500, "Error retrieving products");
         }
