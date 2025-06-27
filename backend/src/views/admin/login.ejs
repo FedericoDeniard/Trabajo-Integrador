@@ -50,9 +50,19 @@
               placeholder="Ingrese su contraseña"
             />
           </label>
+          <button type="button" class="button --yellow" id="autoComplete">
+            Autocompletar (Testing)
+          </button>
           <button type="submit" class="button">Continuar</button>
         </form>
       </div>
     </div>
+    <script>
+      document.getElementById("autoComplete").addEventListener("click", () => {
+        document.querySelector("input[name='email']").value = "admin@gmail.com";
+        document.querySelector("input[name='password']").value =
+          "administrador";
+      });
+    </script>
   </body>
 </html>
