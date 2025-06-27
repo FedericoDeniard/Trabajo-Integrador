@@ -1,0 +1,29 @@
+.img-container {
+  position: relative;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.img-container:hover {
+  opacity: 0.8;
+}
+
+.img-container::after {
+  content: "⬆️";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.img-container:hover::after {
+  opacity: 1;
+}

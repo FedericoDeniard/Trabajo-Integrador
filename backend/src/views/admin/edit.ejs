@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/styles/componentes/buttons.css" />
     <link rel="stylesheet" href="/styles/componentes/product-card.css" />
     <link rel="stylesheet" href="/styles/vistas/shopping-cart.css" />
+    <link rel="stylesheet" href="/styles/componentes/image.css" />
   </head>
   <body>
     <header class="header">
@@ -43,6 +44,7 @@
           action="/api/admin/update/<%= p.media.id %>"
           method="POST"
           style="display: inline"
+          enctype="multipart/form-data"
         >
         <input type="hidden" name="id" value="<%= p.media.id %>" readonly style="display: none;"></input>
           <div class="header">
@@ -75,9 +77,24 @@
                 />
               <% }) %>
               <% if (p.seasons) { %>
-                <span>Temporadas:</span>
-              <input type="number" value="<%= p.seasons %>" min="0" step="1" name="seasons"  style="width: fit-content;"/>
-              <% } %>
+            <span>Temporadas:</span>
+            <input 
+              type="number" 
+              value="<%= p.seasons %>" 
+              min="0" 
+              step="1" 
+              name="seasons"  
+              style="width: fit-content;" 
+            />
+          <% } else { %>
+            <span>Duración:</span>
+            <input 
+              type="text" 
+              value="<%= p.duration %>" 
+              name="duration" 
+              style="width: fit-content;" 
+            />
+          <% } %>
             </div>
             <div class="right-header">
               <img src="/images/star.svg" alt="Star" />
@@ -89,6 +106,15 @@
               src="<%= p.media.thumbnail %>"
               alt="<%= p.media.title %>"
               onerror="this.src='/images/not-found.svg'"
+              onclick="document.getElementById('imageInput').click()"
+            />
+            <input 
+              type="file" 
+              id="imageInput" 
+              name="thumbnail"
+              accept="image/*" 
+              style="display: none;" 
+              onchange="previewImage(this)"
             />
           </div>
           <p class="description">
@@ -115,5 +141,17 @@
         </form>
       </div>
     </section>
+    <script>
+function previewImage(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = input.parentNode.querySelector('img');
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+</script>
   </body>
 </html>

@@ -1,12 +1,11 @@
 import express from "express";
 import { fileURLToPath } from "node:url"
 import { dirname } from "node:path"
-import path from "node:path"
-import { ResponseObject } from "src/middlewares/errorHandler";
 import { generarteAdminJwt } from "src/controllers/admin";
 import prismaInstance from "src/services/db";
 import { adminAuth } from "src/middlewares/auth";
 import { validateProduct } from "src/controllers/products";
+import { deleteThumbnail, mediaThumbnailUpload } from "src/constants/multer";
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -50,14 +49,18 @@ adminRouter.post("/edit/:id", adminAuth, async (req, res) => {
     res.render("admin/edit", { p: product })
 })
 
-adminRouter.post("/update/:id", adminAuth, async (req, res) => {
+adminRouter.post("/update/:id", adminAuth, mediaThumbnailUpload.single("thumbnail"), async (req, res) => {
     const data = req.body;
     const updatedProduct = validateProduct(data)
+    const image = req.file
     try {
-        await prismaInstance.updateProduct(updatedProduct)
+        const updated = await prismaInstance.updateProduct({ ...updatedProduct, thumbnail: image?.path })
         res.render("admin/info", { title: "Producto actualizado", message: "Producto actualizado correctamente", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
 
     } catch (error) {
+        if (image) {
+            await deleteThumbnail(image.path)
+        }
         res.render("admin/info", { title: "Error actualizando producto", message: "Error actualizando producto", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
     }
 })
@@ -82,4 +85,51 @@ adminRouter.post("/activate/:id", adminAuth, async (req, res) => {
     } catch (error) {
         res.render("admin/info", { title: "Error habilitando producto", message: "Error habilitando producto", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
     }
+})
+
+adminRouter.get("/movie/create", adminAuth, (req, res) => {
+    res.render("admin/createMovie")
+})
+
+adminRouter.get("/series/create", adminAuth, (req, res) => {
+    res.render("admin/createSerie")
+})
+
+adminRouter.post("/movie/create", adminAuth, mediaThumbnailUpload.single("thumbnail"), async (req, res) => {
+    console.log(req.body)
+    const product = validateProduct(req.body)
+    console.log(product)
+    try {
+
+        const newProduct = await prismaInstance.createProduct({ ...product, thumbnail: req.file?.path })
+        console.log(newProduct)
+        res.render("admin/info", { title: "Producto creado", message: "Producto creado correctamente", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
+    } catch (error) {
+        console.log(error)
+        if (req.file) {
+            await deleteThumbnail(req.file?.path)
+        }
+        res.render("admin/info", { title: "Error creando producto", message: "Error creando producto", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
+    }
+
+})
+
+adminRouter.post("/series/create", adminAuth, mediaThumbnailUpload.single("thumbnail"), async (req, res) => {
+    console.log(req.body)
+    const product = validateProduct(req.body)
+    console.log(product)
+    console.log(req.file?.path)
+    try {
+
+        const newProduct = await prismaInstance.createProduct({ ...product, thumbnail: req.file?.path })
+        console.log(newProduct)
+        res.render("admin/info", { title: "Producto creado", message: "Producto creado correctamente", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
+    } catch (error) {
+        console.log(error)
+        if (req.file) {
+            await deleteThumbnail(req.file?.path)
+        }
+        res.render("admin/info", { title: "Error creando producto", message: "Error creando producto", formAction: "/api/admin/products", formMethod: "GET", buttonText: "Volver" })
+    }
+
 })

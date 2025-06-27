@@ -3,6 +3,7 @@ import { Prisma, PrismaClient } from "../../generated/prisma";
 import { HttpError } from "src/middlewares/errorHandler";
 import { ProductWithAmount } from "src/controllers/tickets";
 import { PurchaseProduct } from "src/routes/purchase";
+import { deleteThumbnail } from "src/constants/multer";
 
 export type MovieWithMedia = Prisma.MovieGetPayload<{
     include: {
@@ -236,15 +237,29 @@ class PrismaService {
                     where: { media_id: product.id }
                 });
 
-                const updated = await prisma.media.update({
+
+                let updated = await prisma.media.update({
                     where: { id: product.id },
                     data: {
                         title: product.title,
                         price: product.price,
                         description: product.description,
-                        rate: product.rate
+                        rate: product.rate,
                     }
                 });
+
+                if (product.thumbnail !== updated.thumbnail && product.thumbnail) {
+                    try {
+                        await deleteThumbnail(updated.thumbnail)
+                    } catch (error) {
+                        console.error('Error deleting thumbnail:', error);
+                    } finally {
+                        updated = await prisma.media.update({
+                            where: { id: product.id },
+                            data: { thumbnail: "/" + product.thumbnail.replace('dist/', '') }
+                        })
+                    }
+                }
 
                 if (genres.length > 0) {
                     await prisma.productGenre.createMany({
@@ -264,9 +279,10 @@ class PrismaService {
                 } else {
                     await prisma.movie.update({
                         where: { mediaId: product.id },
-                        data: { released_date: product.released_date }
+                        data: { duration: product.duration, released_date: product.released_date }
                     });
                 }
+
 
                 return updated;
             });
@@ -328,6 +344,90 @@ class PrismaService {
             return newTicket;
         } catch (error) {
             throw new HttpError(500, "Error creating ticket");
+        }
+    }
+
+    async createProduct(product: ProductType) {
+        try {
+
+            const newProduct = await this.client.$transaction(async (prisma) => {
+                if (!product.thumbnail) throw new HttpError(400, "Missing thumbnail");
+                if (!product.available) throw new HttpError(400, "Missing available");
+                const genrePromises = product.genres.map(async (genreName) => {
+                    let genre = await prisma.genre.findUnique({
+                        where: { name: genreName }
+                    });
+
+                    if (!genre) {
+                        genre = await prisma.genre.create({
+                            data: { name: genreName }
+                        });
+                    }
+
+                    return genre;
+                });
+
+                const genres = await Promise.all(genrePromises);
+
+                const directorPromises = product.directors.map(async (directorName) => {
+                    let director = await prisma.director.findUnique({
+                        where: { name: directorName }
+                    });
+
+                    if (!director) {
+                        director = await prisma.director.create({
+                            data: { name: directorName }
+                        });
+                    }
+
+                    return director;
+                });
+
+                const directors = await Promise.all(directorPromises);
+
+                const media = await prisma.media.create({
+                    data: {
+                        title: product.title,
+                        price: product.price,
+                        thumbnail: "/" + product.thumbnail.replace('dist/', ''),
+                        description: product.description,
+                        rate: product.rate,
+                        available: product.available,
+                        genres: {
+                            create: genres.map(genre => ({
+                                genre: { connect: { id: genre.id } },
+                            })),
+                        },
+                        directors: {
+                            create: directors.map(director => ({
+                                director: { connect: { id: director.id } },
+                            })),
+                        },
+                    },
+                });
+
+                if (product.seasons) {
+                    await prisma.serie.create({
+                        data: {
+                            media: { connect: { id: media.id } },
+                            seasons: product.seasons,
+                            released_date: product.released_date,
+                        },
+                    });
+                } else if (product.duration) {
+                    await prisma.movie.create({
+                        data: {
+                            duration: product.duration,
+                            released_date: product.released_date,
+                            media: { connect: { id: media.id } },
+                        },
+                    });
+                }
+                return media;
+            });
+            return newProduct
+        } catch (error) {
+            throw error
         }
     }
 }
