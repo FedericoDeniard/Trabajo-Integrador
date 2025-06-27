@@ -102,11 +102,21 @@
   flex-direction: column;
 }
 
-.hidden {
+.form .hidden {
   display: none;
 }
 
 .checkbox-container {
   display: flex;
   flex-direction: column;
+}
+
+.sent-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.borderless {
+  border: none;
 }
