@@ -3,7 +3,7 @@
 ## Desarrollado por:
 
 - Federico Deniard
-- Delfina García
+- Delfina García Ocampo
 
 # Dependencias:
 
