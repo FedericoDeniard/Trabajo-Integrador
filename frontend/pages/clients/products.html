@@ -4,21 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Menu MediaRent</title>
-    <link rel="icon" href="/images/logo.webp" type="image/webp">
+    <link rel="icon" href="/images/logo.webp" type="image/webp" />
     <link rel="stylesheet" href="../../styles/componentes/header.css" />
     <link rel="stylesheet" href="../../styles/componentes/general.css" />
     <link rel="stylesheet" href="../../styles/componentes/forms.css" />
     <link rel="stylesheet" href="../../styles/componentes/product-card.css" />
     <link rel="stylesheet" href="../../styles/componentes/spinner.css" />
     <link rel="stylesheet" href="../../styles/vistas/shopping-cart.css" />
-    <link rel="preload" href="/images/not-found.svg" as="image">
+    <link rel="stylesheet" href="/styles/componentes/buttons.css" />
+    <link rel="stylesheet" href="/styles/componentes/paginator.css" />
+    <link rel="preload" href="/images/not-found.svg" as="image" />
   </head>
   <body>
     <header class="header">
       <div class="header__main">
-        <img
-          src="/images/logo.webp"
-        />
+        <img src="/images/logo.webp" />
         <div>
           <h2>MediaRent</h2>
           <p>Federico Deniard</p>
@@ -60,7 +60,10 @@
         <div class="loader"></div>
       </div>
     </section>
-
+    <div class="navigator">
+      <button id="prev-page" class="button" disabled>Anterior</button>
+      <button id="next-page" class="button" disabled>Siguiente</button>
+    </div>
     <script type="module" src="../../scripts/mvc/products/index.js"></script>
   </body>
 </html>
