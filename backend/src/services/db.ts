@@ -198,26 +198,25 @@ class PrismaService {
             throw new HttpError(500, "Error retrieving products");
         }
     }
-    async getPaginatedProducts(showAllProducts: boolean = true, lastCursor: number, pageAmount: number): Promise<PaginatedResponse> {
+    async getPaginatedProducts(showAllProducts: boolean = true, page: number, pageSize: number): Promise<PaginatedResponse> {
         try {
             let hideProducts = {}
             if (showAllProducts == false) {
                 hideProducts = { available: true };
             }
 
-            const [medias, totalProducts, lastProductId] = await Promise.all([
+            const offset = (page - 1) * pageSize;
+
+            const [medias, totalProducts] = await Promise.all([
                 this.client.media.findMany({
-                    where: { ...hideProducts, id: { gt: lastCursor } },
+                    where: hideProducts,
                     orderBy: { id: "asc" },
-                    take: pageAmount,
+                    skip: offset,
+                    take: pageSize,
                     include: { Movie: true, Serie: true, genres: { include: { genre: true } }, directors: { include: { director: true } } }
                 }),
                 this.client.media.count({
-                    where: { ...hideProducts, id: { gt: lastCursor } }
-                }),
-                this.client.media.findFirst({
-                    where: { ...hideProducts },
-                    orderBy: { id: "desc" }
+                    where: hideProducts
                 })
             ])
 
@@ -229,10 +228,19 @@ class PrismaService {
                     return this.mediaToSerie(media)
                 } else throw new Error("Media not found");
             })
-            const lastMedia = medias[medias.length - 1];
-            const hasMore = lastMedia && lastProductId ? lastMedia.id < lastProductId.id : false;
-            const nextCursor = hasMore && lastMedia ? lastMedia.id : null;
-            return { products: mappedMedias, nextCursor, pageSize: pageAmount, hasMore, totalProducts }
+            const totalPages = Math.ceil(totalProducts / pageSize);
+            const hasMore = page < totalPages;
+            const hasPrevious = page > 1;
+
+            return {
+                products: mappedMedias,
+                currentPage: page,
+                pageSize,
+                totalPages,
+                totalProducts,
+                hasMore,
+                hasPrevious
+            };
         } catch (error) {
             throw new HttpError(500, "Error retrieving products");
         }

@@ -23,20 +23,28 @@ productsRouter.get("/ids", async (req: Request, res: Response) => {
 
 export type PaginatedResponse = {
     products: MediaByIdsResult[],
-    nextCursor: number | null,
+    currentPage: number,
     pageSize: number,
-    hasMore: boolean,
+    totalPages: number,
     totalProducts: number
+    hasMore: boolean,
+    hasPrevious: boolean,
 }
 
 productsRouter.get("/paginated", async (req: Request, res: Response) => {
-    const { cursor } = req.query;
-    if (cursor) {
-        const convertedCursor = parseInt(cursor as string);
-        const products: PaginatedResponse = await prismaInstance.getPaginatedProducts(false, convertedCursor, 2);
-
-        res.json(new ResponseObject(true, products, "Products list successfully retrieved"))
-    } else {
-        throw new HttpError(400, "Invalid cursor")
+    const { page = "1", limit = "10" } = req.query;
+    const pageNumber = parseInt(page as string);
+    const pageLimit = parseInt(limit as string);
+    if (isNaN(pageNumber) || pageNumber < 1) {
+        throw new HttpError(400, "Invalid page number");
     }
+
+    if (isNaN(pageLimit) || pageLimit < 1 || pageLimit > 100) {
+        throw new HttpError(400, "Invalid limit (must be between 1 and 100)");
+    }
+
+    const products: PaginatedResponse = await prismaInstance.getPaginatedProducts(false, pageNumber, pageLimit);
+
+    res.json(new ResponseObject(true, products, "Products list successfully retrieved"))
+
 })
