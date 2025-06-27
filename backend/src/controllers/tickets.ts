@@ -44,10 +44,11 @@ interface GenerateTicketParams {
     products: ProductWithAmount[]
     username: string | false
     print: boolean
+    date: Date
     url?: UrlType
 }
 
-export const generateTicketHTML = async ({ products, username, print, url = { base: KEYS.URL_BASE, port: KEYS.PORT } }: GenerateTicketParams): Promise<string> => {
+export const generateTicketHTML = async ({ products, username, print, date, url = { base: KEYS.URL_BASE, port: KEYS.PORT } }: GenerateTicketParams): Promise<string> => {
     const templatePath = path.join(__dirname, "views/ticket.ejs")
 
     try {
@@ -55,6 +56,7 @@ export const generateTicketHTML = async ({ products, username, print, url = { ba
             v: products,
             user: username,
             print,
+            date,
             url
         })
 
