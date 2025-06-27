@@ -13,8 +13,8 @@ const __dirname = dirname(__filename)
 export const adminRouter = express.Router();
 
 adminRouter.post("/", async (req, res) => {
-    const { username, password } = req.body;
-    const id = await prismaInstance.loginAdmin(username, password)
+    const { email, password } = req.body;
+    const id = await prismaInstance.loginAdmin(email, password)
     if (id) {
         const jwt = generarteAdminJwt({ id })
         res.status(200).cookie("admin", jwt, { httpOnly: true }).redirect("/api/admin/products")
