@@ -36,7 +36,7 @@ type MediaWithProduct = Prisma.MediaGetPayload<{
 
 export type Admin = {
     id: number,
-    username: string,
+    email: string,
     password: string
 }
 
@@ -381,27 +381,27 @@ class PrismaService {
             await this.rawClient.query(`
                 CREATE TABLE IF NOT EXISTS admin (
                     id SERIAL PRIMARY KEY,
-                    username VARCHAR(50) NOT NULL UNIQUE,
+                    email VARCHAR(50) NOT NULL UNIQUE,
                     password VARCHAR(100) NOT NULL
                 )
             `);
             const hashedPassword = await hashPassword(KEYS.ADMIN_PASSWORD)
             await this.rawClient.query(`
-                INSERT INTO admin (username, password)
+                INSERT INTO admin (email, password)
                 VALUES ($1, $2)
-                ON CONFLICT (username) DO NOTHING
-            `, [KEYS.ADMIN_USERNAME, hashedPassword]);
+                ON CONFLICT (email) DO NOTHING
+            `, [KEYS.ADMIN_EMAIL, hashedPassword]);
         } catch (error) {
             console.error('Error creating admin table:', error);
             throw error;
         }
     }
 
-    async loginAdmin(username: string, password: string) {
+    async loginAdmin(email: string, password: string) {
         try {
             const admin = await this.rawClient.query<Admin>(`
-                SELECT id, username, password FROM admin WHERE username = $1
-            `, [username]);
+                SELECT id, email, password FROM admin WHERE email = $1
+            `, [email]);
             if (admin.rows.length < 1 || !admin.rows[0]) {
                 throw new HttpError(401, "Invalid credentials");
             }

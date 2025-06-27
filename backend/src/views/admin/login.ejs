@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Login MediaRent</title>
-    <link rel="icon" href="/images/logo.webp" type="image/webp">
+    <link rel="icon" href="/images/logo.webp" type="image/webp" />
     <link rel="stylesheet" href="/styles/componentes/buttons.css" />
     <link rel="stylesheet" href="/styles/componentes/forms.css" />
     <link rel="stylesheet" href="/styles/vistas/index.css" />
@@ -16,9 +16,7 @@
     <div class="container welcome-page">
       <header class="header">
         <div class="header__main">
-          <img
-            src="/images/logo.png"
-          />
+          <img src="/images/logo.png" />
           <div>
             <h2>MediaRent</h2>
             <p>Federico Deniard</p>
@@ -37,11 +35,10 @@
         >
           <label>
             <input
-              type="text"
-              name="username"
-              minlength="4"
+              type="email"
+              name="email"
               required
-              placeholder="Ingrese su nombre de usuario"
+              placeholder="Ingrese su email"
             />
           </label>
           <label>
@@ -53,11 +50,19 @@
               placeholder="Ingrese su contraseña"
             />
           </label>
-          <span class="error-message" id="error-message"> adads </span>
+          <button type="button" class="button --yellow" id="autoComplete">
+            Autocompletar (Testing)
+          </button>
           <button type="submit" class="button">Continuar</button>
         </form>
       </div>
     </div>
-    <!-- <script src="../scripts/mvc/admin/login.js" type="module"></script> -->
+    <script>
+      document.getElementById("autoComplete").addEventListener("click", () => {
+        document.querySelector("input[name='email']").value = "admin@gmail.com";
+        document.querySelector("input[name='password']").value =
+          "administrador";
+      });
+    </script>
   </body>
 </html>
