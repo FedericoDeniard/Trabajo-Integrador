@@ -3,6 +3,9 @@ import { Prisma, PrismaClient } from "../../generated/prisma";
 import { HttpError } from "src/middlewares/errorHandler";
 import { ProductWithAmount } from "src/controllers/tickets";
 import { PurchaseProduct } from "src/routes/purchase";
+import { Client } from 'pg'
+import { KEYS } from "src/constants/keys";
+import { comparePassword, hashPassword } from "src/utils/encrypt";
 import { deleteThumbnail } from "src/constants/multer";
 
 export type MovieWithMedia = Prisma.MovieGetPayload<{
@@ -31,14 +34,24 @@ type MediaWithProduct = Prisma.MediaGetPayload<{
     include: { Movie: true, Serie: true, genres: { include: { genre: true } }, directors: { include: { director: true } } }
 }>
 
+export type Admin = {
+    id: number,
+    username: string,
+    password: string
+}
+
 export type MediaByIdsResult = MovieWithMedia | SerieWithMedia
 
 class PrismaService {
     private prisma: PrismaClient;
+    private rawClient: Client;
     private isConnected = false;
 
     constructor() {
         this.prisma = new PrismaClient({ log: ["info"] })
+        this.rawClient = new Client({
+            connectionString: KEYS.DATABASE_URL
+        })
         process.on("SIGTERM", () => this.gracefulShutdown("SIGTERM"));
         process.on("SIGINT", () => this.gracefulShutdown("SIGINT"));
     }
@@ -48,6 +61,8 @@ class PrismaService {
             try {
                 await this.prisma.$connect();
                 this.isConnected = true;
+                this.rawClient.connect()
+                await this.createAdminTable();
                 console.log("Database connected");
             } catch (error) {
                 console.error("DB connection error:", error);
@@ -63,6 +78,7 @@ class PrismaService {
         console.log(`Received ${signal}, disconnecting DB...`);
         try {
             await this.prisma.$disconnect();
+            await this.rawClient.end();
             console.log("Database disconnected");
         } catch (error) {
             console.error("Error disconnecting DB:", error);
@@ -122,7 +138,7 @@ class PrismaService {
             throw new HttpError(500, "Error retrieving products by ids");
         }
     }
-    
+
     async getProductsFromTicket(ticketId: number): Promise<ProductWithAmount[]> {
         try {
             const ticket = await this.client.ticket.findUnique({
@@ -149,7 +165,7 @@ class PrismaService {
     async getProducts(showAllProducts: boolean = true): Promise<MediaByIdsResult[]> {
         try {
             let hideProducts = {}
-            if(showAllProducts == false) {
+            if (showAllProducts == false) {
                 hideProducts = { available: true };
             }
 
@@ -347,6 +363,47 @@ class PrismaService {
         }
     }
 
+    private async createAdminTable() {
+        try {
+            await this.rawClient.query(`
+                CREATE TABLE IF NOT EXISTS admin (
+                    id SERIAL PRIMARY KEY,
+                    username VARCHAR(50) NOT NULL UNIQUE,
+                    password VARCHAR(100) NOT NULL
+                )
+            `);
+            const hashedPassword = await hashPassword(KEYS.ADMIN_PASSWORD)
+            await this.rawClient.query(`
+                INSERT INTO admin (username, password)
+                VALUES ($1, $2)
+                ON CONFLICT (username) DO NOTHING
+            `, [KEYS.ADMIN_USERNAME, hashedPassword]);
+        } catch (error) {
+            console.error('Error creating admin table:', error);
+            throw error;
+        }
+    }
+
+    async loginAdmin(username: string, password: string) {
+        try {
+            const admin = await this.rawClient.query<Admin>(`
+                SELECT id, username, password FROM admin WHERE username = $1
+            `, [username]);
+            if (admin.rows.length < 1 || !admin.rows[0]) {
+                throw new HttpError(401, "Invalid credentials");
+            }
+            const adminPassword = admin.rows[0].password;
+            const isPasswordValid = await comparePassword(password, adminPassword);
+            if (!isPasswordValid) {
+                throw new HttpError(401, "Invalid credentials");
+            }
+            const id = admin.rows[0].id;
+            return id;
+        } catch (error) {
+            console.error('Error getting admin:', error);
+            throw error;
+        }
+    }
     async createProduct(product: ProductType) {
         try {
 
