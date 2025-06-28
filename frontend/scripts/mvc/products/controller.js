@@ -20,6 +20,7 @@ class Controller {
     this.cardButtonsHandler();
     this.view.hideLoader();
     this.logoutController();
+    this.paginatorHandler();
   }
 
   logoutController() {
@@ -38,27 +39,27 @@ class Controller {
     this.view.$products.addEventListener("click", (b) => {
       b.preventDefault();
 
-      const card = b.target.closest('.product-card');
+      const card = b.target.closest(".product-card");
       const id = Number(card.dataset.id);
-      const product = this.model.products.find(p => p.mediaId === id);
+      const product = this.model.products.find((p) => p.mediaId === id);
 
-      const minus = b.target.classList.contains('btn-minus');
-      const plus = b.target.classList.contains('btn-plus');
-      const addToCart = b.target.classList.contains('btn-cart');
+      const minus = b.target.classList.contains("btn-minus");
+      const plus = b.target.classList.contains("btn-plus");
+      const addToCart = b.target.classList.contains("btn-cart");
 
-      if(minus) {
+      if (minus) {
         this.model.decreaseAmount(id);
         this.view.updateCard(card, product);
       }
 
-      if(plus) {
+      if (plus) {
         this.model.increaseAmount(id);
         this.view.updateCard(card, product);
       }
 
-      if(addToCart) {
-        cart.addProduct({id: product.mediaId, amount: product.amount});
-        this.model.resetAmount(id)
+      if (addToCart) {
+        cart.addProduct({ id: product.mediaId, amount: product.amount });
+        this.model.resetAmount(id);
         this.view.updateCard(card, product);
       }
       this.updateCartCount();
@@ -70,15 +71,36 @@ class Controller {
     const cartAmount = productsInCart.reduce((acc, p) => acc + p.amount, 0);
     this.view.updateCartCount(cartAmount);
   }
-  
+
   checkboxesHandler(products) {
-    this.view.$chboxPeliculas.addEventListener('change', () => {
+    this.view.$chboxPeliculas.addEventListener("change", () => {
       this.view.loadProducts(products);
     });
 
-    this.view.$chboxSeries.addEventListener('change', () => {
+    this.view.$chboxSeries.addEventListener("change", () => {
       this.view.loadProducts(products);
     });
+  }
+
+  paginatorHandler() {
+    this.view.$prevPage.addEventListener("click", async () => {
+      await this.model.previousPage();
+      this.view.loadProducts(this.model.products);
+      this.updatePaginatorButtons();
+    });
+
+    this.view.$nextPage.addEventListener("click", async () => {
+      await this.model.nextPage();
+      this.view.loadProducts(this.model.products);
+      this.updatePaginatorButtons();
+    });
+
+    this.updatePaginatorButtons();
+  }
+
+  updatePaginatorButtons() {
+    this.view.$nextPage.disabled = !this.model.hasMore;
+    this.view.$prevPage.disabled = !this.model.hasPrevious;
   }
 }
 
