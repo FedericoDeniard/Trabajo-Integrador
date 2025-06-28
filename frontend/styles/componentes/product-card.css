@@ -56,7 +56,7 @@
   justify-content: space-between;
   align-items: flex-start;
 }
-Add comment .left-header {
+.left-header {
   display: flex;
   flex-direction: column;
   gap: 2px;
