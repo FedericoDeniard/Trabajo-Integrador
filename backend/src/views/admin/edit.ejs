@@ -67,15 +67,13 @@
                 />
 
               </h2>
-              <% p.media.directors.forEach((d, i) => { %>
-                <input 
-                  type="text" 
-                  name="directors[]" 
-                  value="<%= d.director.name %>" 
-                  placeholder="Director <%= i + 1 %>" 
-                  class="sub-directors"
-                />
-              <% }) %>
+              <input 
+                type="text" 
+                name="directors" 
+                value="<%= p.media.directors.map(d => d.director.name).join(', ') %>" 
+                placeholder="Ej: Tarantino, Scorsese, Nolan"
+                class="sub-directors"
+              />
               <% if (p.seasons) { %>
             <span>Temporadas:</span>
             <input 
@@ -123,9 +121,13 @@
           </p>
           <p class="genres">
             <b>Géneros:</b> </br>
-            <% p.media.genres.forEach((g, i) => { %> 
-            <input type="text" name="genres[]" value="<%= g.genre.name %>"></input>
-            <% if (i < p.media.genres.length - 1) { %><% } %> <% }) %>
+            <input 
+              type="text" 
+              name="genres" 
+              value="<%= p.media.genres.map(g => g.genre.name).join(', ') %>" 
+              placeholder="Ej: Acción, Comedia, Drama"
+              class="sub-genres"
+            />
           </p>
 
           <div class="card-form">
