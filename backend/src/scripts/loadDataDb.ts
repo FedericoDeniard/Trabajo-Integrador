@@ -360,8 +360,10 @@ export const createProducts = async () => {
     throw error;
   } finally {
     await prisma.$disconnect();
+    console.log("Disconnected from DB")
   }
 };
 
 
 await createProducts();
+process.exit(0)
