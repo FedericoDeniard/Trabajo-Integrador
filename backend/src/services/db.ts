@@ -314,6 +314,27 @@ class PrismaService {
                     where: { media_id: product.id }
                 });
 
+                const directorsPromises = product.directors.map(async (directorName) => {
+                    let director = await prisma.director.findUnique({
+                        where: { name: directorName }
+                    });
+
+                    if (!director) {
+                        director = await prisma.director.create({
+                            data: { name: directorName }
+                        });
+                    }
+
+                    return director;
+                });
+
+                const directors = await Promise.all(directorsPromises);
+
+                await prisma.titleDirector.deleteMany({
+                    where: { media_id: product.id }
+                });
+
+
 
                 let updated = await prisma.media.update({
                     where: { id: product.id },
@@ -343,6 +364,14 @@ class PrismaService {
                         data: genres.map(genre => ({
                             media_id: product.id,
                             genre_id: genre.id
+                        }))
+                    });
+                }
+                if (directors.length > 0) {
+                    await prisma.titleDirector.createMany({
+                        data: directors.map(director => ({
+                            media_id: product.id,
+                            director_id: director.id
                         }))
                     });
                 }
