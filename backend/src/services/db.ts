@@ -198,7 +198,7 @@ class PrismaService {
             throw new HttpError(500, "Error retrieving products");
         }
     }
-    async getPaginatedProducts(showAllProducts: boolean = true, page: number, pageSize: number): Promise<PaginatedResponse> {
+    async getPaginatedProducts(showAllProducts: boolean = true, page: number, pageSize: number, filter: string = ""): Promise<PaginatedResponse> {
         try {
             let hideProducts = {}
             if (showAllProducts == false) {
@@ -206,17 +206,34 @@ class PrismaService {
             }
 
             const offset = (page - 1) * pageSize;
+            let where = {
+                ...hideProducts
+            }
+            if (filter === 'movies') {
+                where = {
+                    ...where,
+                    Movie: { isNot: null }
+                }
+            } else if (filter === 'series') {
+                where = {
+                    ...where,
+                    Serie: { isNot: null }
+                }
+            } else if (filter === 'none') {
+                return { products: [], currentPage: 0, pageSize: pageSize, totalPages: 0, totalProducts: 0, hasMore: false, hasPrevious: false }
+            }
+
 
             const [medias, totalProducts] = await Promise.all([
                 this.client.media.findMany({
-                    where: hideProducts,
+                    where,
                     orderBy: { id: "asc" },
                     skip: offset,
                     take: pageSize,
                     include: { Movie: true, Serie: true, genres: { include: { genre: true } }, directors: { include: { director: true } } }
                 }),
                 this.client.media.count({
-                    where: hideProducts
+                    where
                 })
             ])
 

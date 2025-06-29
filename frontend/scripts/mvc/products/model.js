@@ -18,8 +18,16 @@ class Model {
   }
 
   async #fetchProducts() {
+    const filter =
+      this.filters.showPeliculas && this.filters.showSeries
+        ? ""
+        : this.filters.showPeliculas
+        ? "movies"
+        : this.filters.showSeries
+        ? "series"
+        : "none";
     const response = await fetch(
-      `${this.urlBase}/api/products/paginated?page=${this.currentPage}&limit=${this.pageSize}`
+      `${this.urlBase}/api/products/paginated?page=${this.currentPage}&limit=${this.pageSize}&filter=${filter}`
     );
     if (!response.ok) {
       throw new Error("No se pudo obtener los productos");

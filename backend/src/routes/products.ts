@@ -32,9 +32,11 @@ export type PaginatedResponse = {
 }
 
 productsRouter.get("/paginated", async (req: Request, res: Response) => {
-    const { page = "1", limit = "10" } = req.query;
+    const { page = "1", limit = "10", filter = "" } = req.query;
+    console.log(filter)
     const pageNumber = parseInt(page as string);
     const pageLimit = parseInt(limit as string);
+    const filterString = filter as string;
     if (isNaN(pageNumber) || pageNumber < 1) {
         throw new HttpError(400, "Invalid page number");
     }
@@ -43,7 +45,7 @@ productsRouter.get("/paginated", async (req: Request, res: Response) => {
         throw new HttpError(400, "Invalid limit (must be between 1 and 100)");
     }
 
-    const products: PaginatedResponse = await prismaInstance.getPaginatedProducts(false, pageNumber, pageLimit);
+    const products: PaginatedResponse = await prismaInstance.getPaginatedProducts(false, pageNumber, pageLimit, filterString);
 
     res.json(new ResponseObject(true, products, "Products list successfully retrieved"))
 
