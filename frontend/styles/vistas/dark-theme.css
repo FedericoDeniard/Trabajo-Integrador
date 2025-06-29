@@ -101,3 +101,8 @@
 .dark-theme .header__nav img {
     filter: brightness(0) saturate(100%) invert(94%) sepia(4%) saturate(678%) hue-rotate(200deg) brightness(101%) contrast(102%);
 }
+
+/*modal*/
+.dark-theme .modal {
+    background-color: #4a516e;
+}
