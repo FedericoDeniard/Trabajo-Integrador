@@ -9,6 +9,7 @@ class Model {
   hasMore = false;
   hasPrevious = false;
   urlBase = cookiesReader.urlBase;
+  filters = { showPeliculas: true, showSeries: true };
 
   async getProducts() {
     const response = await this.#fetchProducts();
@@ -17,8 +18,16 @@ class Model {
   }
 
   async #fetchProducts() {
+    const filter =
+      this.filters.showPeliculas && this.filters.showSeries
+        ? ""
+        : this.filters.showPeliculas
+        ? "movies"
+        : this.filters.showSeries
+        ? "series"
+        : "none";
     const response = await fetch(
-      `${this.urlBase}/api/products/paginated?page=${this.currentPage}&limit=${this.pageSize}`
+      `${this.urlBase}/api/products/paginated?page=${this.currentPage}&limit=${this.pageSize}&filter=${filter}`
     );
     if (!response.ok) {
       throw new Error("No se pudo obtener los productos");
@@ -64,6 +73,13 @@ class Model {
 
   async previousPage() {
     this.currentPage--;
+    this.products = [];
+    return await this.getProducts();
+  }
+
+  async changeFilter({ showPeliculas, showSeries }) {
+    this.filters = { showPeliculas, showSeries };
+    this.currentPage = 1;
     this.products = [];
     return await this.getProducts();
   }
