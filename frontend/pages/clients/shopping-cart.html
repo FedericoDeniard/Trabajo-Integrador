@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="../../styles/vistas/shopping-cart.css" />
     <link rel="stylesheet" href="../../styles/componentes/buttons.css" />
     <link rel="stylesheet" href="../../styles/componentes/modal.css" />
+    <link rel="stylesheet" href="../../styles/componentes/theme-switch.css"/>
+    <link rel="stylesheet" href="../../styles/vistas/dark-theme.css"/>
   </head>
   <body>
     <header class="header">
@@ -34,6 +36,25 @@
           <img src="../../images/logout.svg" alt="Salir" />
           <span>Salir</span>
         </a>
+
+        <label for="theme" class="theme">
+          <span class="theme__toggle-wrap">
+            <input id="theme" class="theme__toggle" type="checkbox" role="switch" name="theme" value="dark">
+            <span class="theme__fill"></span>
+            <span class="theme__icon">
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+            </span>
+          </span>
+        </label>
+
       </div>
     </header>
 
@@ -55,5 +76,6 @@
     </section>
 
     <script src="/scripts/mvc/cart/index.js" type="module"></script>
+    <script type="module" src="../../scripts/utils/themeHandler.js"></script>
   </body>
 </html>

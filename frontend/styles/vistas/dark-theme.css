@@ -1,0 +1,118 @@
+/*header*/
+.dark-theme .header {
+    background-color: #0d1b33;
+}
+
+.dark-theme #cart-count{
+    background-color: #645eb0;
+}
+
+/*form*/
+.dark-theme .form {
+    border: 0px;
+    border-radius: 0px;
+    background-color: #121517;
+}
+
+.dark-theme .form h1 {
+    color: #dde2ff;
+}
+
+.dark-theme .form label {
+    color: #dde2ff;
+}
+
+/*product-card*/
+.dark-theme #products {
+    background-color: #121517;
+}
+
+.dark-theme .product-card {
+    background-color: #0d1b33;
+    box-shadow: 0 0 10px rgb(0 0 0 / 20%);
+}
+
+.dark-theme .product-header,
+.dark-theme .description,
+.dark-theme .genres,
+.dark-theme .card-form {
+    color: #dde2ff;
+}
+
+.dark-theme .btn-minus,
+.dark-theme .btn-plus,
+.dark-theme .btn-cart {
+    background-color: #020c14;
+    border: 1px solid #989cae;
+    color: #c4c6ce;
+}
+
+.dark-theme .btn-minus:hover,
+.dark-theme .btn-plus:hover,
+.dark-theme .btn-cart:hover {
+    background-color: #808098;
+}
+
+.dark-theme p {
+    color: #dde2ff;
+}
+
+/*paginator*/
+.dark-theme .navigator,
+.dark-theme .buttons-container {
+    background-color: #11223f;
+}
+
+/*buttons*/
+.dark-theme .button {
+    background-color: #031624;
+    border: 1px solid #1c305b;
+    color: #e8ecfa;
+}
+
+.dark-theme .button.--red {
+    background-color: #630c0c;
+    border: 1px solid #be3232;
+    color: #fae8e8;
+}
+
+.dark-theme .button:hover {
+    background-color: #22265e;
+}
+
+.dark-theme .button.--red:hover {
+    background-color: #903535;
+}
+
+/*shopping cart*/
+.dark-theme section {
+    color: #dde2ff;
+    background-color: #121517;
+}
+
+/*login*/
+.dark-theme .container {
+    background-color: #252529;
+    color: #dde2ff;
+}
+
+.dark-theme .form label input,
+.dark-theme .form label select {
+    background-color: #404149;
+    color: #dde2ff;
+}
+
+.dark-theme .form label input:invalid,
+.dark-theme .form label select:invalid {
+    border: 2px solid #6e0e07;
+}
+
+/*icons*/
+.dark-theme .header__nav img {
+    filter: brightness(0) saturate(100%) invert(94%) sepia(4%) saturate(678%) hue-rotate(200deg) brightness(101%) contrast(102%);
+}
+
+/*modal*/
+.dark-theme .modal {
+    background-color: #2d3141;
+}

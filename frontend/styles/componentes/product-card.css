@@ -51,10 +51,11 @@
   padding-top: 0;
 }
 
-.header {
+.product-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  background-color: transparent;
 }
 .left-header {
   display: flex;
@@ -72,6 +73,7 @@
 
 .right-header img {
   width: 2rem;
+  height: 2rem;;
 }
 
 .description {

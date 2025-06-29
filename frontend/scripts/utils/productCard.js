@@ -27,7 +27,7 @@ export default function createCardMedia({
   return `<div class="product-card ${
     media.available ? "" : "hidden"
   }" data-id="${media.id}">
-        <div class="header">
+        <div class="product-header">
           <div class="left-header">
             <h2><span>${media.title}</span>
             ${

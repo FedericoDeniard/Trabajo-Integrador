@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="../../styles/vistas/shopping-cart.css" />
     <link rel="stylesheet" href="/styles/componentes/buttons.css" />
     <link rel="stylesheet" href="/styles/componentes/paginator.css" />
+    <link rel="stylesheet" href="../../styles/componentes/theme-switch.css"/>
+    <link rel="stylesheet" href="../../styles/vistas/dark-theme.css"/>
     <link rel="preload" href="/images/not-found.svg" as="image" />
   </head>
   <body>
@@ -35,6 +37,25 @@
           <img src="../../images/logout.svg" alt="Salir" />
           <span>Salir</span>
         </a>
+
+        <label for="theme" class="theme">
+          <span class="theme__toggle-wrap">
+            <input id="theme" class="theme__toggle" type="checkbox" role="switch" name="theme" value="dark">
+            <span class="theme__fill"></span>
+            <span class="theme__icon">
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+              <span class="theme__icon-part"></span>
+            </span>
+          </span>
+        </label>
+
       </div>
     </header>
 
@@ -65,5 +86,6 @@
       <button id="next-page" class="button" disabled>Siguiente</button>
     </div>
     <script type="module" src="../../scripts/mvc/products/index.js"></script>
+    <script type="module" src="../../scripts/utils/themeHandler.js"></script>
   </body>
 </html>
