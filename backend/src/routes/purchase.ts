@@ -40,9 +40,9 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
         const productsId = purchaseProducts.map((p: PurchaseProduct) => p.mediaId);
         const mediaProducts = await prismaInstance.getMediasByIds(productsId);
         const ticketProducts: ProductWithAmount[] = mediaProducts.map((p: MediaByIdsResult) => {
-            const match = purchaseProducts.find((pp: PurchaseProduct) => pp.mediaId === p.id);
+            const match = purchaseProducts.find((pp: PurchaseProduct) => pp.mediaId === p.mediaId);
             if (!match) {
-                throw new HttpError(400, `No matching product found for mediaId ${p.id}`);
+                throw new HttpError(400, `No matching product found for mediaId ${p.mediaId}`);
             }
 
             return {
@@ -56,7 +56,6 @@ purchaseRouter.post("/", async (req: Request, res: Response) => {
             ticketProducts,
             ticketDate
         );
-
         const ticketHtml = await generateTicketHTML({ products: ticketProducts, username, print: false, date: ticketDate });
 
         const token = generateTicketJwt(ticketDB.id);
