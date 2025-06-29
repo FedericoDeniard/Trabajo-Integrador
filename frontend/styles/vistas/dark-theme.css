@@ -79,3 +79,20 @@
     color: #dde2ff;
     background-color: #121517;
 }
+
+/*login*/
+.dark-theme .container {
+    background-color: #252529;
+    color: #dde2ff;
+}
+
+.dark-theme .form label input,
+.dark-theme .form label select {
+    background-color: #404149;
+    color: #dde2ff;
+}
+
+.dark-theme .form label input:invalid,
+.dark-theme .form label select:invalid {
+    border: 2px solid #6e0e07;
+}
