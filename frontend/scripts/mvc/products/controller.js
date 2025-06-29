@@ -16,7 +16,7 @@ class Controller {
     this.view.showLoader();
     const products = await this.model.getProducts();
     this.view.loadProducts(products);
-    this.checkboxesHandler(products);
+    this.checkboxesHandler();
     this.cardButtonsHandler();
     this.view.hideLoader();
     this.logoutController();
@@ -72,13 +72,20 @@ class Controller {
     this.view.updateCartCount(cartAmount);
   }
 
-  checkboxesHandler(products) {
-    this.view.$chboxPeliculas.addEventListener("change", () => {
-      this.view.loadProducts(products);
+  checkboxesHandler() {
+    this.view.$chboxPeliculas.addEventListener("change", async () => {
+      const showPeliculas = this.view.$chboxPeliculas.checked;
+      const showSeries = this.view.$chboxSeries.checked;
+      await this.model.changeFilter({ showPeliculas, showSeries });
+      this.view.loadProducts(this.model.products);
+      this.updatePaginatorButtons();
     });
-
-    this.view.$chboxSeries.addEventListener("change", () => {
-      this.view.loadProducts(products);
+    this.view.$chboxSeries.addEventListener("change", async () => {
+      const showPeliculas = this.view.$chboxPeliculas.checked;
+      const showSeries = this.view.$chboxSeries.checked;
+      await this.model.changeFilter({ showPeliculas, showSeries });
+      this.view.loadProducts(this.model.products);
+      this.updatePaginatorButtons();
     });
   }
 

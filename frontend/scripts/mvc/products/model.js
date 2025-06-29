@@ -9,6 +9,7 @@ class Model {
   hasMore = false;
   hasPrevious = false;
   urlBase = cookiesReader.urlBase;
+  filters = { showPeliculas: true, showSeries: true };
 
   async getProducts() {
     const response = await this.#fetchProducts();
@@ -64,6 +65,13 @@ class Model {
 
   async previousPage() {
     this.currentPage--;
+    this.products = [];
+    return await this.getProducts();
+  }
+
+  async changeFilter({ showPeliculas, showSeries }) {
+    this.filters = { showPeliculas, showSeries };
+    this.currentPage = 1;
     this.products = [];
     return await this.getProducts();
   }
