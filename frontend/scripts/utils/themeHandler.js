@@ -11,6 +11,7 @@ class ThemeHandler {
         const savedTheme = localStorage.getItem(this.THEME_KEY);
 
         if (savedTheme === "dark") {
+            this.enableDarkTheme();
             this.switch.checked = true;
         }
 
