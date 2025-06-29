@@ -51,10 +51,11 @@
   padding-top: 0;
 }
 
-.header {
+.product-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  background-color: transparent;
 }
 .left-header {
   display: flex;
