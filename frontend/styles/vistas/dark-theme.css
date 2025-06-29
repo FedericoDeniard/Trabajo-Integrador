@@ -58,7 +58,8 @@
 }
 
 /*paginator*/
-.dark-theme .navigator {
+.dark-theme .navigator,
+.dark-theme .buttons-container {
     background-color: #11223f;
 }
 
@@ -71,4 +72,10 @@
 
 .dark-theme .button:hover {
     background-color: #22265e;
+}
+
+/*shopping cart*/
+.dark-theme section {
+    color: #dde2ff;
+    background-color: #121517;
 }
