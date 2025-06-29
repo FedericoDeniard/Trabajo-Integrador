@@ -96,3 +96,8 @@
 .dark-theme .form label select:invalid {
     border: 2px solid #6e0e07;
 }
+
+/*icons*/
+.dark-theme .header__nav img {
+    filter: brightness(0) saturate(100%) invert(94%) sepia(4%) saturate(678%) hue-rotate(200deg) brightness(101%) contrast(102%);
+}
