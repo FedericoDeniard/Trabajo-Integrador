@@ -33,7 +33,6 @@ export type PaginatedResponse = {
 
 productsRouter.get("/paginated", async (req: Request, res: Response) => {
     const { page = "1", limit = "10", filter = "" } = req.query;
-    console.log(filter)
     const pageNumber = parseInt(page as string);
     const pageLimit = parseInt(limit as string);
     const filterString = filter as string;
