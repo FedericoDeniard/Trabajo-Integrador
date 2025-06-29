@@ -53,6 +53,10 @@
     background-color: #808098;
 }
 
+.dark-theme p {
+    color: #dde2ff;
+}
+
 /*paginator*/
 .dark-theme .navigator {
     background-color: #11223f;
