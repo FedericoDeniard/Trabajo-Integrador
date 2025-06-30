@@ -1,5 +1,8 @@
+import cart from "./cart.js";
+
 class UserManager {
   _user = "";
+  cartManager = cart;
 
   constructor() {
     const storedUser = sessionStorage.getItem("user");
@@ -20,6 +23,7 @@ class UserManager {
   logout() {
     this._user = "";
     sessionStorage.removeItem("user");
+    this.cartManager.clearCart();
   }
 
   isLogged() {
