@@ -39,14 +39,14 @@ export default function createCardMedia({
             ${seasons ? `<p>${seasons} temporadas</p>` : ""}
           </div>
           <div class="right-header">
-            <img src="../../images/star.svg" alt="Star"/>
+            <img src="/images/star.svg" alt="Star"/>
             <span>${media.rate}</span>
           </div>
         </div>
         <div class="img-container">
         <img src="${media.thumbnail}" alt="${
     media.title
-  }" onerror="this.src='../../images/not-found.svg'"/>
+  }" onerror="this.src='/images/not-found.svg'"/>
         </div>
         <p class="description"><b>Descripción:</b> ${media.description}</p>
         <p class="genres"><b>Géneros:</b> ${media.genres
